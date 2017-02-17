@@ -32,7 +32,7 @@ public class PantallaMenu implements Screen {
     //texturas boton
     private Texture TexturaBotonNuevoJuego;
     private Texture TexturaBotonCargarJuego;
-    private Texture TexturaBotonInstrucciones;
+    private Texture TexturaBotonCargar;
     private Texture TexturaBotonHistoria;
     private Texture TexturaBotonCreditos;
 
@@ -63,8 +63,8 @@ public class PantallaMenu implements Screen {
     private void crearTexturas() {
         //Textura botones
         TexturaBotonNuevoJuego = new Texture("botonInicio.png");
-        TexturaBotonCargarJuego= new Texture("botonGoToCargarPartida.png");
-        TexturaBotonInstrucciones = new Texture("botonGoToInstruccionesP.png");
+        TexturaBotonCargarJuego= new Texture("botongCargar.png");
+        TexturaBotonCargar = new Texture("botongCargar.png");
         TexturaBotonHistoria = new Texture("botonHistoria.png");
         TexturaBotonCreditos = new Texture("botonCreditos.png");
 
@@ -95,6 +95,8 @@ public class PantallaMenu implements Screen {
                 selfDestruction.setScreen(new PantallaJuego(selfDestruction));
             }
         });
+
+        /* Comenté el boton de cargar partida ya que aún está en procesp
         //botonCargarJuego
         TextureRegionDrawable trdBtnCj = new TextureRegionDrawable(new TextureRegion(TexturaBotonCargarJuego));
         ImageButton btnCj = new ImageButton(trdBtnCj);
@@ -110,18 +112,20 @@ public class PantallaMenu implements Screen {
             }
         });
 
+        */
+
         //botonInstrucciones
-        TextureRegionDrawable trdBtnInstrucciones = new TextureRegionDrawable(new TextureRegion(TexturaBotonInstrucciones));
-        ImageButton btnInstrucciones = new ImageButton(trdBtnInstrucciones);
-        btnInstrucciones.setPosition(ANCHO/3+btnInstrucciones.getWidth(), 3*ALTO/4-btnInstrucciones.getHeight()/2);
-        escena.addActor(btnInstrucciones);
+        TextureRegionDrawable trdBtnCargar = new TextureRegionDrawable(new TextureRegion(TexturaBotonCargar));
+        ImageButton btnCargar = new ImageButton(trdBtnCargar);
+        btnCargar.setPosition(ANCHO/2+155, 3*ALTO/4);
+        escena.addActor(btnCargar);
 
         //Evento del boton
-        btnInstrucciones.addListener(new ClickListener(){
+        btnCargar.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                Gdx.app.log("clicked","Me hicieron click");
-                selfDestruction.setScreen(new PantallaInstrucciones(selfDestruction));
+                Gdx.app.log("clicked","Me Boton Instrucciones");
+                selfDestruction.setScreen(new PantallaCargarPartida(selfDestruction));
             }
         });
         //botonHistoria
@@ -203,7 +207,7 @@ public class PantallaMenu implements Screen {
         TexturaFondoMenu.dispose();
         TexturaBotonNuevoJuego.dispose();
         TexturaBotonCargarJuego.dispose();
-        TexturaBotonInstrucciones.dispose();
+        TexturaBotonCargar.dispose();
         TexturaBotonHistoria.dispose();
         TexturaBotonCreditos.dispose();
     }

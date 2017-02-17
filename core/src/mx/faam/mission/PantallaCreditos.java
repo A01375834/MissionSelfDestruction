@@ -129,5 +129,6 @@ public class PantallaCreditos implements Screen {
         escena.dispose();
         TexturaFondoCreditos.dispose();
         TexturaBotonBackMenu.dispose();
+
     }
 }

@@ -64,7 +64,7 @@ public class PantallaHistoria implements Screen {
         //botonNuevoJuego
         TextureRegionDrawable trdBtnNj = new TextureRegionDrawable(new TextureRegion(TexturaBotonNuevoJuego));
         ImageButton btnNj = new ImageButton(trdBtnNj);
-        btnNj.setPosition(ANCHO/2-btnNj.getWidth()/2, 3*ALTO/4-btnNj.getHeight()/2);
+        btnNj.setPosition(ANCHO/2+155, 0);
         escena.addActor(btnNj);
 
         //Evento del boton

@@ -19,7 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 /**
  * Created by angel on 13/02/2017.
  */
-public class PantallaInstrucciones implements Screen {
+public class PantallaCargarPartida implements Screen {
 
     private static final float ANCHO = 1280;
     private static final float ALTO = 800;
@@ -35,12 +35,11 @@ public class PantallaInstrucciones implements Screen {
 
     //Texturas boton
     private Texture TexturaBotonBackMenu;
-    private Texture TexturaBotonNuevoJuego;
 
     //fondo
     private Texture TexturaFondoInstrucciones;
 
-    public PantallaInstrucciones(SelfDestruction selfDestruction) {
+    public PantallaCargarPartida(SelfDestruction selfDestruction) {
         this.selfDestruction = selfDestruction;
     }
 
@@ -59,20 +58,6 @@ public class PantallaInstrucciones implements Screen {
         escena.addActor(fondoInstrucciones);
 
         //botonNuevoJuego
-        TextureRegionDrawable trdBtnNj = new TextureRegionDrawable(new TextureRegion(TexturaBotonNuevoJuego));
-        ImageButton btnNj = new ImageButton(trdBtnNj);
-        btnNj.setPosition(ANCHO/2-btnNj.getWidth()/2, 3*ALTO/4-btnNj.getHeight()/2);
-        escena.addActor(btnNj);
-
-        //Evento del boton
-        btnNj.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                Gdx.app.log("clicked","Me hicieron click");
-                selfDestruction.setScreen(new PantallaJuego(selfDestruction));
-            }
-        });
-        //botonBackMenu
         TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
         ImageButton btnBm = new ImageButton(trdBtnBm);
         btnBm.setPosition(0, 0);
@@ -82,10 +67,11 @@ public class PantallaInstrucciones implements Screen {
         btnBm.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                Gdx.app.log("clicked","Me hicieron click");
+                Gdx.app.log("clicked","Back");
                 selfDestruction.setScreen(new PantallaMenu(selfDestruction));
             }
         });
+
 
 
         Gdx.input.setInputProcessor(escena);
@@ -93,8 +79,8 @@ public class PantallaInstrucciones implements Screen {
 
     private void crearTexturas() {
         //Textura botones
-        TexturaBotonNuevoJuego = new Texture("botonGoTo.png");
-        TexturaBotonBackMenu= new Texture("botonBack.png");
+        TexturaBotonBackMenu = new Texture("botonBack.png");
+
 
 
         //textura fondp
@@ -146,7 +132,9 @@ public class PantallaInstrucciones implements Screen {
     @Override
     public void dispose() {
         escena.dispose();
-        TexturaBotonNuevoJuego.dispose();
         TexturaBotonBackMenu.dispose();
+        TexturaFondoInstrucciones.dispose();
+
+
     }
 }
