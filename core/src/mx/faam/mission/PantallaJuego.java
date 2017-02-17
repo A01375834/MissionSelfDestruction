@@ -6,8 +6,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -18,7 +23,7 @@ public class PantallaJuego implements Screen {
 
     private static final float ANCHO = 1280;
     private static final float ALTO = 800;
-    private final SelfDestructiom selfDestructiom;
+    private final SelfDestruction selfDestruction;
 
 
     //camara
@@ -32,10 +37,13 @@ public class PantallaJuego implements Screen {
     //Textura fondo
     private Texture TexturaFondoJuego;
 
+    //Textura Boton back
+    private Texture TexturaBotonBackMenu;
 
 
-    public PantallaJuego(SelfDestructiom selfDestructiom) {
-        this.selfDestructiom = selfDestructiom;
+
+    public PantallaJuego(SelfDestruction selfDestruction) {
+        this.selfDestruction = selfDestruction;
     }
 
 
@@ -54,11 +62,31 @@ public class PantallaJuego implements Screen {
         escena = new Stage(vista, batch);
         Image fondoJuego = new Image(TexturaFondoJuego);
         escena.addActor(fondoJuego);
+
+        //botonBack
+        TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
+        ImageButton btnBm = new ImageButton(trdBtnBm);
+        btnBm.setPosition(0,0);
+        escena.addActor(btnBm);
+
+        //Evento del boton
+        btnBm.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.log("clicked","Me hicieron click");
+                selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+            }
+        });
+
+        Gdx.input.setInputProcessor(escena);
+
+
     }
 
     private void crearTexturas() {
         //textura fondp
-        TexturaFondoJuego = new Texture("pruebafondojuego.jpg");
+        TexturaFondoJuego = new Texture("fondo.png");
+        TexturaBotonBackMenu = new Texture("botonBack.png");
     }
 
     private void crearCamara() {

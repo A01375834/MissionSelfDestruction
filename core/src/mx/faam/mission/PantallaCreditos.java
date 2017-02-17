@@ -23,7 +23,7 @@ public class PantallaCreditos implements Screen {
 
     private static final float ANCHO = 1280;
     private static final float ALTO = 800;
-    private final SelfDestructiom selfDestructiom;
+    private final SelfDestruction selfDestruction;
 
     //camara
     private OrthographicCamera camara;
@@ -40,8 +40,8 @@ public class PantallaCreditos implements Screen {
     //fondo
     private Texture TexturaFondoCreditos;
 
-    public PantallaCreditos(SelfDestructiom selfDestructiom){
-       this.selfDestructiom = selfDestructiom;
+    public PantallaCreditos(SelfDestruction selfDestruction){
+       this.selfDestruction = selfDestruction;
    }
 
     @Override
@@ -61,7 +61,7 @@ public class PantallaCreditos implements Screen {
         //botonNuevoJuego
         TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
         ImageButton btnBm = new ImageButton(trdBtnBm);
-        btnBm.setPosition(ANCHO/2-btnBm.getWidth()/2, 3*ALTO/4-btnBm.getHeight()/2);
+        btnBm.setPosition(0,0);
         escena.addActor(btnBm);
 
         //Evento del boton
@@ -69,7 +69,7 @@ public class PantallaCreditos implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
-                selfDestructiom.setScreen(new PantallaMenu(selfDestructiom));
+                selfDestruction.setScreen(new PantallaMenu(selfDestruction));
             }
         });
 
@@ -78,11 +78,11 @@ public class PantallaCreditos implements Screen {
 
     private void crearTexturas() {
         //Textura botones
-        TexturaBotonBackMenu= new Texture("botonBackMenuPrueba.png");
+        TexturaBotonBackMenu= new Texture("botonBack.png");
 
 
         //textura fondp
-        TexturaFondoCreditos = new Texture("pruebafondocreditos.jpg");
+        TexturaFondoCreditos = new Texture("fondoCreditos.png");
     }
 
     private void crearCamara() {

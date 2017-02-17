@@ -23,7 +23,7 @@ public class PantallaMenu implements Screen {
     //tamaño de pantallas
     private static final float ANCHO = 1280;
     private static final float ALTO = 800;
-    private final SelfDestructiom selfDestructiom;
+    private final SelfDestruction selfDestruction;
 
     //camara
     private OrthographicCamera camara;
@@ -44,9 +44,9 @@ public class PantallaMenu implements Screen {
     private SpriteBatch batch; 
 
 
-    public PantallaMenu(SelfDestructiom selfDestructiom) {
+    public PantallaMenu(SelfDestruction selfDestruction) {
 
-        this.selfDestructiom = selfDestructiom;
+        this.selfDestruction = selfDestruction;
     }
 
     @Override
@@ -62,14 +62,14 @@ public class PantallaMenu implements Screen {
 
     private void crearTexturas() {
         //Textura botones
-        TexturaBotonNuevoJuego = new Texture("botonGoTo.png");
+        TexturaBotonNuevoJuego = new Texture("botonInicio.png");
         TexturaBotonCargarJuego= new Texture("botonGoToCargarPartida.png");
         TexturaBotonInstrucciones = new Texture("botonGoToInstruccionesP.png");
-        TexturaBotonHistoria = new Texture("botonGoToHistoria.png");
-        TexturaBotonCreditos = new Texture("botonGoToCreditos.png");
+        TexturaBotonHistoria = new Texture("botonHistoria.png");
+        TexturaBotonCreditos = new Texture("botonCreditos.png");
 
         //textura fondp
-        TexturaFondoMenu = new Texture("pruebafondomenu.jpg");
+        TexturaFondoMenu = new Texture("fondo.png");
 
     }
 
@@ -84,7 +84,7 @@ public class PantallaMenu implements Screen {
         //botonNuevoJuego
         TextureRegionDrawable trdBtnNj = new TextureRegionDrawable(new TextureRegion(TexturaBotonNuevoJuego));
         ImageButton btnNj = new ImageButton(trdBtnNj);
-        btnNj.setPosition(ANCHO-btnNj.getWidth()/2, 3*ALTO/4-btnNj.getHeight()/2);
+        btnNj.setPosition(ANCHO/2+155, 2*ALTO/5+75);
         escena.addActor(btnNj);
 
         //Evento del boton
@@ -92,13 +92,13 @@ public class PantallaMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
-                selfDestructiom.setScreen(new PantallaJuego(selfDestructiom));
+                selfDestruction.setScreen(new PantallaJuego(selfDestruction));
             }
         });
         //botonCargarJuego
         TextureRegionDrawable trdBtnCj = new TextureRegionDrawable(new TextureRegion(TexturaBotonCargarJuego));
         ImageButton btnCj = new ImageButton(trdBtnCj);
-        btnCj.setPosition(ANCHO-btnCj.getWidth()/2, 3*ALTO/4-btnCj.getHeight()/2);
+        btnCj.setPosition(ANCHO/2+155, 3*ALTO/4);
         escena.addActor(btnCj);
 
         //Evento del boton
@@ -106,7 +106,7 @@ public class PantallaMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
-                selfDestructiom.setScreen(new PantallaJuego(selfDestructiom));
+                selfDestruction.setScreen(new PantallaJuego(selfDestruction));
             }
         });
 
@@ -121,13 +121,13 @@ public class PantallaMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
-                selfDestructiom.setScreen(new PantallaInstrucciones(selfDestructiom));
+                selfDestruction.setScreen(new PantallaInstrucciones(selfDestruction));
             }
         });
         //botonHistoria
         TextureRegionDrawable trdBtnHistoria = new TextureRegionDrawable(new TextureRegion(TexturaBotonHistoria));
         ImageButton btnHistoria = new ImageButton(trdBtnHistoria);
-        btnHistoria.setPosition(ANCHO/4-btnHistoria.getWidth()/2, 3*ALTO/4-btnHistoria.getHeight()/2);
+        btnHistoria.setPosition(ANCHO/2+155, ALTO/4);
         escena.addActor(btnHistoria);
 
         //Evento del boton
@@ -135,14 +135,14 @@ public class PantallaMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
-                selfDestructiom.setScreen(new PantallaHistoria(selfDestructiom));
+                selfDestruction.setScreen(new PantallaHistoria(selfDestruction));
             }
         });
 
         //BotonCreditos
         TextureRegionDrawable trdBtnCreditos = new TextureRegionDrawable(new TextureRegion(TexturaBotonCreditos));
         ImageButton btnCreditos = new ImageButton(trdBtnCreditos);
-        btnCreditos.setPosition(ANCHO/5-btnCreditos.getWidth()/2, 3*ALTO/4-btnCreditos.getHeight()/2);
+        btnCreditos.setPosition(ANCHO/2+155,0);
         escena.addActor(btnCreditos);
 
         //Evento del boton
@@ -150,7 +150,7 @@ public class PantallaMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
-                selfDestructiom.setScreen(new PantallaCreditos(selfDestructiom));
+                selfDestruction.setScreen(new PantallaCreditos(selfDestruction));
             }
         });
         Gdx.input.setInputProcessor(escena);

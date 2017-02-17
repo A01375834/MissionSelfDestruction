@@ -23,7 +23,7 @@ public class PantallaHistoria implements Screen {
 
     private static final float ANCHO = 1280;
     private static final float ALTO = 800;
-    private final SelfDestructiom selfDestructiom;
+    private final SelfDestruction selfDestruction;
 
     //camara
     private OrthographicCamera camara;
@@ -40,8 +40,8 @@ public class PantallaHistoria implements Screen {
     //fondo
     private Texture TexturaFondoHistoria;
 
-    public PantallaHistoria(SelfDestructiom selfDestructiom){
-        this.selfDestructiom = selfDestructiom;
+    public PantallaHistoria(SelfDestruction selfDestruction){
+        this.selfDestruction = selfDestruction;
     }
 
     @Override
@@ -72,13 +72,13 @@ public class PantallaHistoria implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
-                selfDestructiom.setScreen(new PantallaJuego(selfDestructiom));
+                selfDestruction.setScreen(new PantallaJuego(selfDestruction));
             }
         });
         //botonBackMenu
         TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
         ImageButton btnBm = new ImageButton(trdBtnBm);
-        btnBm.setPosition(ANCHO-btnBm.getWidth()/2, 3*ALTO/4-btnBm.getHeight()/2);
+        btnBm.setPosition(0,0);
         escena.addActor(btnBm);
 
         //Evento del boton
@@ -86,7 +86,7 @@ public class PantallaHistoria implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
-                selfDestructiom.setScreen(new PantallaMenu(selfDestructiom));
+                selfDestruction.setScreen(new PantallaMenu(selfDestruction));
             }
         });
         Gdx.input.setInputProcessor(escena);
@@ -95,11 +95,11 @@ public class PantallaHistoria implements Screen {
     private void crearTexturas() {
         //Textura botones
         TexturaBotonNuevoJuego = new Texture("botonGoTo.png");
-        TexturaBotonBackMenu= new Texture("botonBackMenuPrueba.png");
+        TexturaBotonBackMenu= new Texture("botonBack.png");
 
 
         //textura fondp
-        TexturaFondoHistoria = new Texture("pruebafondohistoria.jpg");
+        TexturaFondoHistoria = new Texture("fondo.png");
     }
 
     private void crearCamara() {
