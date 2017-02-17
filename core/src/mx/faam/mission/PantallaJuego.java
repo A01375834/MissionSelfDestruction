@@ -46,6 +46,10 @@ public class PantallaJuego implements Screen {
     //Textura puerta
     private Texture TexturaPuerta;
 
+    //Textura Pausa
+    private Texture TexturaPausa;
+
+
 
 
     public PantallaJuego(SelfDestruction selfDestruction) {
@@ -98,6 +102,23 @@ public class PantallaJuego implements Screen {
         puer.setPosition(ANCHO/2+335,0);
         escena.addActor(puer);
 
+        //Textura pausa
+
+        TextureRegionDrawable pausa = new TextureRegionDrawable(new TextureRegion(TexturaPausa));
+        ImageButton pau = new ImageButton(pausa);
+        pau.setPosition(0,ALTO-pau.getHeight());
+        escena.addActor(pau);
+
+
+        //Evento del boton
+        pau.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.log("clicked","Pausa");
+            }
+        });
+
+
 
 
 
@@ -112,6 +133,7 @@ public class PantallaJuego implements Screen {
         TexturaBotonBackMenu = new Texture("botonBack.png");
         TexturaOberon = new Texture("oberon.png");
         TexturaPuerta = new Texture("puerta.png");
+        TexturaPausa = new Texture("pausa.png");
     }
 
     private void crearCamara() {
