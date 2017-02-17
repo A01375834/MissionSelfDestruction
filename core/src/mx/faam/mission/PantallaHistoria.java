@@ -94,7 +94,7 @@ public class PantallaHistoria implements Screen {
 
     private void crearTexturas() {
         //Textura botones
-        TexturaBotonNuevoJuego = new Texture("botonGoTo.png");
+        TexturaBotonNuevoJuego = new Texture("botonInicio.png");
         TexturaBotonBackMenu= new Texture("botonBack.png");
 
 

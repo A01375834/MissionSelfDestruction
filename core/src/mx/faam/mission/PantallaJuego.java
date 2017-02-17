@@ -40,6 +40,9 @@ public class PantallaJuego implements Screen {
     //Textura Boton back
     private Texture TexturaBotonBackMenu;
 
+    //Textura Oberon
+    private Texture TexturaOberon;
+
 
 
     public PantallaJuego(SelfDestruction selfDestruction) {
@@ -78,6 +81,13 @@ public class PantallaJuego implements Screen {
             }
         });
 
+        //Oberon
+
+        TextureRegionDrawable oberon = new TextureRegionDrawable(new TextureRegion(TexturaOberon));
+        ImageButton obe = new ImageButton(oberon);
+        obe.setPosition(ANCHO/2,0);
+        escena.addActor(obe);
+
         Gdx.input.setInputProcessor(escena);
 
 
@@ -85,8 +95,9 @@ public class PantallaJuego implements Screen {
 
     private void crearTexturas() {
         //textura fondp
-        TexturaFondoJuego = new Texture("fondo.png");
+        TexturaFondoJuego = new Texture("fondoJuego.png");
         TexturaBotonBackMenu = new Texture("botonBack.png");
+        TexturaOberon = new Texture("oberon.png");
     }
 
     private void crearCamara() {
