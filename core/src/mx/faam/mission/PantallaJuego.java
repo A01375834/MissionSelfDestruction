@@ -150,6 +150,7 @@ public class PantallaJuego implements Screen {
     public void render(float delta) {
         borrarPantalla();
         escena.draw();
+
     }
     private void borrarPantalla() {
         Gdx.gl.glClearColor(0,1,0,1);

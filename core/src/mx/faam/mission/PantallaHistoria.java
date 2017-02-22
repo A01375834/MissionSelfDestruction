@@ -1,6 +1,7 @@
 package mx.faam.mission;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -113,6 +114,9 @@ public class PantallaHistoria implements Screen {
     public void render(float delta) {
         borrarPantalla();
         escena.draw();
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+        }
     }
 
     private void borrarPantalla() {

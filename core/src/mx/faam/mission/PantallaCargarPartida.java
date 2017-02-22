@@ -1,6 +1,7 @@
 package mx.faam.mission;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.IntFloatMap;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -100,6 +102,9 @@ public class PantallaCargarPartida implements Screen {
     public void render(float delta) {
         borrarPantalla();
         escena.draw();
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+        }
     }
     private void borrarPantalla() {
         Gdx.gl.glClearColor(0,1,0,1);

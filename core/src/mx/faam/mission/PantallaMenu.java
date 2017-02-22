@@ -56,6 +56,7 @@ public class PantallaMenu implements Screen {
         crearCamara();
         crearTexturas();
         crearObjetos();
+        Gdx.input.setCatchBackKey(false);
         
         
         
@@ -172,6 +173,7 @@ public class PantallaMenu implements Screen {
     public void render(float delta) {
         borrarPantalla();
         escena.draw();
+
 
     }
 
