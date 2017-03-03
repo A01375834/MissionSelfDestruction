@@ -33,7 +33,7 @@ public class PantallaMenu implements Screen {
     //texturas boton
     private Texture TexturaBotonNuevoJuego;
     private Texture TexturaBotonCargarJuego;
-    private Texture TexturaBotonCargar;
+    private Texture TexturaBotonOpciones;
     private Texture TexturaBotonHistoria;
     private Texture TexturaBotonCreditos;
 
@@ -64,11 +64,11 @@ public class PantallaMenu implements Screen {
 
     private void crearTexturas() {
         //Textura botones
-        TexturaBotonNuevoJuego = new Texture("botonInicio.png");
-        TexturaBotonCargarJuego= new Texture("botongCargar.png");
-        TexturaBotonCargar = new Texture("botongCargar.png");
-        TexturaBotonHistoria = new Texture("botonHistoria.png");
-        TexturaBotonCreditos = new Texture("botonCreditos.png");
+        TexturaBotonNuevoJuego = new Texture("start grande.png");
+        TexturaBotonCargarJuego= new Texture("load button grande.png");
+        TexturaBotonOpciones = new Texture("options grande.png");
+        TexturaBotonHistoria = new Texture("story grande.png");
+        TexturaBotonCreditos = new Texture("credits grande.png");
 
         //textura fondp
         TexturaFondoMenu = new Texture("fondo.png");
@@ -86,7 +86,7 @@ public class PantallaMenu implements Screen {
         //botonNuevoJuego
         TextureRegionDrawable trdBtnNj = new TextureRegionDrawable(new TextureRegion(TexturaBotonNuevoJuego));
         ImageButton btnNj = new ImageButton(trdBtnNj);
-        btnNj.setPosition(ANCHO/2+155, 2*ALTO/5+75);
+        btnNj.setPosition(ANCHO/2+155, 2*ALTO/5+350);
         escena.addActor(btnNj);
 
         //Evento del boton
@@ -98,11 +98,11 @@ public class PantallaMenu implements Screen {
             }
         });
 
-        /* Comenté el boton de cargar partida ya que aún está en procesp
+
         //botonCargarJuego
         TextureRegionDrawable trdBtnCj = new TextureRegionDrawable(new TextureRegion(TexturaBotonCargarJuego));
         ImageButton btnCj = new ImageButton(trdBtnCj);
-        btnCj.setPosition(ANCHO/2+155, 3*ALTO/4);
+        btnCj.setPosition(ANCHO/2+155, 2*ALTO/5+90);
         escena.addActor(btnCj);
 
         //Evento del boton
@@ -114,12 +114,12 @@ public class PantallaMenu implements Screen {
             }
         });
 
-        */
 
-        //botonInstrucciones
-        TextureRegionDrawable trdBtnCargar = new TextureRegionDrawable(new TextureRegion(TexturaBotonCargar));
+
+        //botonOpciones
+        TextureRegionDrawable trdBtnCargar = new TextureRegionDrawable(new TextureRegion(TexturaBotonOpciones));
         ImageButton btnCargar = new ImageButton(trdBtnCargar);
-        btnCargar.setPosition(ANCHO/2+155, 3*ALTO/4);
+        btnCargar.setPosition(ANCHO/2+155, 2*ALTO/5+20);
         escena.addActor(btnCargar);
 
         //Evento del boton
@@ -210,7 +210,7 @@ public class PantallaMenu implements Screen {
         TexturaFondoMenu.dispose();
         TexturaBotonNuevoJuego.dispose();
         TexturaBotonCargarJuego.dispose();
-        TexturaBotonCargar.dispose();
+        TexturaBotonOpciones.dispose();
         TexturaBotonHistoria.dispose();
         TexturaBotonCreditos.dispose();
     }
