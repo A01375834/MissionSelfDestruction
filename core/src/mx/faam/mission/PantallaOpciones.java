@@ -18,9 +18,10 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
- * Created by angel on 13/02/2017.
+ * Created by angel on 03/03/2017.
  */
-public class PantallaHistoria implements Screen {
+
+public class PantallaOpciones implements Screen {
 
     private static final float ANCHO = 1280;
     private static final float ALTO = 800;
@@ -36,18 +37,18 @@ public class PantallaHistoria implements Screen {
 
     //Texturas boton
     private Texture TexturaBotonBackMenu;
-    private Texture TexturaBotonNuevoJuego;
+
 
     //fondo
-    private Texture TexturaFondoHistoria;
+    private Texture TexturaFondoOpciones;
 
-    public PantallaHistoria(SelfDestruction selfDestruction){
+    public PantallaOpciones(SelfDestruction selfDestruction){
         this.selfDestruction = selfDestruction;
     }
 
     @Override
     public void show() {
-       //Al entrar haré...
+        //Al entrar haré...
         crearCamara();
         crearTexturas();
         crearObjetos();
@@ -59,23 +60,10 @@ public class PantallaHistoria implements Screen {
         //fondo
         batch = new SpriteBatch();
         escena = new Stage(vista, batch);
-        Image fondoHistoria = new Image(TexturaFondoHistoria);
+        Image fondoHistoria = new Image(TexturaFondoOpciones);
         escena.addActor(fondoHistoria);
 
-        //botonNuevoJuego
-        TextureRegionDrawable trdBtnNj = new TextureRegionDrawable(new TextureRegion(TexturaBotonNuevoJuego));
-        ImageButton btnNj = new ImageButton(trdBtnNj);
-        btnNj.setPosition(ANCHO/2+155, 0);
-        escena.addActor(btnNj);
 
-        //Evento del boton
-        btnNj.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                Gdx.app.log("clicked","Me hicieron click");
-                selfDestruction.setScreen(new PantallaJuego(selfDestruction));
-            }
-        });
         //botonBackMenu
         TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
         ImageButton btnBm = new ImageButton(trdBtnBm);
@@ -95,12 +83,11 @@ public class PantallaHistoria implements Screen {
 
     private void crearTexturas() {
         //Textura botones
-        TexturaBotonNuevoJuego = new Texture("start grande.png");
         TexturaBotonBackMenu= new Texture("botonBack.png");
 
 
         //textura fondp
-        TexturaFondoHistoria = new Texture("fondo.png");
+        TexturaFondoOpciones = new Texture("fondo.png");
     }
 
     private void crearCamara() {
@@ -148,9 +135,8 @@ public class PantallaHistoria implements Screen {
     @Override
     public void dispose() {
         escena.dispose();
-        TexturaFondoHistoria.dispose();
+        TexturaFondoOpciones.dispose();
         TexturaBotonBackMenu.dispose();
-        TexturaBotonNuevoJuego.dispose();
 
     }
 }

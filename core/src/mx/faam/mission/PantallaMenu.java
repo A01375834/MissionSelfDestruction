@@ -86,7 +86,7 @@ public class PantallaMenu implements Screen {
         //botonNuevoJuego
         TextureRegionDrawable trdBtnNj = new TextureRegionDrawable(new TextureRegion(TexturaBotonNuevoJuego));
         ImageButton btnNj = new ImageButton(trdBtnNj);
-        btnNj.setPosition(ANCHO/2+155, 2*ALTO/5+350);
+        btnNj.setPosition(ANCHO/2+155, 2*ALTO/5+315);
         escena.addActor(btnNj);
 
         //Evento del boton
@@ -102,7 +102,7 @@ public class PantallaMenu implements Screen {
         //botonCargarJuego
         TextureRegionDrawable trdBtnCj = new TextureRegionDrawable(new TextureRegion(TexturaBotonCargarJuego));
         ImageButton btnCj = new ImageButton(trdBtnCj);
-        btnCj.setPosition(ANCHO/2+155, 2*ALTO/5+90);
+        btnCj.setPosition(ANCHO/2+155, 2*ALTO/5+175);
         escena.addActor(btnCj);
 
         //Evento del boton
@@ -119,15 +119,15 @@ public class PantallaMenu implements Screen {
         //botonOpciones
         TextureRegionDrawable trdBtnCargar = new TextureRegionDrawable(new TextureRegion(TexturaBotonOpciones));
         ImageButton btnCargar = new ImageButton(trdBtnCargar);
-        btnCargar.setPosition(ANCHO/2+155, 2*ALTO/5+20);
+        btnCargar.setPosition(ANCHO/2+155, 2*ALTO/5+50);
         escena.addActor(btnCargar);
 
         //Evento del boton
         btnCargar.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                Gdx.app.log("clicked","Me Boton Instrucciones");
-                selfDestruction.setScreen(new PantallaCargarPartida(selfDestruction));
+                Gdx.app.log("clicked","Me hicieron click Opciones");
+                selfDestruction.setScreen(new PantallaOpciones(selfDestruction));
             }
         });
         //botonHistoria
@@ -148,7 +148,7 @@ public class PantallaMenu implements Screen {
         //BotonCreditos
         TextureRegionDrawable trdBtnCreditos = new TextureRegionDrawable(new TextureRegion(TexturaBotonCreditos));
         ImageButton btnCreditos = new ImageButton(trdBtnCreditos);
-        btnCreditos.setPosition(ANCHO/2+155,0);
+        btnCreditos.setPosition(ANCHO/2+155,2*ALTO/5-260);
         escena.addActor(btnCreditos);
 
         //Evento del boton
