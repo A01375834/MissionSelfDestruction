@@ -8,15 +8,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -25,30 +20,40 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class PantallaJuego implements Screen {
 
-    private static final float ANCHO = 1280;
+    public static final float ANCHO = 1280;
     private static final float ALTO = 800;
+    private static final float ANCHO_MAPA = 2528;
+
     private final SelfDestruction selfDestruction;
+
+    private SpriteBatch batch;
+
+
+
 
 
     //camara
     private OrthographicCamera camara;
     private Viewport vista;
 
-    //Escena
-    private Stage escena;
-    private SpriteBatch batch;
+    //HUD
+    private OrthographicCamera camaraHUD;
+    private Viewport vistaHUD;
+    private Stage escenaHUD;
 
-    //Textura fondo
+    //Mapa
     private TiledMap TexturaFondoJuego;
+    private OrthogonalTiledMapRenderer renderer; //dibuja el mapa
+
 
     //Textura Boton back
     private Texture TexturaBotonBackMenu;
 
     //Textura Oberon
+    private Heroe oberon;
     private Texture TexturaOberon;
 
-    //Textura puerta
-    private Texture TexturaPuerta;
+
 
     //Textura Pausa
     private Texture TexturaPausa;
@@ -64,107 +69,98 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void show() {
-        //Al entrar haré...
-        crearCamara();
-        crearTexturas();
-        crearObjetos();
-    }
-
-    private void crearObjetos() {
-        //fondo
-        batch = new SpriteBatch();
-        escena = new Stage(vista, batch);
-        Image fondoJuego = new Image(TexturaFondoJuego);
-        escena.addActor(fondoJuego);
-
-        //botonBack
-        TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
-        ImageButton btnBm = new ImageButton(trdBtnBm);
-        btnBm.setPosition(0,0);
-        escena.addActor(btnBm);
-
-        //Evento del boton
-        btnBm.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                Gdx.app.log("clicked","Me hicieron click");
-                selfDestruction.setScreen(new PantallaMenu(selfDestruction));
-            }
-        });
-
-        //Oberon
-
-        TextureRegionDrawable oberon = new TextureRegionDrawable(new TextureRegion(TexturaOberon));
-        ImageButton obe = new ImageButton(oberon);
-        obe.setPosition(ANCHO/2,0);
-        escena.addActor(obe);
-
-        //Textura puerta
-
-        TextureRegionDrawable puerta = new TextureRegionDrawable(new TextureRegion(TexturaPuerta));
-        ImageButton puer = new ImageButton(puerta);
-        puer.setPosition(ANCHO/2+335,0);
-        escena.addActor(puer);
-
-        //Textura pausa
-
-        TextureRegionDrawable pausa = new TextureRegionDrawable(new TextureRegion(TexturaPausa));
-        ImageButton pau = new ImageButton(pausa);
-        pau.setPosition(0,ALTO-pau.getHeight());
-        escena.addActor(pau);
 
 
-        //Evento del boton
-        pau.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                Gdx.app.log("clicked","Pausa");
-            }
-        });
+        //Heroe
+        TexturaOberon = new Texture("marioSprite.png");
+        oberon = new Heroe(TexturaOberon, 0, 64);
 
-
-
-
-
-        Gdx.input.setInputProcessor(escena);
-
-
-    }
-
-    private void crearTexturas() {
-        //textura fondp
         AssetManager manager = new AssetManager();
         manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         manager.load("mapaInicialPrimerNivel.tmx",TiledMap.class);
 
-
-        TexturaBotonBackMenu = new Texture("botonBack.png");
-        TexturaOberon = new Texture("oberon.png");
-        TexturaPuerta = new Texture("puerta.png");
-        TexturaPausa = new Texture("pausa.png");
-
-
-        //cargar recursos
-        manager.finishLoading();
+        manager.finishLoading();    //cargar Recursos
         TexturaFondoJuego = manager.get("mapaInicialPrimerNivel.tmx");
+
+        camara = new OrthographicCamera(ALTO/2,ANCHO/2);
+        vista = new StretchViewport(ANCHO, ALTO, camara);
+        batch = new SpriteBatch();
+        renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego,batch);
+        renderer.setView(camara);
+
+
+        crearHUD();
+
+
+
+
+
+
+
+
+
+
+
+        Gdx.input.setInputProcessor(escenaHUD);
+
+
     }
 
-    private void crearCamara() {
-        camara = new OrthographicCamera(ANCHO,ALTO);
-        camara.position.set(ANCHO/2,ALTO/2,0);
-        camara.update();
-        vista = new StretchViewport(ANCHO,ALTO,camara);
+    private void crearHUD() {
+        camaraHUD = new OrthographicCamera(ANCHO, ALTO);
+        camaraHUD.position.set(ANCHO / 2, ALTO / 2, 0);
+        camaraHUD.update();
+        vistaHUD = new StretchViewport(ANCHO, ALTO, camaraHUD);
+
+        //HUD Aqui va el boton de pausa, las vidas, analogo, boton disparar y creo ya.
+
+
+        escenaHUD = new Stage(vistaHUD);
+
     }
-
-
 
 
     @Override
     public void render(float delta) {
+        //Actualizar
+        oberon.actualizar(TexturaFondoJuego);
+
+        //efectos de sonido
+
+
+        actualizarMapa();
+
         borrarPantalla();
-        escena.draw();
+        batch.setProjectionMatrix(camara.combined);
+        renderer.setView(camara);
+        renderer.render();
+
+        batch.begin();
+        oberon.dibujar(batch);
+        batch.end();
+
+        //Camara HUD
+        batch.setProjectionMatrix(camaraHUD.combined);
+        escenaHUD.draw();
 
     }
+
+    private void actualizarMapa() {
+        float posX = oberon.sprite.getX();
+        // Si está en la parte 'media'
+        if (posX>=ANCHO/2 && posX<=ANCHO_MAPA-ANCHO/2) {
+            // El personaje define el centro de la cámara
+            camara.position.set((int)posX, camara.position.y, 0);
+        } else if (posX>ANCHO_MAPA-ANCHO/2) {    // Si está en la última mitad
+            // La cámara se queda a media pantalla antes del fin del mundo  :)
+            camara.position.set(ANCHO_MAPA-ANCHO/2, camara.position.y, 0);
+        } else if ( posX<ANCHO/2 ) { // La primera mitad
+            camara.position.set(ANCHO/2, PantallaJuego.ALTO/2,0);
+        }
+        camara.update();
+    }
+
+
     private void borrarPantalla() {
         Gdx.gl.glClearColor(0,1,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -173,7 +169,9 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void resize(int width, int height) {
+
         vista.update(width,height);
+        vistaHUD.update(width,height);
     }
 
     @Override
@@ -194,10 +192,9 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void dispose() {
-        escena.dispose();
+        escenaHUD.dispose();
         TexturaFondoJuego.dispose();
         TexturaOberon.dispose();
-        TexturaPuerta.dispose();
-        TexturaBotonBackMenu.dispose();
+
     }
 }
