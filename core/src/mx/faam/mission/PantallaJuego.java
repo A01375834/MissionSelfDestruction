@@ -2,11 +2,15 @@ package mx.faam.mission;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -35,7 +39,7 @@ public class PantallaJuego implements Screen {
     private SpriteBatch batch;
 
     //Textura fondo
-    private Texture TexturaFondoJuego;
+    private TiledMap TexturaFondoJuego;
 
     //Textura Boton back
     private Texture TexturaBotonBackMenu;
@@ -129,11 +133,20 @@ public class PantallaJuego implements Screen {
 
     private void crearTexturas() {
         //textura fondp
-        TexturaFondoJuego = new Texture("fondoJuego.png");
+        AssetManager manager = new AssetManager();
+        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        manager.load("mapaInicialPrimerNivel.tmx",TiledMap.class);
+
+
         TexturaBotonBackMenu = new Texture("botonBack.png");
         TexturaOberon = new Texture("oberon.png");
         TexturaPuerta = new Texture("puerta.png");
         TexturaPausa = new Texture("pausa.png");
+
+
+        //cargar recursos
+        manager.finishLoading();
+        TexturaFondoJuego = manager.get("mapaInicialPrimerNivel.tmx");
     }
 
     private void crearCamara() {
