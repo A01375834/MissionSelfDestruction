@@ -11,7 +11,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -46,8 +50,7 @@ public class PantallaJuego implements Screen {
     private OrthogonalTiledMapRenderer renderer; //dibuja el mapa
 
 
-    //Textura Boton back
-    private Texture TexturaBotonBackMenu;
+
 
     //Textura Oberon
     private Heroe oberon;
@@ -113,9 +116,37 @@ public class PantallaJuego implements Screen {
         vistaHUD = new StretchViewport(ANCHO, ALTO, camaraHUD);
 
         //HUD Aqui va el boton de pausa, las vidas, analogo, boton disparar y creo ya.
+        // HUD
+        Skin skin = new Skin();
+        skin.add("padBack", new Texture("padBack.png"));
+        skin.add("palanca", new Texture("palanca grande.png"));
+
+        Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
+        estilo.background = skin.getDrawable("padBack");
+        estilo.knob = skin.getDrawable("palanca");
+
+        Touchpad pad = new Touchpad(20, estilo);
+        pad.setBounds(0, 0, 200, 200);
+        pad.setColor(1,1,1,0.4f);
+
+        pad.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Touchpad pad = (Touchpad) actor;
+                if (pad.getKnobPercentX()>0.20) {
+                    oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.MOV_DERECHA);
+                } else if (pad.getKnobPercentX()<-0.20){
+                    oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.MOV_IZQUIERDA);
+                } else if (pad.getKnobPercentY()>0.20){
+                    oberon.saltar();
+                    oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.QUIETO);
+                }
+            }
+        });
 
 
         escenaHUD = new Stage(vistaHUD);
+        escenaHUD.addActor(pad);
 
     }
 
