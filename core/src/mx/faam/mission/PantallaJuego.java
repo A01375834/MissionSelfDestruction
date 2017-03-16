@@ -118,11 +118,11 @@ public class PantallaJuego implements Screen {
         //HUD Aqui va el boton de pausa, las vidas, analogo, boton disparar y creo ya.
         // HUD
         Skin skin = new Skin();
-        skin.add("padBack", new Texture("padBack.png"));
+        skin.add("base", new Texture("base de palanca grande.png"));
         skin.add("palanca", new Texture("palanca grande.png"));
 
         Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
-        estilo.background = skin.getDrawable("padBack");
+        estilo.background = skin.getDrawable("base");
         estilo.knob = skin.getDrawable("palanca");
 
         Touchpad pad = new Touchpad(20, estilo);
@@ -139,6 +139,9 @@ public class PantallaJuego implements Screen {
                     oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.MOV_IZQUIERDA);
                 } else if (pad.getKnobPercentY()>0.20){
                     oberon.saltar();
+                    oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.QUIETO);
+                }
+                else{
                     oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.QUIETO);
                 }
             }

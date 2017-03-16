@@ -17,7 +17,7 @@ import static mx.faam.mission.Heroe.EstadoSalto.SUBIENDO;
  */
 
 public class Heroe extends Objeto {
-    private final float VELOCIDAD_X = 2;      // Velocidad horizontal
+    private final float VELOCIDAD_X = 3;      // Velocidad horizontal
 
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
@@ -123,15 +123,15 @@ public class Heroe extends Objeto {
             int x = (int) ((sprite.getX() + 32) / 32);   // Convierte coordenadas del mundo en coordenadas del mapa
             int y = (int) (sprite.getY() / 32);
             TiledMapTileLayer.Cell celdaDerecha = capa.getCell(x, y);
-
-            if ( celdaDerecha==null) {
-                // Ejecutar movimiento horizontal
-                nuevaX += VELOCIDAD_X;
-                // Prueba que no salga del mundo por la derecha
-                if (nuevaX <= PantallaJuego.ANCHO - sprite.getWidth()) {
-                    sprite.setX(nuevaX);
-                }
+            // Ejecutar movimiento horizontal
+            nuevaX += VELOCIDAD_X;
+            // Prueba que no salga del mundo por la derecha
+            if (nuevaX <= capa.getWidth()*32 - sprite.getWidth()) {
+                sprite.setX(nuevaX);
             }
+            /*if ( celdaDerecha==null) {
+
+            }*/
         }
         // ¿Quiere ir a la izquierda?
         if ( estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
@@ -139,14 +139,14 @@ public class Heroe extends Objeto {
             int y = (int) (sprite.getY() / 32);
             // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
             TiledMapTileLayer.Cell celdaIzquierda = capa.getCell(xIzq, y);
-
-            if ( celdaIzquierda==null) {
-                // Prueba que no salga del mundo por la izquierda
-                nuevaX -= VELOCIDAD_X;
-                if (nuevaX >= 0) {
-                    sprite.setX(nuevaX);
-                }
+            nuevaX -= VELOCIDAD_X;
+            if (nuevaX >= 0) {
+                sprite.setX(nuevaX);
             }
+            /*if ( celdaIzquierda==null) {
+                // Prueba que no salga del mundo por la izquierda
+
+            }*/
         }
     }
 
