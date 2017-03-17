@@ -32,11 +32,11 @@ public class Heroe extends Objeto {
     public Heroe(Texture textura, float x, float y) {
         // Lee la textura como región
         TextureRegion texturaCompleta = new TextureRegion(textura);
-        // La divide en 4 frames de 32x64 (ver marioSprite.png)
-        TextureRegion[][] texturaPersonaje = texturaCompleta.split(32,64);
+
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(64,64+64);
         // Crea la animación con tiempo de 0.15 segundos entre frames.
 
-        spriteAnimado = new Animation(0.15f, texturaPersonaje[0][3], texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        spriteAnimado = new Animation(0.15f, texturaPersonaje[0][4], texturaPersonaje[0][3], texturaPersonaje[0][2],texturaPersonaje[0][1] );
         // Animación infinita
         spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
@@ -95,7 +95,7 @@ public class Heroe extends Objeto {
             case SUBIENDO:
                 sprite.setY(sprite.getY()+delta);
                 alturaSalto += delta;
-                if (alturaSalto>=2*sprite.getHeight()) {
+                if (alturaSalto>=sprite.getHeight()/2+10) {
                     estadoSalto = BAJANDO;
                 }
                 break;

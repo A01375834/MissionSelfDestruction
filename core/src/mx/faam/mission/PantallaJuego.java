@@ -47,6 +47,11 @@ public class PantallaJuego implements Screen {
     private OrthographicCamera camaraHUD;
     private Viewport vistaHUD;
     private Stage escenaHUD;
+    //Textura Pausa
+    private Texture TexturaPausa;
+    //botones disparar
+    private Texture TexturaBotonDisparar;
+    private Texture TexturaBotonSwitch;
 
     //Mapa
     private TiledMap TexturaFondoJuego;
@@ -61,8 +66,6 @@ public class PantallaJuego implements Screen {
 
 
 
-    //Textura Pausa
-    private Texture TexturaPausa;
 
 
 
@@ -78,7 +81,7 @@ public class PantallaJuego implements Screen {
 
 
         //Heroe
-        TexturaOberon = new Texture("marioSprite.png");
+        TexturaOberon = new Texture("oberon animacion derecha.png");
         oberon = new Heroe(TexturaOberon, 0, 64);
 
         AssetManager manager = new AssetManager();
@@ -156,12 +159,26 @@ public class PantallaJuego implements Screen {
         btnPausa.setPosition(0,ALTO-100);
         btnPausa.setColor(1,1,1,0.4f);
 
+        TexturaBotonDisparar = new Texture("boton disparo grande.png");
+        TextureRegionDrawable trdBtnDisparar = new TextureRegionDrawable(new TextureRegion(TexturaBotonDisparar));
+        ImageButton btnDisparar = new ImageButton(trdBtnDisparar);
+        btnDisparar.setPosition(ANCHO-325,30);
+        btnDisparar.setColor(1,1,1,0.6f);
+
+        TexturaBotonSwitch = new Texture("boton switch grande.png");
+        TextureRegionDrawable trdBtnSwitch = new TextureRegionDrawable(new TextureRegion(TexturaBotonSwitch));
+        ImageButton btnBotonSwitch = new ImageButton(trdBtnSwitch);
+        btnBotonSwitch.setPosition(ANCHO-200,50);
+        btnBotonSwitch.setColor(1,1,1,0.6f);
+
 
 
 
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);
         escenaHUD.addActor(btnPausa);
+        escenaHUD.addActor(btnDisparar);
+        escenaHUD.addActor(btnBotonSwitch);
 
     }
 
