@@ -170,7 +170,7 @@ public class PantallaJuego implements Screen {
         //Actualizar
         oberon.actualizar(TexturaFondoJuego);
 
-        //efectos de sonido
+        //efectos de sonidoO
 
 
         actualizarMapa();
