@@ -129,7 +129,7 @@ public class PantallaJuego implements Screen {
         estilo.knob = skin.getDrawable("palanca");
 
         Touchpad pad = new Touchpad(20, estilo);
-        pad.setBounds(0, 0, 200, 200);
+        pad.setBounds(50, 50, 200, 200);
         pad.setColor(1,1,1,0.4f);
 
         pad.addListener(new ChangeListener() {
@@ -155,6 +155,7 @@ public class PantallaJuego implements Screen {
         ImageButton btnPausa = new ImageButton(trdBtnPausa);
         btnPausa.setPosition(0,ALTO-100);
         btnPausa.setColor(1,1,1,0.4f);
+
 
 
 
