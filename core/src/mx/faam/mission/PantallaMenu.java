@@ -2,6 +2,8 @@ package mx.faam.mission;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import static java.lang.Boolean.TRUE;
 
 //Pantalla menu
 /**
@@ -42,7 +46,11 @@ public class PantallaMenu implements Screen {
     
     //escena 
     private Stage escena;
-    private SpriteBatch batch; 
+    private SpriteBatch batch;
+
+    //Musica
+    private Music musicaFondoMenu;
+
 
 
     public PantallaMenu(SelfDestruction selfDestruction) {
@@ -73,6 +81,12 @@ public class PantallaMenu implements Screen {
         //textura fondp
         TexturaFondoMenu = new Texture("fondo.png");
 
+        //Audio
+        AssetManager manager = new AssetManager();
+        manager.load("MusicaFondoMenu.mp3", Music.class);
+        manager.finishLoading();
+        musicaFondoMenu = manager.get("MusicaFondoMenu.mp3");
+
     }
 
     private void crearObjetos() {
@@ -81,6 +95,10 @@ public class PantallaMenu implements Screen {
         escena = new Stage(vista, batch);
         Image fondoMenu = new Image (TexturaFondoMenu);
         escena.addActor(fondoMenu);
+
+
+            musicaFondoMenu.setLooping(true);
+            musicaFondoMenu.play();
 
 
         //botonNuevoJuego

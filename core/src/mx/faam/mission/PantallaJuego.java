@@ -81,7 +81,7 @@ public class PantallaJuego implements Screen {
 
 
         //Heroe
-        TexturaOberon = new Texture("oberon animacion derecha.png");
+        TexturaOberon = new Texture("prueba tamaño derecha.png");
         oberon = new Heroe(TexturaOberon, 0, 64);
 
         AssetManager manager = new AssetManager();
@@ -189,7 +189,9 @@ public class PantallaJuego implements Screen {
         oberon.actualizar(TexturaFondoJuego);
 
         //efectos de sonidoO
+        //if(oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.MOV_DERECHA || oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.MOV_IZQUIERDA){
 
+        //}
 
         actualizarMapa();
 

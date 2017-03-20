@@ -33,7 +33,7 @@ public class Heroe extends Objeto {
         // Lee la textura como región
         TextureRegion texturaCompleta = new TextureRegion(textura);
 
-        TextureRegion[][] texturaPersonaje = texturaCompleta.split(64,64+64);
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(64+64,64+64+64+64);
         // Crea la animación con tiempo de 0.15 segundos entre frames.
 
         spriteAnimado = new Animation(0.15f, texturaPersonaje[0][4], texturaPersonaje[0][3], texturaPersonaje[0][2],texturaPersonaje[0][1] );
