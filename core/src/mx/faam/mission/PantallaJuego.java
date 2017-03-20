@@ -13,14 +13,18 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import javafx.scene.Scene;
 
 /**
  * Created by angel on 13/02/2017.
@@ -35,13 +39,15 @@ public class PantallaJuego implements Screen {
 
     private SpriteBatch batch;
 
-
-
-
+    //Estado Jugando
+    private EstadoJuego estado = EstadoJuego.JUGANDO;
 
     //camara
     private OrthographicCamera camara;
     private Viewport vista;
+
+    //Escena
+    private Stage escena;
 
     //HUD
     private OrthographicCamera camaraHUD;
@@ -57,17 +63,9 @@ public class PantallaJuego implements Screen {
     private TiledMap TexturaFondoJuego;
     private OrthogonalTiledMapRenderer renderer; //dibuja el mapa
 
-
-
-
     //Textura Oberon
     private Heroe oberon;
     private Texture TexturaOberon;
-
-
-
-
-
 
 
     public PantallaJuego(SelfDestruction selfDestruction) {
@@ -98,19 +96,12 @@ public class PantallaJuego implements Screen {
         renderer.setView(camara);
 
 
+
+
         crearHUD();
 
-
-
-
-
-
-
-
-
-
-
         Gdx.input.setInputProcessor(escenaHUD);
+
 
 
     }
@@ -171,14 +162,23 @@ public class PantallaJuego implements Screen {
         btnBotonSwitch.setPosition(ANCHO-200,50);
         btnBotonSwitch.setColor(1,1,1,0.6f);
 
-
-
-
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);
         escenaHUD.addActor(btnPausa);
         escenaHUD.addActor(btnDisparar);
         escenaHUD.addActor(btnBotonSwitch);
+
+        //Evento del boton
+        btnPausa.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.log("clicked","Pausa");
+                selfDestruction.setScreen(new PantallaPausa(selfDestruction));
+                estado = EstadoJuego.PAUSADO;
+            }
+        });
+
+        Gdx.input.setInputProcessor(escena);
 
     }
 
@@ -186,7 +186,9 @@ public class PantallaJuego implements Screen {
     @Override
     public void render(float delta) {
         //Actualizar
+
         oberon.actualizar(TexturaFondoJuego);
+
 
         //efectos de sonidoO
         //if(oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.MOV_DERECHA || oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.MOV_IZQUIERDA){
@@ -201,7 +203,9 @@ public class PantallaJuego implements Screen {
         renderer.render();
 
         batch.begin();
-        oberon.dibujar(batch);
+        if(estado==EstadoJuego.JUGANDO) {
+            oberon.dibujar(batch);
+        }
         batch.end();
 
         //Camara HUD
