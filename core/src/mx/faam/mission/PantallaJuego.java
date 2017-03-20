@@ -186,6 +186,7 @@ public class PantallaJuego implements Screen {
     @Override
     public void render(float delta) {
         //Actualizar
+        //Aqui va la condicion del estado estado == EstadoJuego.JUGANDO;
 
         oberon.actualizar(TexturaFondoJuego);
 
