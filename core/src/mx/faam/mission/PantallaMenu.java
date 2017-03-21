@@ -101,6 +101,7 @@ public class PantallaMenu implements Screen {
             musicaFondoMenu.play();
 
 
+
         //botonNuevoJuego
         TextureRegionDrawable trdBtnNj = new TextureRegionDrawable(new TextureRegion(TexturaBotonNuevoJuego));
         ImageButton btnNj = new ImageButton(trdBtnNj);
@@ -113,6 +114,8 @@ public class PantallaMenu implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
                 selfDestruction.setScreen(new PantallaJuego(selfDestruction));
+
+                musicaFondoMenu.stop();
             }
         });
 
