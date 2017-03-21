@@ -186,17 +186,19 @@ public class PantallaJuego implements Screen {
     @Override
     public void render(float delta) {
         //Actualizar
-        //Aqui va la condicion del estado estado == EstadoJuego.JUGANDO;
 
-        oberon.actualizar(TexturaFondoJuego);
+        if(estado == EstadoJuego.JUGANDO) {
+
+            oberon.actualizar(TexturaFondoJuego);
 
 
-        //efectos de sonidoO
-        //if(oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.MOV_DERECHA || oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.MOV_IZQUIERDA){
+            //efectos de sonidoO
+            //if(oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.MOV_DERECHA || oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.MOV_IZQUIERDA){
 
-        //}
+            //}
 
-        actualizarMapa();
+            actualizarMapa();
+        }
 
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
