@@ -38,7 +38,7 @@ public class PantallaJuego implements Screen {
     private final SelfDestruction selfDestruction;
 
     private SpriteBatch batch;
-
+    //AAA
     //Estado Jugando
     private EstadoJuego estado = EstadoJuego.JUGANDO;
 
