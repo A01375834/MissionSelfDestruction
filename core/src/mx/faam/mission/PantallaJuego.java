@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,10 +38,17 @@ public class PantallaJuego implements Screen {
 
     private final SelfDestruction selfDestruction;
 
+    //Variable sonido
+    private boolean sonidoTocando = false;
+
     private SpriteBatch batch;
-    //AAA
+
     //Estado Jugando
-    private EstadoJuego estado = EstadoJuego.JUGANDO;
+    public EstadoJuego estado = EstadoJuego.JUGANDO;
+
+    //Sonido Caminar
+    Sound sonidoCaminar = Gdx.audio.newSound(Gdx.files.internal("SonidoCaminar.wav"));
+    final long sonidoCaminarId = sonidoCaminar.play();
 
     //camara
     private OrthographicCamera camara;
@@ -79,8 +87,6 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void show() {
-        //AAA
-
         //Heroe
         TexturaOberon = new Texture("prueba tamaño derecha.png");
         TexturaOberonDisparando = new Texture("posicion disparo.png");
@@ -101,14 +107,9 @@ public class PantallaJuego implements Screen {
         renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego,batch);
         renderer.setView(camara);
 
-
-
-
         crearHUD();
 
         Gdx.input.setInputProcessor(escenaHUD);
-
-
 
     }
 
@@ -117,6 +118,7 @@ public class PantallaJuego implements Screen {
         camaraHUD.position.set(ANCHO / 2, ALTO / 2, 0);
         camaraHUD.update();
         vistaHUD = new StretchViewport(ANCHO, ALTO, camaraHUD);
+
 
         //HUD Aqui va el boton de pausa, las vidas, analogo, boton disparar y creo ya.
         // HUD
@@ -138,6 +140,12 @@ public class PantallaJuego implements Screen {
                 Touchpad pad = (Touchpad) actor;
                 if (pad.getKnobPercentX()>0.20) {
                     oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.MOV_DERECHA);
+                    //sonidoCaminar.setVolume(sonidoCaminarId,1.0f);
+                   if(sonidoTocando==false){
+                        sonidoCaminar.play();
+                        sonidoTocando = true;
+                   }
+
                 } else if (pad.getKnobPercentX()<-0.20){
                     oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.MOV_IZQUIERDA);
                 } else if (pad.getKnobPercentY()>0.20){
@@ -146,6 +154,8 @@ public class PantallaJuego implements Screen {
                 }
                 else{
                     oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.QUIETO);
+                    sonidoCaminar.stop();
+                    sonidoTocando = false;
                 }
             }
         });
@@ -186,8 +196,8 @@ public class PantallaJuego implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Pausa");
-                selfDestruction.setScreen(new PantallaPausa(selfDestruction));
                 estado = EstadoJuego.PAUSADO;
+                selfDestruction.setScreen(new PantallaPausa(selfDestruction, PantallaJuego.this));
             }
         });
 
@@ -202,33 +212,24 @@ public class PantallaJuego implements Screen {
     public void render(float delta) {
         //Actualizar
 
-        if(estado == EstadoJuego.JUGANDO) {
+        oberon.actualizar(TexturaFondoJuego);
+        actualizarMapa();
 
-            oberon.actualizar(TexturaFondoJuego);
 
-
-            //efectos de sonidoO
-            //if(oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.MOV_DERECHA || oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.MOV_IZQUIERDA){
-
-            //}
-
-            actualizarMapa();
-        }
-        //AAA
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
         renderer.setView(camara);
-        renderer.render();
 
+        renderer.render();
         batch.begin();
-        if(estado==EstadoJuego.JUGANDO) {
+        if(estado ==EstadoJuego.JUGANDO)
             oberon.dibujar(batch);
-        }
         batch.end();
 
         //Camara HUD
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
+
 
     }
 
@@ -273,7 +274,7 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+        //dispose();
 
     }
 

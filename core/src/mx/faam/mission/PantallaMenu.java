@@ -114,7 +114,7 @@ public class PantallaMenu implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
                 selfDestruction.setScreen(new PantallaJuego(selfDestruction));
-
+                //Musica de fondo se para
                 musicaFondoMenu.stop();
             }
         });

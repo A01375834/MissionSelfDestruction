@@ -25,6 +25,7 @@ public class PantallaPausa implements Screen {
     private static final float ANCHO = 1280;
     private static final float ALTO = 800;
     private final SelfDestruction selfDestruction;
+    private final PantallaJuego pantallaJuego;
     //Estado Juego
     private EstadoJuego estado = EstadoJuego.PAUSADO;
 
@@ -42,9 +43,11 @@ public class PantallaPausa implements Screen {
     //fondo
     private Texture TexturaFondoBack;
 
-    public PantallaPausa(SelfDestruction selfDestruction){
+    public PantallaPausa(SelfDestruction selfDestruction, PantallaJuego pantallaJuego){
         this.selfDestruction = selfDestruction;
+        this.pantallaJuego = pantallaJuego;
     }
+
 
     @Override
     public void show() {
@@ -72,8 +75,9 @@ public class PantallaPausa implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("Pausa","Me hicieron click");
-                selfDestruction.setScreen(new PantallaJuego(selfDestruction));
-                //estado = EstadoJuego.JUGANDO;
+                pantallaJuego.estado = EstadoJuego.JUGANDO;
+                selfDestruction.setScreen(pantallaJuego);
+
             }
         });
 
