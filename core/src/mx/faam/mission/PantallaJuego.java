@@ -79,7 +79,7 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void show() {
-
+        //AAA
 
         //Heroe
         TexturaOberon = new Texture("prueba tamaño derecha.png");
