@@ -68,6 +68,7 @@ public class PantallaJuego implements Screen {
     private Heroe oberonDisparando;
     private Texture TexturaOberon;
     private Texture TexturaOberonDisparando;
+    private Texture oberonIzq;
 
 
     public PantallaJuego(SelfDestruction selfDestruction) {
@@ -83,8 +84,9 @@ public class PantallaJuego implements Screen {
         //Heroe
         TexturaOberon = new Texture("prueba tamaño derecha.png");
         TexturaOberonDisparando = new Texture("posicion disparo.png");
-        oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
-        oberon = new Heroe(TexturaOberon, 0, 64);
+        oberonIzq = new Texture("prueba tamaño izquierda.png");
+        //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
+        oberon = new Heroe(TexturaOberon,TexturaOberonDisparando,oberonIzq, 0, 64);
 
         AssetManager manager = new AssetManager();
         manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
@@ -159,6 +161,13 @@ public class PantallaJuego implements Screen {
         ImageButton btnDisparar = new ImageButton(trdBtnDisparar);
         btnDisparar.setPosition(ANCHO-325,30);
         btnDisparar.setColor(1,1,1,0.6f);
+        btnDisparar.addListener(new ClickListener() {
+                                    @Override
+                                    public void clicked(InputEvent event, float x, float y) {
+                                        Gdx.app.log("clicked", "Disparar");
+                                        oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.DISPARANDO);
+                                    }
+                                });
 
         TexturaBotonSwitch = new Texture("boton switch grande.png");
         TextureRegionDrawable trdBtnSwitch = new TextureRegionDrawable(new TextureRegion(TexturaBotonSwitch));
@@ -185,6 +194,8 @@ public class PantallaJuego implements Screen {
         Gdx.input.setInputProcessor(escena);
 
     }
+
+
 
 
     @Override
