@@ -69,6 +69,8 @@ public class Heroe extends Objeto {
             case QUIETO:
             case INICIANDO:
                 sprite.draw(batch); // Dibuja el sprite estático
+            case DISPARANDO:
+
                 break;
         }
     }
@@ -174,7 +176,8 @@ public class Heroe extends Objeto {
         INICIANDO,
         QUIETO,
         MOV_IZQUIERDA,
-        MOV_DERECHA
+        MOV_DERECHA,
+        DISPARANDO
     }
     public enum EstadoSalto {
         SUBIENDO,

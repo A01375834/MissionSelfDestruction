@@ -65,7 +65,9 @@ public class PantallaJuego implements Screen {
 
     //Textura Oberon
     private Heroe oberon;
+    private Heroe oberonDisparando;
     private Texture TexturaOberon;
+    private Texture TexturaOberonDisparando;
 
 
     public PantallaJuego(SelfDestruction selfDestruction) {
@@ -80,6 +82,8 @@ public class PantallaJuego implements Screen {
 
         //Heroe
         TexturaOberon = new Texture("prueba tamaño derecha.png");
+        TexturaOberonDisparando = new Texture("posicion disparo.png");
+        oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
         oberon = new Heroe(TexturaOberon, 0, 64);
 
         AssetManager manager = new AssetManager();
