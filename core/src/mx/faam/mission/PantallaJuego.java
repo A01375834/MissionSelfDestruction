@@ -199,7 +199,7 @@ public class PantallaJuego implements Screen {
 
             actualizarMapa();
         }
-
+        //AAA
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
         renderer.setView(camara);
