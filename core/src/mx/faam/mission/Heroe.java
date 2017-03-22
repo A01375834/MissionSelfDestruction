@@ -122,7 +122,7 @@ public class Heroe extends Objeto {
     }
     // Realiza el salto
     private void moverVertical(TiledMap mapa) {
-        float delta = Gdx.graphics.getDeltaTime()*200;
+        float delta = Gdx.graphics.getDeltaTime()*250;
         switch (estadoSalto) {
             case SUBIENDO:
                 sprite.setY(sprite.getY()+delta);

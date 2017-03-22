@@ -35,6 +35,7 @@ public class PantallaJuego implements Screen {
     public static final float ANCHO = 1280;
     private static final float ALTO = 800;
     private static final float ANCHO_MAPA = 2528;
+    private boolean pausa;
 
     private final SelfDestruction selfDestruction;
 
@@ -87,28 +88,34 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void show() {
-        //Heroe
-        TexturaOberon = new Texture("prueba tamaño derecha.png");
-        TexturaOberonDisparando = new Texture("posicion disparo.png");
-        oberonIzq = new Texture("prueba tamaño izquierda.png");
-        //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
-        oberon = new Heroe(TexturaOberon,TexturaOberonDisparando,oberonIzq, 0, 64);
+       if(!pausa){
+           //Heroe
+           TexturaOberon = new Texture("prueba tamaño derecha.png");
+           TexturaOberonDisparando = new Texture("posicion disparo.png");
+           oberonIzq = new Texture("prueba tamaño izquierda.png");
+           //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
+           oberon = new Heroe(TexturaOberon,TexturaOberonDisparando,oberonIzq, 0, 64);
 
-        AssetManager manager = new AssetManager();
-        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load("mapaInicialPrimerNivel.tmx",TiledMap.class);
+           AssetManager manager = new AssetManager();
+           manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+           manager.load("mapaInicialPrimerNivel.tmx",TiledMap.class);
 
-        manager.finishLoading();    //cargar Recursos
-        TexturaFondoJuego = manager.get("mapaInicialPrimerNivel.tmx");
+           manager.finishLoading();    //cargar Recursos
+           TexturaFondoJuego = manager.get("mapaInicialPrimerNivel.tmx");
 
-        camara = new OrthographicCamera(ALTO/2,ANCHO/2);
-        vista = new StretchViewport(ANCHO, ALTO, camara);
-        batch = new SpriteBatch();
-        renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego,batch);
-        renderer.setView(camara);
+           camara = new OrthographicCamera(ALTO/2,ANCHO/2);
+           vista = new StretchViewport(ANCHO, ALTO, camara);
+           batch = new SpriteBatch();
+           renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego,batch);
+           renderer.setView(camara);
 
-        crearHUD();
+           crearHUD();
 
+
+       }
+        else{
+           pausa = false;
+       }
         Gdx.input.setInputProcessor(escenaHUD);
 
     }
@@ -166,18 +173,21 @@ public class PantallaJuego implements Screen {
         btnPausa.setPosition(0,ALTO-100);
         btnPausa.setColor(1,1,1,0.4f);
 
-        TexturaBotonDisparar = new Texture("boton disparo grande.png");
-        TextureRegionDrawable trdBtnDisparar = new TextureRegionDrawable(new TextureRegion(TexturaBotonDisparar));
-        ImageButton btnDisparar = new ImageButton(trdBtnDisparar);
-        btnDisparar.setPosition(ANCHO-325,30);
-        btnDisparar.setColor(1,1,1,0.6f);
-        btnDisparar.addListener(new ClickListener() {
-                                    @Override
-                                    public void clicked(InputEvent event, float x, float y) {
-                                        Gdx.app.log("clicked", "Disparar");
-                                        oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.DISPARANDO);
-                                    }
-                                });
+            TexturaBotonDisparar = new Texture("boton disparo grande.png");
+            TextureRegionDrawable trdBtnDisparar = new TextureRegionDrawable(new TextureRegion(TexturaBotonDisparar));
+            ImageButton btnDisparar = new ImageButton(trdBtnDisparar);
+            btnDisparar.setPosition(ANCHO - 325, 30);
+            btnDisparar.setColor(1, 1, 1, 0.6f);
+            btnDisparar.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Gdx.app.log("clicked", "Disparar");
+                    oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.DISPARANDO);
+
+                }
+
+            });
+
 
         TexturaBotonSwitch = new Texture("boton switch grande.png");
         TextureRegionDrawable trdBtnSwitch = new TextureRegionDrawable(new TextureRegion(TexturaBotonSwitch));
@@ -197,6 +207,7 @@ public class PantallaJuego implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Pausa");
                 estado = EstadoJuego.PAUSADO;
+                pausa = true;
                 selfDestruction.setScreen(new PantallaPausa(selfDestruction, PantallaJuego.this));
             }
         });
