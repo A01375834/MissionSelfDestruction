@@ -23,9 +23,9 @@ public class Bala {
             texturaBala = new Texture("bala.png");
     }
 
-    public void actualizarBala(float deltaTime) {
+    public void actualizarBala(float deltaTime,float xO) {
         x += vx * deltaTime;
-        if (x > Gdx.graphics.getWidth())
+        if (x > xO+Gdx.graphics.getWidth())
             remove = true;
 
     }

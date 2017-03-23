@@ -236,7 +236,7 @@
                         oberon.actualizar(TexturaFondoJuego);
                         actualizarMapa();
                         for (Bala bala: balas) {
-                            bala.actualizarBala(delta);
+                            bala.actualizarBala(delta,oberon.getX());
                             if(bala.remove)
                                 balasQuitar.add(bala);
 
