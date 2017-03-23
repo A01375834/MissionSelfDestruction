@@ -13,7 +13,7 @@ public class SelfDestruction extends Game {
 	
 	@Override
 	public void create () {
-		setScreen(new PantallaMenu(this));
+		setScreen(new PantallaCargando(this));
 
 	}
 
