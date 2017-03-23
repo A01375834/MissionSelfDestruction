@@ -20,7 +20,7 @@ import static mx.faam.mission.Heroe.EstadoSalto.SUBIENDO;
  */
 
 public class Heroe extends Objeto {
-    private final float VELOCIDAD_X = 3;      // Velocidad horizontal
+    private final float VELOCIDAD_X =8;      // Velocidad horizontal
     private Sprite spriteBala;
 
     private Animation<TextureRegion> spriteAnimado,spriteDisparando,spriteIzquierda;         // Animación caminando

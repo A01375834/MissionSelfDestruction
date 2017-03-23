@@ -97,7 +97,7 @@
                if(!pausa){
                    //Heroe
                    TexturaOberon = new Texture("prueba tamaño derecha.png");
-                   TexturaOberonDisparando = new Texture("posicion disparo.png");
+                   TexturaOberonDisparando = new Texture("posicion disparo derecha.png");
                    oberonIzq = new Texture("prueba tamaño izquierda.png");
 
                    //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
@@ -222,7 +222,7 @@
                     public void clicked(InputEvent event, float x, float y) {
                         Gdx.app.log("clicked", "Disparar");
                         oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.DISPARANDO);
-                        balas.add(new Bala(oberon.getX(),oberon.getY()+188));
+                        balas.add(new Bala(oberon.getX()+TexturaOberonDisparando.getWidth()-15,oberon.getY()+188));
 
                     }
                 });
