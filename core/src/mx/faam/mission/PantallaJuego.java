@@ -26,9 +26,10 @@
         import com.badlogic.gdx.utils.viewport.StretchViewport;
         import com.badlogic.gdx.utils.viewport.Viewport;
 
+        import java.util.ArrayList;
 
 
-        /**
+    /**
          * Created by angel on 13/02/2017.
          */
         public class PantallaJuego implements Screen {
@@ -78,7 +79,11 @@
             private Texture TexturaOberon;
             private Texture TexturaOberonDisparando;
             private Texture oberonIzq;
-            private Texture texturaBala;
+            private Bala bala;
+
+            //Arreglo de balas
+            ArrayList<Bala> balas = new ArrayList<Bala>();
+
 
 
             public PantallaJuego(SelfDestruction selfDestruction) {
@@ -94,11 +99,9 @@
                    TexturaOberon = new Texture("prueba tamaño derecha.png");
                    TexturaOberonDisparando = new Texture("posicion disparo.png");
                    oberonIzq = new Texture("prueba tamaño izquierda.png");
-                   texturaBala = new Texture("bala.png");
-
 
                    //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
-                   oberon = new Heroe(TexturaOberon,TexturaOberonDisparando,oberonIzq,texturaBala, 0, 64);
+                   oberon = new Heroe(TexturaOberon,TexturaOberonDisparando,oberonIzq, 0, 64);
 
                    AssetManager manager = new AssetManager();
                    manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
@@ -219,16 +222,26 @@
                     public void clicked(InputEvent event, float x, float y) {
                         Gdx.app.log("clicked", "Disparar");
                         oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.DISPARANDO);
+                        balas.add(new Bala(oberon.getX(),oberon.getY()+188));
 
                     }
                 });
             }
                     @Override
                     public void render(float delta) {
-                        //Actualizar
+                        //Arreglo Balas para quitar
+                        ArrayList<Bala> balasQuitar = new ArrayList<Bala>();
 
+                        //Actualizar
                         oberon.actualizar(TexturaFondoJuego);
                         actualizarMapa();
+                        for (Bala bala: balas) {
+                            bala.actualizarBala(delta);
+                            if(bala.remove)
+                                balasQuitar.add(bala);
+
+                        }
+                        balas.removeAll(balasQuitar);
 
 
                         borrarPantalla();
@@ -239,11 +252,10 @@
                         batch.begin();
                         if (estado == EstadoJuego.JUGANDO) {
                             oberon.dibujar(batch);
-                            if(oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.DISPARANDO) {
-                                oberon.disparar(batch, oberon.getX(), oberon.getY() + 188);
-
-
-                            }
+                            if(oberon.getEstadoMovimiento()== Heroe.EstadoMovimiento.DISPARANDO)
+                                for (Bala bala: balas) {
+                                    bala.render(batch);
+                                }
                             batch.end();
                         }
                         //Camara HUD
