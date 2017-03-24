@@ -2,90 +2,83 @@ package mx.faam.mission;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * Created by Mauricio on 23/03/2017.
  */
 
 public class PantallaCargando implements Screen {
+    // Animación cargando
+    private static final float TIEMPO_ENTRE_FRAMES = 0.05f;
+    private Sprite spriteCargando;
+    private float timerAnimacion = TIEMPO_ENTRE_FRAMES;
 
-    private float tiempoVisible = 1.2f;
 
     private static final float ANCHO = 1280;
     private static final float ALTO = 800;
-    private final SelfDestruction selfDestruction;
 
+    // AssetManager
+    private AssetManager manager;
 
-    //logo Tec
-    private Texture texturaLogo;
-    private Sprite spriteLogo;
+    private SelfDestruction selfDestruction;
+    private int avance = 0; // % de carga
+    private Texto texto;
 
-    private OrthographicCamera camara = new OrthographicCamera(ANCHO,ALTO);
-    private Viewport vista = new StretchViewport(ANCHO,ALTO,camara);
-
-    //Escena
+    private Texture texturaCargando;
     private SpriteBatch batch = new SpriteBatch();
-
 
     public PantallaCargando(SelfDestruction selfDestruction) {
         this.selfDestruction = selfDestruction;
     }
 
+
+
     @Override
     public void show() {
-        texturaLogo = new Texture(Gdx.files.internal("logo.png"));
-        spriteLogo = new Sprite(texturaLogo);
-        spriteLogo.setPosition(ANCHO/2-(spriteLogo.getWidth()/2), ALTO/2-(spriteLogo.getHeight()/2));
-        escalarLogo();
-    }
-
-    private void escalarLogo() {
-        float factorCamara = ANCHO/ALTO;
-        float factorPantalla = 1.0f*Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
-        float escala = factorCamara / factorPantalla;
-        spriteLogo.setScale(escala,1);
+        texturaCargando = new Texture(Gdx.files.internal("cargando.png"));
+        spriteCargando = new Sprite(texturaCargando);
+        spriteCargando.setPosition(ANCHO/2-spriteCargando.getWidth(),ALTO/2-spriteCargando.getHeight());
+        texto = new Texto("Fonts/fontLoading.fnt");
     }
 
     @Override
     public void render(float delta) {
         borrarPantalla(0,0,0);
-
-        //batch.setProjectionMatrix(camara.combined);
         batch.begin();
-        spriteLogo.draw(batch);
+        spriteCargando.draw(batch);
+        texto.mostrarMensaje(batch,avance+" %",ANCHO/2,ALTO/2+100);
         batch.end();
 
-        tiempoVisible -= delta;
-        if(tiempoVisible<=0){
+        //Actualizar
+        if(avance>=100){
             selfDestruction.setScreen(new PantallaMenu(selfDestruction));
         }
+
+        actualizar();
+
+    }
+
+    private void actualizar() {
+            avance +=1;
+            spriteCargando.rotate(-30);
+
+    }
+
+    private void borrarPantalla(int r, int g, int b) {
+        Gdx.gl.glClearColor(r,g,b,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
     }
 
     @Override
     public void resize(int width, int height) {
-        vista.update(width,height);
-        actualizarVista();
 
     }
-
-    private void actualizarVista() {
-        escalarLogo();
-    }
-
-    private void borrarPantalla(int r, float g, int b) {
-        Gdx.gl.glClearColor(r,g,b,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    }
-
 
     @Override
     public void pause() {
@@ -104,7 +97,6 @@ public class PantallaCargando implements Screen {
 
     @Override
     public void dispose() {
-        texturaLogo.dispose();
 
     }
 }
