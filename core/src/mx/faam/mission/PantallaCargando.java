@@ -51,11 +51,11 @@ public class PantallaCargando implements Screen {
         borrarPantalla(0,0,0);
         batch.begin();
         spriteCargando.draw(batch);
-        texto.mostrarMensaje(batch,avance+" %",ANCHO/2,ALTO/2+100);
+        texto.mostrarMensaje(batch,avance+" %",ANCHO/2-40,ALTO/2+100);
         batch.end();
 
         //Actualizar
-        if(avance>=100){
+        if(avance>100){
             selfDestruction.setScreen(new PantallaMenu(selfDestruction));
         }
 
