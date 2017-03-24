@@ -23,6 +23,8 @@ public class Heroe extends Objeto {
     private final float VELOCIDAD_X =8;      // Velocidad horizontal
     private Sprite spriteBala;
 
+    private float vida = 100;
+
     private Animation<TextureRegion> spriteAnimado,spriteDisparando,spriteIzquierda;         // Animación caminando
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
 
@@ -229,6 +231,20 @@ public class Heroe extends Objeto {
         SUBIENDO,
         BAJANDO,
         EN_PISO
+    }
+
+    public void Herir(float dano){
+        vida -= dano;
+    }
+
+    public void curar(float curacion){
+        vida += curacion;
+        if(vida>=100)
+            vida = 100;
+    }
+
+    public float GetVida(){
+        return vida;
     }
 }
 
