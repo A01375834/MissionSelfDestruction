@@ -81,6 +81,8 @@
             private Texture oberonIzq;
             private Bala bala;
 
+
+
             //Arreglo de balas
             ArrayList<Bala> balas = new ArrayList<Bala>();
 
@@ -100,8 +102,12 @@
                    TexturaOberonDisparando = new Texture("posicion disparo derecha.png");
                    oberonIzq = new Texture("prueba tamaño izquierda.png");
 
+                   //Enemigos
+
+
                    //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
                    oberon = new Heroe(TexturaOberon,TexturaOberonDisparando,oberonIzq, 0, 64);
+
 
                    AssetManager manager = new AssetManager();
                    manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));

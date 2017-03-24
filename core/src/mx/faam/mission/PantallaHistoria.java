@@ -3,6 +3,7 @@ package mx.faam.mission;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -74,6 +75,7 @@ public class PantallaHistoria implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
                 selfDestruction.setScreen(new PantallaJuego(selfDestruction));
+
             }
         });
         //botonBackMenu
@@ -100,7 +102,7 @@ public class PantallaHistoria implements Screen {
 
 
         //textura fondp
-        TexturaFondoHistoria = new Texture("fondo.png");
+        TexturaFondoHistoria = new Texture("fondoHistoria.jpg");
     }
 
     private void crearCamara() {

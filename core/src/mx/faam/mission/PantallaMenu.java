@@ -43,6 +43,7 @@ public class PantallaMenu implements Screen {
 
     //textura fondo
     private Texture TexturaFondoMenu;
+
     
     //escena 
     private Stage escena;
