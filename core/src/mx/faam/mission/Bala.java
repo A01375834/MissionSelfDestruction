@@ -45,6 +45,8 @@ public class Bala {
             sonidoBala = true;
         }
 
+        rect.mover(x,y);
+
     }
 
     public void render(SpriteBatch batch) {
@@ -52,6 +54,11 @@ public class Bala {
 
 
     }
+
+    public ColliderRect getCollisionRect(){
+        return rect;
+    }
+
     public Rectangle getRectangle(){
         return bala.getBoundingRectangle();
     }
