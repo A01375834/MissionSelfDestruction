@@ -17,6 +17,9 @@ public class Bala {
     private Texture texturaBala;
     float x, y;
     public boolean remove = false;
+    //Colisiones
+    ColliderRect rect;
+
     //Sonido de Bala
     Sound balazo;
     private boolean sonidoBala;
@@ -25,6 +28,7 @@ public class Bala {
     public Bala(float x, float y) {
         this.x = x;
         this.y = y;
+        rect = new ColliderRect(x,y,23,14);
 
         if (texturaBala == null)
             texturaBala = new Texture("bala.png");
