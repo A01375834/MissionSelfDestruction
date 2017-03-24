@@ -3,6 +3,7 @@ package mx.faam.mission;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,6 +30,10 @@ public class PantallaPausa implements Screen {
     //Estado Juego
     private EstadoJuego estado = EstadoJuego.PAUSADO;
 
+    //Musica Fondo Menu
+    Sound musicaFondo = Gdx.audio.newSound(Gdx.files.internal("MusicaFondoMenu.mp3"));
+
+
     //camara
     private OrthographicCamera camara;
     private Viewport vista;
@@ -42,6 +47,7 @@ public class PantallaPausa implements Screen {
 
     //fondo
     private Texture TexturaFondoBack;
+    private boolean musicaTocando = false;
 
     public PantallaPausa(SelfDestruction selfDestruction, PantallaJuego pantallaJuego){
         this.selfDestruction = selfDestruction;
@@ -77,6 +83,7 @@ public class PantallaPausa implements Screen {
                 Gdx.app.log("Pausa","Me hicieron click");
                 pantallaJuego.estado = EstadoJuego.JUGANDO;
                 selfDestruction.setScreen(pantallaJuego);
+                musicaFondo.stop();
 
             }
         });
@@ -105,6 +112,10 @@ public class PantallaPausa implements Screen {
     public void render(float delta) {
         borrarPantalla();
         escena.draw();
+        if(musicaTocando==false) {
+            musicaFondo.loop(0.4f);
+            musicaTocando = true;
+        }
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             selfDestruction.setScreen(new PantallaMenu(selfDestruction));
         }

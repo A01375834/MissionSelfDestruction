@@ -38,10 +38,10 @@ public class Bala {
 
     public void actualizarBala(float deltaTime,float xO) {
         x += vx * deltaTime;
-        if (x > xO+Gdx.graphics.getWidth())
+        if (x > xO+1280)
             remove = true;
         if(sonidoBala == false) {
-            balazo.play(1.0f);
+            balazo.play();
             sonidoBala = true;
         }
 

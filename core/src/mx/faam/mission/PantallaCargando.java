@@ -42,7 +42,7 @@ public class PantallaCargando implements Screen {
     public void show() {
         texturaCargando = new Texture(Gdx.files.internal("cargando.png"));
         spriteCargando = new Sprite(texturaCargando);
-        spriteCargando.setPosition(ANCHO/2-spriteCargando.getWidth(),ALTO/2-spriteCargando.getHeight());
+        spriteCargando.setPosition(ANCHO/2-spriteCargando.getWidth()/2,ALTO/2-spriteCargando.getHeight()/2);
         texto = new Texto("Fonts/fontLoading.fnt");
     }
 
@@ -51,7 +51,7 @@ public class PantallaCargando implements Screen {
         borrarPantalla(0,0,0);
         batch.begin();
         spriteCargando.draw(batch);
-        texto.mostrarMensaje(batch,avance+" %",ANCHO/2-40,ALTO/2+100);
+        texto.mostrarMensaje(batch,avance+" %",ANCHO/2+20,ALTO/2+110);
         batch.end();
 
         //Actualizar

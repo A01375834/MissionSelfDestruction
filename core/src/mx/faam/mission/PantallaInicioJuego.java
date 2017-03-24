@@ -51,7 +51,7 @@ public class PantallaInicioJuego implements Screen {
 
     private void escalarLogo() {
         float factorCamara = ANCHO/ALTO;
-        float factorPantalla = 1.0f*Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
+        float factorPantalla = 1.0f* Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
         float escala = factorCamara / factorPantalla;
         spriteLogo.setScale(escala,1);
     }

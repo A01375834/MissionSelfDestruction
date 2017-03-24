@@ -8,3 +8,4 @@ public enum EstadoJuego {
     JUGANDO,
     PAUSADO
 }
+

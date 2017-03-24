@@ -69,7 +69,4 @@ public abstract class Enemigo {
         ATACAR,
         MUERTO
     }
-
-
-
 }
