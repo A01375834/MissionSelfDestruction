@@ -3,7 +3,9 @@ package mx.faam.mission;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  * Created by Mauricio on 23/03/2017.
@@ -18,6 +20,7 @@ public class Bala {
     //Sonido de Bala
     Sound balazo;
     private boolean sonidoBala;
+    protected Sprite bala;
 
     public Bala(float x, float y) {
         this.x = x;
@@ -44,6 +47,9 @@ public class Bala {
         batch.draw(texturaBala, x, y);
 
 
+    }
+    public Rectangle getRectangle(){
+        return bala.getBoundingRectangle();
     }
 }
 

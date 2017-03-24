@@ -1,90 +1,75 @@
 package mx.faam.mission;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
- * Created by angel on 23/03/2017.
+ * Created by angel on 24/03/2017.
  */
-//aa
 
-public class Enemigo extends Objeto {
-    private final float VELOCIDAD_X = 6;      // Velocidad horizontal
-
-    private Animation<TextureRegion> spriteDerecha, spriteIzquierda;         // Animación caminando
-    private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
-
-    private Estado estadoMovimiento = Estado.QUIETO;
-
-
-    public Enemigo(Texture TexturaDerecha, Texture TexturaIzquierda, float x, float y) {
-        TextureRegion TexturaDerecho = new TextureRegion(TexturaDerecha);
-        TextureRegion TexturaIzquierdo = new TextureRegion(TexturaIzquierda);
-        TextureRegion[][] texturaEnemigoDerecha = TexturaDerecho.split(64 + 64, 64 + 64 + 64 + 64);
-        TextureRegion[][] texturaEnemigoIzquierda = TexturaIzquierdo.split(64 + 64, 64 + 64 + 64 + 64);
+public abstract class Enemigo {
+    protected Sprite sprite;
+    protected float xInicial, yInicial;
+    private static AssetManager manager = new AssetManager();
+    boolean atacando = false;
+    protected boolean muerte;
+    long startTime;
 
 
-        spriteDerecha = new Animation(0.15f, texturaEnemigoDerecha[0][4], texturaEnemigoDerecha[0][3],
-                texturaEnemigoDerecha[0][2], texturaEnemigoDerecha[0][1]);
-        spriteIzquierda = new Animation(0.15f, texturaEnemigoIzquierda[0][4], texturaEnemigoIzquierda[0][3],
-                texturaEnemigoIzquierda[0][2], texturaEnemigoIzquierda[0][1]);
 
-        spriteDerecha.setPlayMode(Animation.PlayMode.LOOP);
-        spriteIzquierda.setPlayMode(Animation.PlayMode.LOOP);
-
-        timerAnimacion = 0;
-        sprite = new Sprite(texturaEnemigoDerecha[0][0]);    // QUIETO
-        sprite.setPosition(x, y);    // Posición inicial
+    public Enemigo(){
 
     }
+    public Enemigo(Texture textura, float x, float y){
+        xInicial = x;
+        yInicial = y;
+        sprite = new Sprite(sprite);
+        sprite.setPosition(x,y);
 
-    public void dibujar(SpriteBatch batch) {
-        switch (estadoMovimiento) {
-            case MOV_DERECHA:
-            case MOV_IZQUIERDA:
-                timerAnimacion += Gdx.graphics.getDeltaTime();
-                // Frame que se dibujará
-                TextureRegion region = spriteDerecha.getKeyFrame(timerAnimacion);
-                if (estadoMovimiento == Estado.MOV_IZQUIERDA) {
-                    if (!region.isFlipX()) {
-                        region.flip(true, false);
-                    }
-                } else {
-                    if (region.isFlipX()) {
-                        region.flip(true, false);
-
-                    }
-                }
-                batch.draw(region, sprite.getX(), sprite.getY());
-                break;
-            case QUIETO:
-                sprite.draw(batch);// Dibuja el sprite estático
-                break;
-        }
+    }
+    public Enemigo(TextureRegion texture, float x, float y){
+        xInicial = x;
+        yInicial = y;
+        sprite = new Sprite(sprite);
+        sprite.setPosition(x,y);
+    }
+    public abstract void attack();
+    public abstract void setEstado(Estado estado);
+    public abstract void dibujar(SpriteBatch batch);
+    public abstract void stop();
+    public boolean colision(Bala b){
+        return sprite.getBoundingRectangle().overlaps(b.getRectangle());
     }
 
-    // Accesor de estadoMovimiento
-    public Enemigo.Estado getEstadoMovimiento() {
-        return estadoMovimiento;
-    }
+    public abstract boolean muerte();
+    public void setPos(float x, float y){
+        sprite.setPosition(x,y);
 
-    // Modificador de estadoMovimiento
-    public void setEstadoMovimiento(Enemigo.Estado estadoMovimiento) {
-        this.estadoMovimiento = estadoMovimiento;
+    }
+    public void setMuete(boolean muerte){
+        this.muerte = muerte;
+    }
+    public float getX(){
+        return sprite.getX();
+    }
+    public float getY(){
+        return sprite.getY();
+    }
+    public void dispose(){
+        manager.dispose();
     }
 
 
-   public enum Estado {
+    public enum Estado{
+        MOVIMIENTO,
         QUIETO,
-        MOV_IZQUIERDA,
-        MOV_DERECHA,
-        ATACANDO,
+        ATACAR,
         MUERTO
     }
+
 
 
 }
