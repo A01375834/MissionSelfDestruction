@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /**
  * Created by angel on 23/03/2017.
  */
+//aa
 
 public class Enemigo extends Objeto {
     private final float VELOCIDAD_X = 6;      // Velocidad horizontal
