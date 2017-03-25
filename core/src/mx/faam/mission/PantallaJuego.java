@@ -84,6 +84,9 @@ public class PantallaJuego implements Screen {
     private Texture oberonIzq;
     private Bala bala;
 
+    //Textura enemigos
+    private Texture TexturaChiquito;
+    private Enemigo chiquito1;
 
     //Arreglo de balas
     ArrayList<Bala> balas = new ArrayList<Bala>();
@@ -103,13 +106,15 @@ public class PantallaJuego implements Screen {
             oberonIzq = new Texture("prueba tamaño izquierda.png");
 
             //Enemigos
-
+            TexturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
 
             //Vida
             vida = new Vida();
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
+            chiquito1 = new Enemigo(TexturaChiquito);
+            chiquito1.setPosicion(1280,192);
 
 
             AssetManager manager = new AssetManager();
@@ -259,6 +264,7 @@ public class PantallaJuego implements Screen {
         batch.begin();
         if (estado == EstadoJuego.JUGANDO) {
             oberon.dibujar(batch);
+            chiquito1.render(batch);
             vida.actualizarVida();
            // vida.render(batch);
             if (oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.DISPARANDO)
@@ -268,7 +274,15 @@ public class PantallaJuego implements Screen {
             batch.end();
         }
 
-        //Camara HUD
+        //if ((bala.getX() >= oberon.getX() && bala.getX() <= (oberon.getX() + oberon.getSprite().getWidth())) &&
+          //      (bala.getY() >= oberon.getY() && bala.getY() <= (oberon.getY() + chiquito1.getSprite().getHeight()))) {
+            //Gdx.app.log("me dispararon",".l.");
+
+        if ((bala.getX() >= 1)){
+
+        }
+
+            //Camara HUD
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
         batch.begin();

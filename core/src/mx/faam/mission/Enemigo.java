@@ -1,72 +1,72 @@
 package mx.faam.mission;
-
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
- * Created by angel on 24/03/2017.
+ * Created by angel.
  */
-
-public abstract class Enemigo {
-    protected Sprite sprite;
-    protected float xInicial, yInicial;
-    private static AssetManager manager = new AssetManager();
-    boolean atacando = false;
-    protected boolean muerte;
-    long startTime;
+public class Enemigo {
+    private Sprite sprite;
+    private int vidas = 5;
 
 
+    //animacion
+    private Animation animacion;    // Caminando
+    private float timerAnimacion;   // tiempo para calcular el frame
 
-    public Enemigo(){
 
-    }
-    public Enemigo(Texture textura, float x, float y){
-        xInicial = x;
-        yInicial = y;
-        sprite = new Sprite(sprite);
-        sprite.setPosition(x,y);
 
-    }
-    public Enemigo(TextureRegion texture, float x, float y){
-        xInicial = x;
-        yInicial = y;
-        sprite = new Sprite(sprite);
-        sprite.setPosition(x,y);
-    }
-    public abstract void attack();
-    public abstract void setEstado(Estado estado);
-    public abstract void dibujar(SpriteBatch batch);
-    public abstract void stop();
-    public boolean colision(Bala b){
-        return sprite.getBoundingRectangle().overlaps(b.getRectangle());
-    }
 
-    public abstract boolean muerte();
-    public void setPos(float x, float y){
-        sprite.setPosition(x,y);
+
+    public Enemigo(Texture textura) {
+        TextureRegion texturaEnemigo = new TextureRegion(textura);
+
+        sprite = new Sprite(texturaEnemigo);
+
+        TextureRegion[][] texturaPersonaje = texturaEnemigo.split(288,128);
+        animacion = new Animation(0.15f, texturaPersonaje[0][3], texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        // Animación infinita
+        animacion.setPlayMode(Animation.PlayMode.LOOP);
+        // Inicia el timer que contará tiempo para saber qué frame se dibuja
+        timerAnimacion = 0;
+        // Crea el sprite cuando para el personaje quieto (idle)
+        sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
 
     }
-    public void setMuete(boolean muerte){
-        this.muerte = muerte;
+
+    public void render(SpriteBatch batch) {
+
+        timerAnimacion += Gdx.graphics.getDeltaTime();
+        // Obtiene el frame que se debe mostrar (de acuerdo al timer)
+        TextureRegion region = (TextureRegion)animacion.getKeyFrame(timerAnimacion);
+        batch.draw(region, sprite.getX(), sprite.getY());
     }
-    public float getX(){
+
+    public void setPosicion(float x, float y) {
+        sprite.setPosition(x, y);
+    }
+
+    public int getVidas(){
+        return vidas;
+    }
+
+    public void setVidas(int vidas){
+        this.vidas = vidas;
+    }
+
+    public float getX() {
         return sprite.getX();
     }
-    public float getY(){
+
+    public float getY() {
         return sprite.getY();
     }
-    public void dispose(){
-        manager.dispose();
-    }
 
-
-    public enum Estado{
-        MOVIMIENTO,
-        QUIETO,
-        ATACAR,
-        MUERTO
+    public Sprite getSprite() {
+        return sprite;
     }
 }

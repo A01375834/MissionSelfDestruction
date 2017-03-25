@@ -20,8 +20,10 @@ import static mx.faam.mission.Heroe.EstadoSalto.SUBIENDO;
  */
 
 public class Heroe extends Objeto {
-    private final float VELOCIDAD_X =12;      // Velocidad horizontal
+    private final float VELOCIDAD_X =8;      // Velocidad horizontal
     private Sprite spriteBala;
+
+    private float vida = 100;
 
     private Animation<TextureRegion> spriteAnimado,spriteDisparando,spriteIzquierda;         // Animación caminando
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
@@ -43,7 +45,6 @@ public class Heroe extends Objeto {
         TextureRegion[][] texturaPersonaje = texturaCompleta.split(64+64,64+64+64+64);
         TextureRegion[][] texturaPersonajeDisparando = texturaDisparando.split(205,256);
         TextureRegion[][] texturaIzquierda = textureComIzq.split(64+64,64+64+64+64);
-
 
         // Crea la animación con tiempo de 0.15 segundos entre frames.
 
@@ -232,7 +233,22 @@ public class Heroe extends Objeto {
         EN_PISO
     }
 
+    public void Herir(float dano){
+        vida -= dano;
+    }
 
+    public void curar(float curacion){
+        vida += curacion;
+        if(vida>=100)
+            vida = 100;
+    }
+
+    public float GetVida(){
+        return vida;
+    }
+    public Sprite getSprite(){
+        return sprite;
+    }
 }
 
 

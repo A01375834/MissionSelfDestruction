@@ -23,7 +23,8 @@ public class Bala {
     //Sonido de Bala
     Sound balazo;
     private boolean sonidoBala;
-    protected Sprite bala;
+    private Sprite bala;
+
 
     public Bala(float x, float y) {
         this.x = x;
@@ -32,6 +33,7 @@ public class Bala {
 
         if (texturaBala == null)
             texturaBala = new Texture("bala.png");
+            bala = new Sprite(texturaBala);
         if(balazo == null)
             balazo = Gdx.audio.newSound(Gdx.files.internal("balazo.wav"));
     }
@@ -61,6 +63,13 @@ public class Bala {
 
     public Rectangle getRectangle(){
         return bala.getBoundingRectangle();
+    }
+
+    public float getX(){
+        return bala.getX();
+    }
+    public float getY(){
+        return bala.getY();
     }
 }
 
