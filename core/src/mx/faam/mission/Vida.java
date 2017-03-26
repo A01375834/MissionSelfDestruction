@@ -18,23 +18,23 @@ public class Vida {
     private  int ANCHO = 1280;
 
     Texture textura;
+    Texture texturaVida;
 
     public Vida(){
-        if(textura==null) {
+        if(textura==null && texturaVida ==null) {
             textura = new Texture("barraNueva.png");
+            texturaVida = new Texture("vida.png");
         }
+
 
     }
 
     public void actualizarVida(Batch batch,float vida) {
         batch.draw(textura,154,ALTURA-100,ANCHO-600*vida,10 );
+        batch.draw(texturaVida,154,ALTURA-60);
 
     }
 
-
-    public void herir(float dano){
-        vida -= dano;
-    }
 
     public void curar(float curacion){
         vida += curacion;
