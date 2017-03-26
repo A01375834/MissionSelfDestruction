@@ -97,7 +97,7 @@ public class PantallaPausa implements Screen {
 
 
         //textura boton
-        TexturaBotonBackMenu = new Texture("back to menu grande.psd");
+        TexturaBotonBackMenu = new Texture("back to menu grande.png");
     }
 
     private void crearCamara() {

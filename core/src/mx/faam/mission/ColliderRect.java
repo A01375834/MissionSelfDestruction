@@ -20,7 +20,7 @@ public class ColliderRect {
         this.y = y;
     }
 
-    public boolean Choca(ColliderRect rect){
+    public boolean choca(ColliderRect rect){
         return x < rect.x + rect.ANCHO && y < rect.y + rect.ALTO && x + ANCHO > rect.x && y + ALTO > rect.y;
     }
 }

@@ -10,19 +10,26 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * Created by angel.
  */
 public class Enemigo {
+    //Velocidad Enemigo
+    public static final int vx = -100;
+    float x,y;
     private Sprite sprite;
-    private int vidas = 5;
+    private int vidas;
 
 
     //animacion
     private Animation animacion;    // Caminando
     private float timerAnimacion;   // tiempo para calcular el frame
 
+    //Collider
+    ColliderRect rect;
+    public boolean remove = false;
 
 
-
-
-    public Enemigo(Texture textura) {
+    public Enemigo(Texture textura,float x, float y,int vidas) {
+        this.x = x;
+        this.y = y;
+        this.vidas = vidas;
         TextureRegion texturaEnemigo = new TextureRegion(textura);
 
         sprite = new Sprite(texturaEnemigo);
@@ -36,6 +43,18 @@ public class Enemigo {
         // Crea el sprite cuando para el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
 
+        rect = new ColliderRect(x,y,288,128);
+
+    }
+
+    public void actualizar(float deltaTime,float xE){
+        x += vx * deltaTime;
+        //xE Enemigo
+        if (x > xE+1280)
+            remove = true;
+
+        rect.mover(x,y);
+
     }
 
     public void render(SpriteBatch batch) {
@@ -43,11 +62,12 @@ public class Enemigo {
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Obtiene el frame que se debe mostrar (de acuerdo al timer)
         TextureRegion region = (TextureRegion)animacion.getKeyFrame(timerAnimacion);
-        batch.draw(region, sprite.getX(), sprite.getY());
+        batch.draw(region, x, y);
     }
 
-    public void setPosicion(float x, float y) {
+    public void setPosicion(SpriteBatch batch,float x, float y) {
         sprite.setPosition(x, y);
+        sprite.draw(batch);
     }
 
     public int getVidas(){
@@ -68,5 +88,9 @@ public class Enemigo {
 
     public Sprite getSprite() {
         return sprite;
+    }
+
+    public ColliderRect getColliderRect(){
+        return rect;
     }
 }

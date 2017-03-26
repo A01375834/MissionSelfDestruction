@@ -16,7 +16,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
@@ -90,7 +89,8 @@ public class PantallaJuego implements Screen {
 
     //Arreglo de balas
     ArrayList<Bala> balas = new ArrayList<Bala>();
-
+    //Arreglo Enemigo
+    ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
 
     public PantallaJuego(SelfDestruction selfDestruction) {
         this.selfDestruction = selfDestruction;
@@ -113,8 +113,8 @@ public class PantallaJuego implements Screen {
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
-            chiquito1 = new Enemigo(TexturaChiquito);
-            chiquito1.setPosicion(1280,192);
+            chiquito1 = new Enemigo(TexturaChiquito, 1280, 188,5);
+            enemigos.add(chiquito1);
 
 
             AssetManager manager = new AssetManager();
@@ -233,7 +233,8 @@ public class PantallaJuego implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "Disparar");
                 oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.DISPARANDO);
-                balas.add(new Bala(oberon.getX() + TexturaOberonDisparando.getWidth()-40, oberon.getY() + 188));
+                balas.add(new Bala(oberon.getX() + TexturaOberonDisparando.getWidth(), oberon.getY() + 188));
+
 
             }
         });
@@ -243,6 +244,8 @@ public class PantallaJuego implements Screen {
     public void render(float delta) {
         //Arreglo Balas para quitar
         ArrayList<Bala> balasQuitar = new ArrayList<Bala>();
+        //Arreglo Enemigos por quitar
+        ArrayList<Enemigo> enemigoQuitar = new ArrayList<Enemigo>();
 
         //Actualizar
         oberon.actualizar(TexturaFondoJuego);
@@ -253,8 +256,6 @@ public class PantallaJuego implements Screen {
                 balasQuitar.add(bala);
 
         }
-        balas.removeAll(balasQuitar);
-
 
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
@@ -264,27 +265,39 @@ public class PantallaJuego implements Screen {
         batch.begin();
         if (estado == EstadoJuego.JUGANDO) {
             oberon.dibujar(batch);
-            chiquito1.render(batch);
-            vida.actualizarVida();
-           // vida.render(batch);
-            if (oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.DISPARANDO)
-                for (Bala bala : balas) {
-                    bala.render(batch);
+            chiquito1.actualizar(delta,chiquito1.getX());
+            for(Enemigo ene: enemigos) {
+                chiquito1.render(batch);
+            }
+        }
+        vida.actualizarVida();
+        if (oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.DISPARANDO)
+            for (Bala bala : balas) {
+                bala.render(batch);
+            }
+
+        batch.end();
+        for(Bala bala : balas){
+            for(Enemigo enemigo: enemigos) {
+                if (bala.getCollisionRect().choca(enemigo.getColliderRect())) {
+                    balasQuitar.add(bala);
+                    enemigo.setVidas(enemigo.getVidas() - 1);
+                    if (enemigo.getVidas() <= 0) {
+                        enemigoQuitar.add(enemigo);
+                        Gdx.app.log("Enemigo", "Mori");
+                    }
+                    Gdx.app.log("Colision", "Mata");
                 }
-            batch.end();
+            }
         }
+        balas.removeAll(balasQuitar);
+        enemigos.removeAll(enemigoQuitar);
 
-        //if ((bala.getX() >= oberon.getX() && bala.getX() <= (oberon.getX() + oberon.getSprite().getWidth())) &&
-          //      (bala.getY() >= oberon.getY() && bala.getY() <= (oberon.getY() + chiquito1.getSprite().getHeight()))) {
-            //Gdx.app.log("me dispararon",".l.");
-
-        if ((bala.getX() >= 1)){
-
-        }
-
-            //Camara HUD
+        //Camara HUD
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
+
+        //Vida
         batch.begin();
         vida.render(batch);
         batch.end();
