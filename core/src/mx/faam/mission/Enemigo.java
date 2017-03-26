@@ -94,4 +94,5 @@ public class Enemigo {
     public ColliderRect getColliderRect(){
         return rect;
     }
+
 }

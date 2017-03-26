@@ -1,6 +1,7 @@
 package mx.faam.mission;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -32,6 +33,7 @@ public class Vida {
     public void actualizarVida(Batch batch,float vida) {
         batch.draw(textura,154,ALTURA-100,ANCHO-600*vida,10 );
         batch.draw(texturaVida,154,ALTURA-60);
+
 
     }
 

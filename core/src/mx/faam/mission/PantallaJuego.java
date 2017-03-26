@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -39,6 +40,7 @@ public class PantallaJuego implements Screen {
     private boolean pausa;
 
     private final SelfDestruction selfDestruction;
+
 
     //Variable sonido
     private boolean sonidoTocando = false;
@@ -113,7 +115,7 @@ public class PantallaJuego implements Screen {
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
-            chiquito1 = new Enemigo(TexturaChiquito, 1280, 188,5,-100);
+            chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -100);
             enemigos.add(chiquito1);
 
 
@@ -225,6 +227,8 @@ public class PantallaJuego implements Screen {
                 estado = EstadoJuego.PAUSADO;
                 pausa = true;
                 selfDestruction.setScreen(new PantallaPausa(selfDestruction, PantallaJuego.this));
+
+
             }
         });
 
@@ -266,9 +270,9 @@ public class PantallaJuego implements Screen {
         batch.begin();
         if (estado == EstadoJuego.JUGANDO) {
             oberon.dibujar(batch);
-            oberon.actualizarRect(oberon.getX(),oberon.getY());
-            chiquito1.actualizar(delta,chiquito1.getX());
-            for(Enemigo ene: enemigos) {
+            oberon.actualizarRect(oberon.getX(), oberon.getY());
+            chiquito1.actualizar(delta, chiquito1.getX());
+            for (Enemigo ene : enemigos) {
                 chiquito1.render(batch);
             }
         }
@@ -279,8 +283,8 @@ public class PantallaJuego implements Screen {
             }
 
         batch.end();
-        for(Bala bala : balas){
-            for(Enemigo enemigo: enemigos) {
+        for (Bala bala : balas) {
+            for (Enemigo enemigo : enemigos) {
                 if (bala.getCollisionRect().choca(enemigo.getColliderRect())) {
                     balasQuitar.add(bala);
                     enemigo.setVidas(enemigo.getVidas() - 1);
@@ -295,11 +299,11 @@ public class PantallaJuego implements Screen {
         balas.removeAll(balasQuitar);
         enemigos.removeAll(enemigoQuitar);
 
-        for(Enemigo enemigo : enemigos){
-            if(enemigo.getColliderRect().choca(oberon.getColliderRect())){
-                vida.setVida((float)(vida.getVida()+0.1));
-                if(vida.getVida() >=2 ){
-                    selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+        for (Enemigo enemigo : enemigos) {
+            if (enemigo.getColliderRect().choca(oberon.getColliderRect())) {
+                vida.setVida((float) (vida.getVida() + 0.1));
+                if (vida.getVida() >= 2) {
+                    selfDestruction.setScreen(new PantallaPerder(selfDestruction));
                 }
             }
         }
@@ -311,7 +315,7 @@ public class PantallaJuego implements Screen {
 
         //Vida
         batch.begin();
-        vida.actualizarVida(batch,vida.getVida());
+        vida.actualizarVida(batch, vida.getVida());
         batch.end();
     }
 
