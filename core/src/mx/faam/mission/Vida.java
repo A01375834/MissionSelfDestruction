@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 
 public class Vida {
-    float vida = 100;
+    int vida = 100;
     private int ALTURA = 800;
     private  int ANCHO = 1280;
 
@@ -32,7 +32,7 @@ public class Vida {
         spriteVida.draw(batch);
     }
 
-    public void Herir(float dano){
+    public void herir(float dano){
         vida -= dano;
     }
 
@@ -42,7 +42,11 @@ public class Vida {
             vida = 100;
     }
 
-    public float GetVida(){
+    public int getVida(){
         return vida;
+    }
+
+    public void setVida(int vida){
+        this.vida = vida;
     }
 }

@@ -33,7 +33,8 @@ public class Heroe extends Objeto {
     private EstadoSalto estadoSalto = EstadoSalto.EN_PISO;
     private float alturaSalto;  // altura actual, inicia en cero
     private float yOriginal;
-
+    int collisionX,collisionY;
+    ColliderRect rect;
 
     // Recibe una imagen con varios frames
 
@@ -61,6 +62,8 @@ public class Heroe extends Objeto {
         // Crea el sprite con el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
         sprite.setPosition(x,y);    // Posición inicial
+
+        rect = new ColliderRect(x,y,64,128);
     }
 
     // Dibuja el personaje
@@ -107,6 +110,7 @@ public class Heroe extends Objeto {
             case DISPARANDO:
                 TextureRegion regi = spriteDisparando.getKeyFrame(timerAnimacion);
                 batch.draw(regi,sprite.getX(),sprite.getY());
+                rect.setAnchoYAlto(160,256);
                 break;
         }
     }
@@ -129,6 +133,7 @@ public class Heroe extends Objeto {
                 moverVertical(mapa);
                 break;
         }
+
     }
     // Realiza el salto
     private void moverVertical(TiledMap mapa) {
@@ -144,6 +149,7 @@ public class Heroe extends Objeto {
             case BAJANDO:
                 sprite.setY(sprite.getY()-delta);
                 alturaSalto -= delta;
+
                 if (alturaSalto<=0) {
                     estadoSalto = EstadoSalto.EN_PISO;
                     alturaSalto = 0;
@@ -151,7 +157,9 @@ public class Heroe extends Objeto {
                 }
                 break;
         }
+
     }
+
 
     // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
     private void moverHorizontal(TiledMap mapa) {
@@ -164,6 +172,7 @@ public class Heroe extends Objeto {
             // Obtiene el bloque del lado derecho. Asigna null si puede pasar.
             int x = (int) ((sprite.getX() + 32) / 32);   // Convierte coordenadas del mundo en coordenadas del mapa
             int y = (int) (sprite.getY() / 32);
+
             TiledMapTileLayer.Cell celdaDerecha = capa.getCell(x, y);
             // Ejecutar movimiento horizontal
             nuevaX += VELOCIDAD_X;
@@ -179,6 +188,7 @@ public class Heroe extends Objeto {
         if ( estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
             int xIzq = (int) ((sprite.getX()) / 32);
             int y = (int) (sprite.getY() / 32);
+
             // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
             TiledMapTileLayer.Cell celdaIzquierda = capa.getCell(xIzq, y);
             nuevaX -= VELOCIDAD_X;
@@ -190,6 +200,7 @@ public class Heroe extends Objeto {
 
             }*/
         }
+
     }
 
     // Accesor de estadoMovimiento
@@ -248,6 +259,12 @@ public class Heroe extends Objeto {
     }
     public Sprite getSprite(){
         return sprite;
+    }
+    public ColliderRect getColliderRect(){
+        return rect;
+    }
+    public void actualizarRect(float x, float y){
+        rect.mover(x,y);
     }
 }
 

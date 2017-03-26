@@ -20,6 +20,12 @@ public class ColliderRect {
         this.y = y;
     }
 
+    public void setAnchoYAlto(int ANCHO,int ALTO){
+        this.ANCHO = ANCHO;
+        this.ALTO = ALTO;
+
+    }
+
     public boolean choca(ColliderRect rect){
         return x < rect.x + rect.ANCHO && y < rect.y + rect.ALTO && x + ANCHO > rect.x && y + ALTO > rect.y;
     }

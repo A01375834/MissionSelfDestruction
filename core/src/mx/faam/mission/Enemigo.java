@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class Enemigo {
     //Velocidad Enemigo
-    public static final int vx = -100;
+    public static int vx;
     float x,y;
     private Sprite sprite;
     private int vidas;
@@ -26,10 +26,11 @@ public class Enemigo {
     public boolean remove = false;
 
 
-    public Enemigo(Texture textura,float x, float y,int vidas) {
+    public Enemigo(Texture textura,float x, float y,int vidas,int vx) {
         this.x = x;
         this.y = y;
         this.vidas = vidas;
+        this.vx = vx;
         TextureRegion texturaEnemigo = new TextureRegion(textura);
 
         sprite = new Sprite(texturaEnemigo);

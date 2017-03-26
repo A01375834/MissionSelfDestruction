@@ -113,7 +113,7 @@ public class PantallaJuego implements Screen {
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
-            chiquito1 = new Enemigo(TexturaChiquito, 1280, 188,5);
+            chiquito1 = new Enemigo(TexturaChiquito, 1280, 188,5,-100);
             enemigos.add(chiquito1);
 
 
@@ -249,6 +249,7 @@ public class PantallaJuego implements Screen {
 
         //Actualizar
         oberon.actualizar(TexturaFondoJuego);
+
         actualizarMapa();
         for (Bala bala : balas) {
             bala.actualizarBala(delta, oberon.getX());
@@ -265,6 +266,7 @@ public class PantallaJuego implements Screen {
         batch.begin();
         if (estado == EstadoJuego.JUGANDO) {
             oberon.dibujar(batch);
+            oberon.actualizarRect(oberon.getX(),oberon.getY());
             chiquito1.actualizar(delta,chiquito1.getX());
             for(Enemigo ene: enemigos) {
                 chiquito1.render(batch);
@@ -292,6 +294,15 @@ public class PantallaJuego implements Screen {
         }
         balas.removeAll(balasQuitar);
         enemigos.removeAll(enemigoQuitar);
+
+        for(Enemigo enemigo : enemigos){
+            if(enemigo.getColliderRect().choca(oberon.getColliderRect())){
+                vida.setVida(vida.getVida()-100);
+                if(vida.getVida()<=0){
+                    selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+                }
+            }
+        }
 
         //Camara HUD
         batch.setProjectionMatrix(camaraHUD.combined);
