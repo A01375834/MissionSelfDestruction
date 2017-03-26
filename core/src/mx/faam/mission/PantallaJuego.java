@@ -272,7 +272,7 @@ public class PantallaJuego implements Screen {
                 chiquito1.render(batch);
             }
         }
-        vida.actualizarVida();
+
         if (oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.DISPARANDO)
             for (Bala bala : balas) {
                 bala.render(batch);
@@ -297,12 +297,13 @@ public class PantallaJuego implements Screen {
 
         for(Enemigo enemigo : enemigos){
             if(enemigo.getColliderRect().choca(oberon.getColliderRect())){
-                vida.setVida(vida.getVida()-100);
-                if(vida.getVida()<=0){
+                vida.setVida((float)(vida.getVida()+0.1));
+                if(vida.getVida() >=2 ){
                     selfDestruction.setScreen(new PantallaMenu(selfDestruction));
                 }
             }
         }
+
 
         //Camara HUD
         batch.setProjectionMatrix(camaraHUD.combined);
@@ -310,7 +311,7 @@ public class PantallaJuego implements Screen {
 
         //Vida
         batch.begin();
-        vida.render(batch);
+        vida.actualizarVida(batch,vida.getVida());
         batch.end();
     }
 

@@ -3,6 +3,7 @@ package mx.faam.mission;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,25 +13,24 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 
 public class Vida {
-    int vida = 100;
+    float vida= 1;
     private int ALTURA = 800;
     private  int ANCHO = 1280;
 
     Texture textura;
-    Sprite spriteVida;
+
     public Vida(){
-        textura = new Texture("barraDeVidaVerde.png");
-        spriteVida = new Sprite(textura);
+        if(textura==null) {
+            textura = new Texture("barraNueva.png");
+        }
+
     }
 
-    public void actualizarVida() {
-        spriteVida.setSize(500,50);
-        spriteVida.setPosition(150,ALTURA-100);
+    public void actualizarVida(Batch batch,float vida) {
+        batch.draw(textura,154,ALTURA-100,ANCHO-600*vida,10 );
+
     }
 
-    public void render(SpriteBatch batch) {
-        spriteVida.draw(batch);
-    }
 
     public void herir(float dano){
         vida -= dano;
@@ -42,11 +42,11 @@ public class Vida {
             vida = 100;
     }
 
-    public int getVida(){
+    public float getVida(){
         return vida;
     }
 
-    public void setVida(int vida){
+    public void setVida(float vida){
         this.vida = vida;
     }
 }
