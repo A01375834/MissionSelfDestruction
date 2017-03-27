@@ -1,4 +1,5 @@
 package mx.faam.mission;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Enemigo {
     //Velocidad Enemigo
     public static int vx;
-    float x,y;
+    float x, y;
     private Sprite sprite;
     private int vidas;
 
@@ -26,7 +27,7 @@ public class Enemigo {
     public boolean remove = false;
 
 
-    public Enemigo(Texture textura,float x, float y,int vidas,int vx) {
+    public Enemigo(Texture textura, float x, float y, int vidas, int vx) {
         this.x = x;
         this.y = y;
         this.vidas = vidas;
@@ -35,8 +36,8 @@ public class Enemigo {
 
         sprite = new Sprite(texturaEnemigo);
 
-        TextureRegion[][] texturaPersonaje = texturaEnemigo.split(288,128);
-        animacion = new Animation(0.15f, texturaPersonaje[0][3], texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        TextureRegion[][] texturaPersonaje = texturaEnemigo.split(288, 128);
+        animacion = new Animation(0.15f, texturaPersonaje[0][3], texturaPersonaje[0][2], texturaPersonaje[0][1]);
         // Animación infinita
         animacion.setPlayMode(Animation.PlayMode.LOOP);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
@@ -44,17 +45,17 @@ public class Enemigo {
         // Crea el sprite cuando para el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
 
-        rect = new ColliderRect(x,y,288,128);
+        rect = new ColliderRect(x, y, 288, 128);
 
     }
 
-    public void actualizar(float deltaTime,float xE){
+    public void actualizar(float deltaTime, float xE) {
         x += vx * deltaTime;
         //xE Enemigo
-        if (x > xE+1280)
+        if (x > xE + 1280)
             remove = true;
 
-        rect.mover(x,y);
+        rect.mover(x, y);
 
     }
 
@@ -62,20 +63,20 @@ public class Enemigo {
 
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Obtiene el frame que se debe mostrar (de acuerdo al timer)
-        TextureRegion region = (TextureRegion)animacion.getKeyFrame(timerAnimacion);
+        TextureRegion region = (TextureRegion) animacion.getKeyFrame(timerAnimacion);
         batch.draw(region, x, y);
     }
 
-    public void setPosicion(SpriteBatch batch,float x, float y) {
+    public void setPosicion(SpriteBatch batch, float x, float y) {
         sprite.setPosition(x, y);
         sprite.draw(batch);
     }
 
-    public int getVidas(){
+    public int getVidas() {
         return vidas;
     }
 
-    public void setVidas(int vidas){
+    public void setVidas(int vidas) {
         this.vidas = vidas;
     }
 
@@ -91,7 +92,7 @@ public class Enemigo {
         return sprite;
     }
 
-    public ColliderRect getColliderRect(){
+    public ColliderRect getColliderRect() {
         return rect;
     }
 

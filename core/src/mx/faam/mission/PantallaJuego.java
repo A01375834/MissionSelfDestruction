@@ -36,7 +36,7 @@ public class PantallaJuego implements Screen {
 
     public static final float ANCHO = 1280;
     private static final float ALTO = 800;
-    private static final float ANCHO_MAPA = 2528;
+    private static final float ANCHO_MAPA = 3968;
     private boolean pausa;
 
     private final SelfDestruction selfDestruction;
@@ -115,7 +115,7 @@ public class PantallaJuego implements Screen {
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
-            chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -100);
+            chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -300);
             enemigos.add(chiquito1);
 
 

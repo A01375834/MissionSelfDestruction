@@ -20,7 +20,7 @@ import static mx.faam.mission.Heroe.EstadoSalto.SUBIENDO;
  */
 
 public class Heroe extends Objeto {
-    private final float VELOCIDAD_X =8;      // Velocidad horizontal
+    private final float VELOCIDAD_X =12;      // Velocidad horizontal
     private Sprite spriteBala;
 
     private float vida = 100;
@@ -137,7 +137,7 @@ public class Heroe extends Objeto {
     }
     // Realiza el salto
     private void moverVertical(TiledMap mapa) {
-        float delta = Gdx.graphics.getDeltaTime()*250;
+        float delta = Gdx.graphics.getDeltaTime()*450;
         switch (estadoSalto) {
             case SUBIENDO:
                 sprite.setY(sprite.getY()+delta);
