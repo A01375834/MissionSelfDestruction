@@ -83,7 +83,7 @@ public class PantallaCreditos implements Screen {
 
 
         //textura fondp
-        TexturaFondoCreditos = new Texture("fondoCreditos.png");
+        TexturaFondoCreditos = new Texture("creditos.png");
     }
 
     private void crearCamara() {
