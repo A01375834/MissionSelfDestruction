@@ -79,7 +79,7 @@ public class PantallaCreditos implements Screen {
 
     private void crearTexturas() {
         //Textura botones
-        TexturaBotonBackMenu= new Texture("back to menu grande.psd");
+        TexturaBotonBackMenu= new Texture("back to menu grande.png");
 
 
         //textura fondp
