@@ -94,6 +94,7 @@ public class PantallaJuego implements Screen {
     //Arreglo Enemigo
     ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
 
+
     public PantallaJuego(SelfDestruction selfDestruction) {
         this.selfDestruction = selfDestruction;
     }
@@ -115,8 +116,11 @@ public class PantallaJuego implements Screen {
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
-            chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -300);
+            chiquito1 = new Enemigo(TexturaChiquito,1280,188,5,-100);
+            Enemigo chiquito2 = new Enemigo(TexturaChiquito,3000,188,5,-100);
             enemigos.add(chiquito1);
+            enemigos.add(chiquito2);
+
 
 
             AssetManager manager = new AssetManager();
@@ -271,9 +275,12 @@ public class PantallaJuego implements Screen {
         if (estado == EstadoJuego.JUGANDO) {
             oberon.dibujar(batch);
             oberon.actualizarRect(oberon.getX(), oberon.getY());
-            chiquito1.actualizar(delta, chiquito1.getX());
-            for (Enemigo ene : enemigos) {
-                chiquito1.render(batch);
+            for(Enemigo enemigo : enemigos) {
+                enemigo.actualizar(delta, enemigo.getX());
+            }
+
+            for (Enemigo enemigo : enemigos) {
+                enemigo.render(batch);
             }
         }
 

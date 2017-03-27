@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
+import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
+
+import static jdk.nashorn.internal.runtime.regexp.joni.Syntax.Java;
 
 /**
  * Created by angel.
@@ -33,6 +37,7 @@ public class Enemigo {
         this.vidas = vidas;
         this.vx = vx;
         TextureRegion texturaEnemigo = new TextureRegion(textura);
+        //int random = MathUtils.random(1,3);
 
         sprite = new Sprite(texturaEnemigo);
 
