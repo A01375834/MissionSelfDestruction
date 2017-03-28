@@ -142,9 +142,15 @@ public class PantallaJuego implements Screen {
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
             chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -100);
-            Enemigo chiquito2 = new Enemigo(TexturaChiquito, 2950, 188, 5, -100);
+            Enemigo chiquito2 = new Enemigo(TexturaChiquito, 2560, 188, 5, -100);
+            Enemigo chiquito3 = new Enemigo(TexturaChiquito,3840,188,5,-80);
+            Enemigo chiquito4 = new Enemigo(TexturaChiquito,5120,188,5,-100);
+            Enemigo chiquito5 = new Enemigo(TexturaChiquito,6400,188,5,-100);
+            enemigos.add(chiquito3);
             enemigos.add(chiquito1);
             enemigos.add(chiquito2);
+            enemigos.add(chiquito4);
+            enemigos.add(chiquito5);
 
             manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
             manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
@@ -356,7 +362,7 @@ public class PantallaJuego implements Screen {
         for (Enemigo enemigo : enemigos) {
             if (enemigo.getColliderRect().choca(oberon.getColliderRect())) {
                 sonidoQuejido.play();
-                vida.setVida((float) (vida.getVida() + 0.333));
+                vida.setVida((float) (vida.getVida() + 0.5));
                 enemigoQuitar.add(enemigo);
                 if (vida.getVida() >= 2) {
                     selfDestruction.setScreen(new PantallaPerder(selfDestruction));
