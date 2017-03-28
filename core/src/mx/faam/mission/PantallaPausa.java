@@ -44,6 +44,7 @@ public class PantallaPausa implements Screen {
 
     //Texturas boton
     private Texture TexturaBotonBackMenu;
+    private Texture TexturaBotonResume;
 
     //fondo
     private Texture TexturaFondoBack;
@@ -67,29 +68,45 @@ public class PantallaPausa implements Screen {
         //fondo
         batch = new SpriteBatch();
         escena = new Stage(vista, batch);
-        Image fondoCreditos = new Image (TexturaFondoBack);
+        Image fondoCreditos = new Image(TexturaFondoBack);
         escena.addActor(fondoCreditos);
 
-        //botonBack
-        TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
-        ImageButton btnBm = new ImageButton(trdBtnBm);
-        btnBm.setPosition(0,0);
-        escena.addActor(btnBm);
+        //botonResume
+        TextureRegionDrawable trdBtnResume = new TextureRegionDrawable(new TextureRegion(TexturaBotonResume));
+        ImageButton btnResume = new ImageButton(trdBtnResume);
+        btnResume.setPosition(ANCHO/2,ALTO/2);
+        escena.addActor(btnResume);
 
         //Evento del boton
-        btnBm.addListener(new ClickListener(){
+        btnResume.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y){
-                Gdx.app.log("Pausa","Me hicieron click");
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Pausa", "Me hicieron click");
                 pantallaJuego.estado = EstadoJuego.JUGANDO;
                 selfDestruction.setScreen(pantallaJuego);
                 //musicaFondo.stop();
 
             }
         });
+        //botonBM
+        TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
+        ImageButton btnBm = new ImageButton(trdBtnBm);
+        btnBm.setPosition(ANCHO / 2, ALTO / 2-250);
+        escena.addActor(btnBm);
 
+        //Evento del boton
+        btnBm.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Pausa", "Me hicieron click");
+                selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+                //musicaFondo.stop();
+            }
+
+        });
         Gdx.input.setInputProcessor(escena);
     }
+
 
     private void crearTexturas() {
         //Textura fondo
@@ -98,6 +115,7 @@ public class PantallaPausa implements Screen {
 
         //textura boton
         TexturaBotonBackMenu = new Texture("back to menu grande.png");
+        TexturaBotonResume = new Texture("Resume grande.png");
     }
 
     private void crearCamara() {
@@ -154,6 +172,7 @@ public class PantallaPausa implements Screen {
         escena.dispose();
         TexturaFondoBack.dispose();
         TexturaBotonBackMenu.dispose();
+        TexturaBotonResume.dispose();
 
     }
 }
