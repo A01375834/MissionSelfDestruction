@@ -29,25 +29,25 @@ public class Bala {
     public Bala(float x, float y) {
         this.x = x;
         this.y = y;
-        rect = new ColliderRect(x,y,23,14);
+        rect = new ColliderRect(x, y, 23, 14);
 
         if (texturaBala == null)
             texturaBala = new Texture("bala.png");
-            bala = new Sprite(texturaBala);
-        if(balazo == null)
+        bala = new Sprite(texturaBala);
+        if (balazo == null)
             balazo = Gdx.audio.newSound(Gdx.files.internal("balazo.wav"));
     }
 
-    public void actualizarBala(float deltaTime,float xO) {
+    public void actualizarBala(float deltaTime, float xO) {
         x += vx * deltaTime;
-        if (x > xO+1280)
+        if (x > xO + 1280)
             remove = true;
-        if(sonidoBala == false) {
+        if (sonidoBala == false) {
             balazo.play();
             sonidoBala = true;
         }
 
-        rect.mover(x,y);
+        rect.mover(x, y);
 
     }
 
@@ -57,18 +57,19 @@ public class Bala {
 
     }
 
-    public ColliderRect getCollisionRect(){
+    public ColliderRect getCollisionRect() {
         return rect;
     }
 
-    public Rectangle getRectangle(){
+    public Rectangle getRectangle() {
         return bala.getBoundingRectangle();
     }
 
-    public float getX(){
+    public float getX() {
         return bala.getX();
     }
-    public float getY(){
+
+    public float getY() {
         return bala.getY();
     }
 }
