@@ -31,7 +31,7 @@ public class PantallaPausa implements Screen {
     private EstadoJuego estado = EstadoJuego.PAUSADO;
 
     //Musica Fondo Menu
-    Sound musicaFondo = Gdx.audio.newSound(Gdx.files.internal("MusicaFondoMenu.mp3"));
+    //Sound musicaFondo = Gdx.audio.newSound(Gdx.files.internal("MusicaFondoMenu.mp3"));
 
 
     //camara
@@ -83,7 +83,7 @@ public class PantallaPausa implements Screen {
                 Gdx.app.log("Pausa","Me hicieron click");
                 pantallaJuego.estado = EstadoJuego.JUGANDO;
                 selfDestruction.setScreen(pantallaJuego);
-                musicaFondo.stop();
+                //musicaFondo.stop();
 
             }
         });
@@ -113,7 +113,7 @@ public class PantallaPausa implements Screen {
         borrarPantalla();
         escena.draw();
         if(musicaTocando==false) {
-            musicaFondo.loop(0.4f);
+            //musicaFondo.loop(0.4f);
             musicaTocando = true;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){

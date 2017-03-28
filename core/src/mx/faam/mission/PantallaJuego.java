@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -55,6 +56,12 @@ public class PantallaJuego implements Screen {
 
     //Sonido Caminar
     Sound sonidoCaminar = Gdx.audio.newSound(Gdx.files.internal("SonidoCaminar1.wav"));
+    //Sonido oberon Quejido
+    Sound sonidoQuejido = Gdx.audio.newSound(Gdx.files.internal("quejidoOberon.wav"));
+    //Sonido enemigo Muriendo
+    Sound sonidoEnemigo = Gdx.audio.newSound(Gdx.files.internal("enemigoMuriendo.wav"));
+    //Musica primer nivel
+    Music musicaPrimerNivel = Gdx.audio.newMusic(Gdx.files.internal("msicaPrimerNivel.wav"));
 
 
     //camara
@@ -116,11 +123,10 @@ public class PantallaJuego implements Screen {
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
-            chiquito1 = new Enemigo(TexturaChiquito,1280,188,5,-100);
-            Enemigo chiquito2 = new Enemigo(TexturaChiquito,3000,188,5,-100);
+            chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -100);
+            Enemigo chiquito2 = new Enemigo(TexturaChiquito, 3000, 188, 5, -100);
             enemigos.add(chiquito1);
             enemigos.add(chiquito2);
-
 
 
             AssetManager manager = new AssetManager();
@@ -231,6 +237,7 @@ public class PantallaJuego implements Screen {
                 estado = EstadoJuego.PAUSADO;
                 pausa = true;
                 selfDestruction.setScreen(new PantallaPausa(selfDestruction, PantallaJuego.this));
+                musicaPrimerNivel.stop();
 
 
             }
@@ -254,6 +261,8 @@ public class PantallaJuego implements Screen {
         ArrayList<Bala> balasQuitar = new ArrayList<Bala>();
         //Arreglo Enemigos por quitar
         ArrayList<Enemigo> enemigoQuitar = new ArrayList<Enemigo>();
+        musicaPrimerNivel.setLooping(true);
+        musicaPrimerNivel.play();
 
         //Actualizar
         oberon.actualizar(TexturaFondoJuego);
@@ -275,7 +284,7 @@ public class PantallaJuego implements Screen {
         if (estado == EstadoJuego.JUGANDO) {
             oberon.dibujar(batch);
             oberon.actualizarRect(oberon.getX(), oberon.getY());
-            for(Enemigo enemigo : enemigos) {
+            for (Enemigo enemigo : enemigos) {
                 enemigo.actualizar(delta, enemigo.getX());
             }
 
@@ -296,6 +305,7 @@ public class PantallaJuego implements Screen {
                     balasQuitar.add(bala);
                     enemigo.setVidas(enemigo.getVidas() - 1);
                     if (enemigo.getVidas() <= 0) {
+                        sonidoEnemigo.play();
                         enemigoQuitar.add(enemigo);
                         Gdx.app.log("Enemigo", "Mori");
                     }
@@ -304,17 +314,19 @@ public class PantallaJuego implements Screen {
             }
         }
         balas.removeAll(balasQuitar);
-        enemigos.removeAll(enemigoQuitar);
+
 
         for (Enemigo enemigo : enemigos) {
             if (enemigo.getColliderRect().choca(oberon.getColliderRect())) {
-                vida.setVida((float) (vida.getVida() + 0.1));
+                sonidoQuejido.play();
+                vida.setVida((float) (vida.getVida() + 0.3));
+                enemigoQuitar.add(enemigo);
                 if (vida.getVida() >= 2) {
                     selfDestruction.setScreen(new PantallaPerder(selfDestruction));
                 }
             }
         }
-
+        enemigos.removeAll(enemigoQuitar);
 
         //Camara HUD
         batch.setProjectionMatrix(camaraHUD.combined);
