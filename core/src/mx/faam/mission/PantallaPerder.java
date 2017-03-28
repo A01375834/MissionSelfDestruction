@@ -2,6 +2,7 @@ package mx.faam.mission;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -17,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  * Created by Mauricio on 26/03/2017.
  */
 
-public class PantallaPerder implements Screen {
+public class PantallaPerder implements Screen  {
     private static final float ANCHO = 1280;
     private static final float ALTO = 800;
     private final SelfDestruction selfDestruction;
@@ -68,6 +69,7 @@ public class PantallaPerder implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.input.setInputProcessor(new tocar());
         borrarPantalla();
         escena.draw();
         if(musicaTocando==false) {
@@ -116,5 +118,50 @@ public class PantallaPerder implements Screen {
         musicaFondo.dispose();
         musicaRisa.dispose();
 
+    }
+
+    private class tocar implements InputProcessor {
+        @Override
+        public boolean keyDown(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyUp(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyTyped(char character) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            musicaFondo.stop();
+            musicaRisa.stop();
+            selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+            return true;
+        }
+
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            return false;
+        }
+
+        @Override
+        public boolean mouseMoved(int screenX, int screenY) {
+            return false;
+        }
+
+        @Override
+        public boolean scrolled(int amount) {
+            return false;
+        }
     }
 }

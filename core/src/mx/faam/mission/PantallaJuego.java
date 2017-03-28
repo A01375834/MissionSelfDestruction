@@ -101,6 +101,14 @@ public class PantallaJuego implements Screen {
     private Texture TexturaChiquito;
     private Enemigo chiquito1;
 
+
+    //Textura y colisione pueta siguiente parte del nivel
+    private Texture puerta;
+    ColliderRect rect;
+
+    //AssetManager
+    private AssetManager manager = new AssetManager();
+
     //Arreglo de balas
     ArrayList<Bala> balas = new ArrayList<Bala>();
     //Arreglo Enemigo
@@ -120,24 +128,24 @@ public class PantallaJuego implements Screen {
             TexturaOberon = new Texture("prueba tamaño derecha.png");
             TexturaOberonDisparando = new Texture("posicion disparo derecha.png");
             oberonIzq = new Texture("prueba tamaño izquierda.png");
+            puerta = new Texture("puerta.png");
+            rect = new ColliderRect(1280, 64, 192, 288);
 
             //Enemigos
             TexturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
 
             //Vida
             vida = new Vida();
-            medKit = new MedKit(batch, 2500, 64);
+            medKit = new MedKit(batch, 3000, 832);
             medKits.add(medKit);
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
             chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -100);
-            Enemigo chiquito2 = new Enemigo(TexturaChiquito, 3000, 188, 5, -100);
+            Enemigo chiquito2 = new Enemigo(TexturaChiquito, 2950, 188, 5, -100);
             enemigos.add(chiquito1);
             enemigos.add(chiquito2);
 
-
-            AssetManager manager = new AssetManager();
             manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
             manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
 
@@ -257,8 +265,6 @@ public class PantallaJuego implements Screen {
                 Gdx.app.log("clicked", "Disparar");
                 oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.DISPARANDO);
                 balas.add(new Bala(oberon.getX() + TexturaOberonDisparando.getWidth(), oberon.getY() + 188));
-
-
             }
         });
     }
@@ -272,7 +278,6 @@ public class PantallaJuego implements Screen {
         //Arreglo Medkit por quitas
         ArrayList<MedKit> medKitsQuitar = new ArrayList<MedKit>();
 
-
         musicaPrimerNivel.setLooping(true);
         musicaPrimerNivel.play();
         //Actualizar
@@ -284,7 +289,6 @@ public class PantallaJuego implements Screen {
                 balasQuitar.add(bala);
 
         }
-
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
         renderer.setView(camara);
@@ -305,6 +309,14 @@ public class PantallaJuego implements Screen {
             }
         }
         medKits.removeAll(medKitsQuitar);
+        batch.begin();
+        //batch.draw(puerta, 1280, 64);
+        batch.end();
+
+        if (rect.choca(oberon.getColliderRect())) {
+            Gdx.app.log("Siguiente", "Nivel");
+        }
+
 
         batch.begin();
         if (estado == EstadoJuego.JUGANDO) {
@@ -341,20 +353,19 @@ public class PantallaJuego implements Screen {
         }
         balas.removeAll(balasQuitar);
 
-
         for (Enemigo enemigo : enemigos) {
             if (enemigo.getColliderRect().choca(oberon.getColliderRect())) {
                 sonidoQuejido.play();
-                vida.setVida((float) (vida.getVida() + 0.3));
+                vida.setVida((float) (vida.getVida() + 0.333));
                 enemigoQuitar.add(enemigo);
                 if (vida.getVida() >= 2) {
                     selfDestruction.setScreen(new PantallaPerder(selfDestruction));
+                    musicaPrimerNivel.stop();
+                    sonidoCaminar.stop();
                 }
             }
         }
         enemigos.removeAll(enemigoQuitar);
-
-
         //Camara HUD
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
@@ -390,7 +401,6 @@ public class PantallaJuego implements Screen {
         }
         camara.update();
     }
-
 
 
     private void borrarPantalla() {
