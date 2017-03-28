@@ -189,9 +189,13 @@ public class Heroe extends Objeto {
             if (nuevaX <= capa.getWidth()*32 - sprite.getWidth()) {
                 sprite.setX(nuevaX);
             }
-            /*if ( celdaDerecha==null) {
+            if ( celdaDerecha!=null) {
+                Object tipo = (String) celdaDerecha.getTile().getProperties().get("tipo");
+                if(!"pared".equals(tipo)){
+                    celdaDerecha = null;
+                }
 
-            }*/
+            }
         }
         // Â¿Quiere ir a la izquierda?
         if ( estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
