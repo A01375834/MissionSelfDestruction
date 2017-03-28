@@ -138,7 +138,7 @@ public class PantallaJuego implements Screen {
             vida = new Vida();
             medKit = new MedKit(batch, 3000, 832);
             medKits.add(medKit);
-
+            //AA
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
             chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -100);
