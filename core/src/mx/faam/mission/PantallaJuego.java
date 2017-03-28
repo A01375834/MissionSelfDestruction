@@ -53,6 +53,8 @@ public class PantallaJuego implements Screen {
 
     //vida
     Vida vida;
+    MedKit medKit;
+
 
     //Sonido Caminar
     Sound sonidoCaminar = Gdx.audio.newSound(Gdx.files.internal("SonidoCaminar1.wav"));
@@ -62,6 +64,8 @@ public class PantallaJuego implements Screen {
     Sound sonidoEnemigo = Gdx.audio.newSound(Gdx.files.internal("enemigoMuriendo.wav"));
     //Musica primer nivel
     Music musicaPrimerNivel = Gdx.audio.newMusic(Gdx.files.internal("msicaPrimerNivel.wav"));
+    //Sonido MedKit
+    Sound sonidoMedKit = Gdx.audio.newSound(Gdx.files.internal("medKit.wav"));
 
 
     //camara
@@ -100,7 +104,8 @@ public class PantallaJuego implements Screen {
     ArrayList<Bala> balas = new ArrayList<Bala>();
     //Arreglo Enemigo
     ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
-
+    //Arreglo MedKits
+    ArrayList<MedKit> medKits = new ArrayList<MedKit>();
 
     public PantallaJuego(SelfDestruction selfDestruction) {
         this.selfDestruction = selfDestruction;
@@ -120,6 +125,8 @@ public class PantallaJuego implements Screen {
 
             //Vida
             vida = new Vida();
+            medKit = new MedKit(batch, 2500, 64);
+            medKits.add(medKit);
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
@@ -261,12 +268,14 @@ public class PantallaJuego implements Screen {
         ArrayList<Bala> balasQuitar = new ArrayList<Bala>();
         //Arreglo Enemigos por quitar
         ArrayList<Enemigo> enemigoQuitar = new ArrayList<Enemigo>();
+        //Arreglo Medkit por quitas
+        ArrayList<MedKit> medKitsQuitar = new ArrayList<MedKit>();
+
+
         musicaPrimerNivel.setLooping(true);
         musicaPrimerNivel.play();
-
         //Actualizar
         oberon.actualizar(TexturaFondoJuego);
-
         actualizarMapa();
         for (Bala bala : balas) {
             bala.actualizarBala(delta, oberon.getX());
@@ -278,8 +287,24 @@ public class PantallaJuego implements Screen {
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
         renderer.setView(camara);
-
         renderer.render();
+        //Medkits
+        for (MedKit medkit : medKits) {
+            batch.begin();
+            medKit.ActualizarMedKit(batch);
+            batch.end();
+        }
+        for (MedKit medKit : medKits) {
+            if (medKit.getCollisionRect().choca(oberon.getColliderRect())) {
+                if (vida.getVida() > 1) {
+                    medKitsQuitar.add(medKit);
+                    sonidoMedKit.play(0.5f);
+                    vida.setVida(1);
+                }
+            }
+        }
+        medKits.removeAll(medKitsQuitar);
+
         batch.begin();
         if (estado == EstadoJuego.JUGANDO) {
             oberon.dibujar(batch);
@@ -327,6 +352,7 @@ public class PantallaJuego implements Screen {
             }
         }
         enemigos.removeAll(enemigoQuitar);
+
 
         //Camara HUD
         batch.setProjectionMatrix(camaraHUD.combined);

@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 /**
  * Created by Mauricio on 24/03/2017.
@@ -20,14 +23,29 @@ public class Vida {
 
     Texture textura;
     Texture texturaVida;
+    Texture texturaMedKit;
+
+    //Colisiones
+    ColliderRect rect;
 
     public Vida(){
         if(textura==null && texturaVida ==null) {
             textura = new Texture("barraNueva.png");
             texturaVida = new Texture("vida.png");
         }
+    }
+
+    public void medKit(SpriteBatch batch,int x, int y){
+        if(texturaMedKit==null){
+            texturaMedKit = new Texture(Gdx.files.internal("medkit grande.png"));
+        }
+        rect = new ColliderRect(x,y,128,128);
+        batch.draw(texturaMedKit,x,y);
+    }
 
 
+    public Texture textura(){
+        return texturaMedKit;
     }
 
     public void actualizarVida(Batch batch,float vida) {
@@ -51,4 +69,8 @@ public class Vida {
     public void setVida(float vida){
         this.vida = vida;
     }
+    public ColliderRect getCollisionRect(){
+        return rect;
+    }
+
 }
