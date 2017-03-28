@@ -41,6 +41,9 @@ public class PantallaMenu implements Screen {
     private Texture TexturaBotonHistoria;
     private Texture TexturaBotonCreditos;
 
+    //LOgo
+    private Texture TexturaLogoJuego;
+
     //textura fondo
     private Texture TexturaFondoMenu;
 
@@ -78,6 +81,9 @@ public class PantallaMenu implements Screen {
         TexturaBotonOpciones = new Texture("options grande.png");
         TexturaBotonHistoria = new Texture("story grande.png");
         TexturaBotonCreditos = new Texture("credits grande.png");
+
+        //Logo
+        TexturaLogoJuego = new Texture("logo pequeño.png");
 
         //textura fondp
         TexturaFondoMenu = new Texture("fondo.png");
@@ -181,6 +187,14 @@ public class PantallaMenu implements Screen {
                 selfDestruction.setScreen(new PantallaCreditos(selfDestruction));
             }
         });
+
+        //Logo
+        TextureRegionDrawable trdLogoJuego = new TextureRegionDrawable((new TextureRegion(TexturaLogoJuego)));
+        Image LogoJuego = new Image(trdLogoJuego);
+        LogoJuego.setPosition(ANCHO/2-500, ALTO/2);
+        escena.addActor(LogoJuego);
+
+
         Gdx.input.setInputProcessor(escena);
     }
 

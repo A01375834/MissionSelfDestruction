@@ -25,8 +25,8 @@ public class Heroe extends Objeto {
 
     private float vida = 100;
 
-    private Animation<TextureRegion> spriteAnimado,spriteDisparando,spriteIzquierda;         // Animación caminando
-    private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
+    private Animation<TextureRegion> spriteAnimado,spriteDisparando,spriteIzquierda;         // Animacion caminando
+    private float timerAnimacion;                           // Tiempo para cambiar frames de la animacion
 
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO;
     // Salto
@@ -39,7 +39,7 @@ public class Heroe extends Objeto {
     // Recibe una imagen con varios frames
 
     public Heroe(Texture textura, Texture texturaDisparo, Texture texturaIzq, float x, float y) {
-        // Lee la textura como región
+        // Lee la textura como region
         TextureRegion texturaCompleta = new TextureRegion(textura);
         TextureRegion texturaDisparando = new TextureRegion(texturaDisparo);
         TextureRegion textureComIzq = new TextureRegion(texturaIzq);
@@ -47,21 +47,21 @@ public class Heroe extends Objeto {
         TextureRegion[][] texturaPersonajeDisparando = texturaDisparando.split(205,256);
         TextureRegion[][] texturaIzquierda = textureComIzq.split(64+64,64+64+64+64);
 
-        // Crea la animación con tiempo de 0.15 segundos entre frames.
+        // Crea la animacion con tiempo de 0.15 segundos entre frames.
 
 
         spriteAnimado = new Animation(0.15f, texturaPersonaje[0][4], texturaPersonaje[0][3], texturaPersonaje[0][2],texturaPersonaje[0][1] );
         spriteDisparando = new Animation(0.15f,texturaPersonajeDisparando[0][0]);
         spriteIzquierda = new Animation(0.15f, texturaIzquierda[0][4], texturaIzquierda[0][3], texturaIzquierda[0][2],texturaIzquierda[0][1] );
-        // Animación infinita
+        // AnimaciÃ³n infinita
         spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
         spriteDisparando.setPlayMode(Animation.PlayMode.LOOP);
         spriteIzquierda.setPlayMode(Animation.PlayMode.LOOP);
-        // Inicia el timer que contará tiempo para saber qué frame se dibuja
+        // Inicia el timer que contara tiempo para saber que frame se dibuja
         timerAnimacion = 0;
         // Crea el sprite con el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
-        sprite.setPosition(x,y);    // Posición inicial
+        sprite.setPosition(x,y);    // Posicion inicial
 
         rect = new ColliderRect(x,y,64,128);
     }
@@ -89,7 +89,7 @@ public class Heroe extends Objeto {
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
                 timerAnimacion += Gdx.graphics.getDeltaTime();
-                // Frame que se dibujará
+                // Frame que se dibujarÃ¡
                 TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
                 if (estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
                     if (!region.isFlipX()) {
@@ -105,7 +105,7 @@ public class Heroe extends Objeto {
                 break;
             case QUIETO:
             case INICIANDO:
-                sprite.draw(batch);// Dibuja el sprite estático
+                sprite.draw(batch);// Dibuja el sprite estÃ¡tico
                 break;
             case DISPARANDO:
                 TextureRegion regi = spriteDisparando.getKeyFrame(timerAnimacion);
@@ -130,6 +130,7 @@ public class Heroe extends Objeto {
         switch (estadoSalto) {
             case SUBIENDO:
             case BAJANDO:
+            default:
                 moverVertical(mapa);
                 break;
         }
@@ -138,6 +139,10 @@ public class Heroe extends Objeto {
     // Realiza el salto
     private void moverVertical(TiledMap mapa) {
         float delta = Gdx.graphics.getDeltaTime()*450;
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("pisos");
+        int celdaX = (int) ((sprite.getX()+sprite.getWidth()/2) / capa.getTileWidth());
+        int celdaY = (int) ((sprite.getY()-delta)/ capa.getTileHeight());
+        TiledMapTileLayer.Cell cell = capa.getCell(celdaX, celdaY);
         switch (estadoSalto) {
             case SUBIENDO:
                 sprite.setY(sprite.getY()+delta);
@@ -148,12 +153,16 @@ public class Heroe extends Objeto {
                 break;
             case BAJANDO:
                 sprite.setY(sprite.getY()-delta);
-                alturaSalto -= delta;
-
-                if (alturaSalto<=0) {
+                if (cell!=null) {
                     estadoSalto = EstadoSalto.EN_PISO;
                     alturaSalto = 0;
-                    sprite.setY(yOriginal);
+                    sprite.setY((celdaY+1)*capa.getTileHeight());
+                }
+                break;
+            case EN_PISO:
+                Gdx.app.log("Salto: ", "En piso");
+                if (cell==null) {
+                    estadoSalto = EstadoSalto.BAJANDO;
                 }
                 break;
         }
@@ -163,11 +172,11 @@ public class Heroe extends Objeto {
 
     // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
     private void moverHorizontal(TiledMap mapa) {
-        // Obtiene la primer capa del mapa (en este caso es la única)
+        // Obtiene la primer capa del mapa (en este caso es la Ãºnica)
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(0);
         // Ejecutar movimiento horizontal
         float nuevaX = sprite.getX();
-        // ¿Quiere ir a la Derecha?
+        // Â¿Quiere ir a la Derecha?
         if ( estadoMovimiento==EstadoMovimiento.MOV_DERECHA) {
             // Obtiene el bloque del lado derecho. Asigna null si puede pasar.
             int x = (int) ((sprite.getX() + 32) / 32);   // Convierte coordenadas del mundo en coordenadas del mapa
@@ -184,7 +193,7 @@ public class Heroe extends Objeto {
 
             }*/
         }
-        // ¿Quiere ir a la izquierda?
+        // Â¿Quiere ir a la izquierda?
         if ( estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
             int xIzq = (int) ((sprite.getX()) / 32);
             int y = (int) (sprite.getY() / 32);
