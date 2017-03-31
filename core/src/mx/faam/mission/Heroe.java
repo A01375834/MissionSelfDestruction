@@ -89,6 +89,7 @@ public class Heroe extends Objeto {
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
                 timerAnimacion += Gdx.graphics.getDeltaTime();
+                rect.setAnchoYAlto(64,128);
                 // Frame que se dibujarÃ¡
                 TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
                 if (estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {

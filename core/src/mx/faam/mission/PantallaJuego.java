@@ -56,7 +56,6 @@ public class PantallaJuego implements Screen {
     Vida vida;
     MedKit medKit;
 
-
     //Sonido Caminar
     Sound sonidoCaminar = Gdx.audio.newSound(Gdx.files.internal("SonidoCaminar1.wav"));
     //Sonido oberon Quejido
