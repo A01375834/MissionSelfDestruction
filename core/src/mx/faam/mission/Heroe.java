@@ -92,6 +92,8 @@ public class Heroe extends Objeto {
             case MOV_IZQUIERDA:
                 timerAnimacion += Gdx.graphics.getDeltaTime();
                 // Frame que se dibujara¡
+                //Actualizar tamaño de colision
+                rect.setAnchoYAlto(64,128);
                 TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
                // if (estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
                 if(estadoMovimiento == EstadoMovimiento.MOV_DERECHA){
