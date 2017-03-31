@@ -27,6 +27,7 @@ public class Heroe extends Objeto {
 
     private Animation<TextureRegion> spriteAnimado,spriteDisparando,spriteIzquierda;         // Animacion caminando
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animacion
+    private boolean viendoDerecha;
 
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO;
     // Salto
@@ -46,6 +47,7 @@ public class Heroe extends Objeto {
         TextureRegion[][] texturaPersonaje = texturaCompleta.split(64+64,64+64+64+64);
         TextureRegion[][] texturaPersonajeDisparando = texturaDisparando.split(205,256);
         TextureRegion[][] texturaIzquierda = textureComIzq.split(64+64,64+64+64+64);
+        viendoDerecha = true;
 
         // Crea la animacion con tiempo de 0.15 segundos entre frames.
 
@@ -53,7 +55,7 @@ public class Heroe extends Objeto {
         spriteAnimado = new Animation(0.15f, texturaPersonaje[0][4], texturaPersonaje[0][3], texturaPersonaje[0][2],texturaPersonaje[0][1] );
         spriteDisparando = new Animation(0.15f,texturaPersonajeDisparando[0][0]);
         spriteIzquierda = new Animation(0.15f, texturaIzquierda[0][4], texturaIzquierda[0][3], texturaIzquierda[0][2],texturaIzquierda[0][1] );
-        // AnimaciÃ³n infinita
+        // Animacion infinita
         spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
         spriteDisparando.setPlayMode(Animation.PlayMode.LOOP);
         spriteIzquierda.setPlayMode(Animation.PlayMode.LOOP);
@@ -89,15 +91,18 @@ public class Heroe extends Objeto {
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
                 timerAnimacion += Gdx.graphics.getDeltaTime();
-                rect.setAnchoYAlto(64,128);
-                // Frame que se dibujarÃ¡
+                // Frame que se dibujara¡
                 TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
-                if (estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
-                    if (!region.isFlipX()) {
+               // if (estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
+                if(estadoMovimiento == EstadoMovimiento.MOV_DERECHA){
+                    viendoDerecha = true;
+                    if (region.isFlipX()) {
                         region.flip(true,false);
                     }
                 } else {
-                    if (region.isFlipX()) {
+                    //AAAAAAAA
+                    viendoDerecha = false;
+                    if (!region.isFlipX()) {
                         region.flip(true,false);
 
                     }
@@ -105,8 +110,16 @@ public class Heroe extends Objeto {
                 batch.draw(region,sprite.getX(),sprite.getY());
                 break;
             case QUIETO:
+                region = spriteAnimado.getKeyFrame(timerAnimacion);
+                if(viendoDerecha = false) {
+                    if (!region.isFlipX()) {
+                        region.flip(true, false);
+                    }
+                }
+                    batch.draw(region,sprite.getX(),sprite.getY());
+                break;
             case INICIANDO:
-                sprite.draw(batch);// Dibuja el sprite estÃ¡tico
+                sprite.draw(batch);// Dibuja el sprite estatico
                 break;
             case DISPARANDO:
                 TextureRegion regi = spriteDisparando.getKeyFrame(timerAnimacion);
