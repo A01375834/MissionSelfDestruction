@@ -6,7 +6,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -53,19 +53,19 @@ public class PantallaJuego implements Screen {
     public EstadoJuego estado = EstadoJuego.JUGANDO;
 
     //vida
-    Vida vida;
-    MedKit medKit;
+    private Vida vida;
+    private MedKit medKit;
 
     //Sonido Caminar
-    Sound sonidoCaminar = Gdx.audio.newSound(Gdx.files.internal("SonidoCaminar1.wav"));
+    private Sound sonidoCaminar = Gdx.audio.newSound(Gdx.files.internal("SonidoCaminar1.wav"));
     //Sonido oberon Quejido
-    Sound sonidoQuejido = Gdx.audio.newSound(Gdx.files.internal("quejidoOberon.wav"));
+    private Sound sonidoQuejido = Gdx.audio.newSound(Gdx.files.internal("quejidoOberon.wav"));
     //Sonido enemigo Muriendo
-    Sound sonidoEnemigo = Gdx.audio.newSound(Gdx.files.internal("enemigoMuriendo.wav"));
+    private Sound sonidoEnemigo = Gdx.audio.newSound(Gdx.files.internal("enemigoMuriendo.wav"));
     //Musica primer nivel
-    Music musicaPrimerNivel = Gdx.audio.newMusic(Gdx.files.internal("msicaPrimerNivel.wav"));
+    private Music musicaPrimerNivel = Gdx.audio.newMusic(Gdx.files.internal("msicaPrimerNivel.wav"));
     //Sonido MedKit
-    Sound sonidoMedKit = Gdx.audio.newSound(Gdx.files.internal("medKit.wav"));
+    private Sound sonidoMedKit = Gdx.audio.newSound(Gdx.files.internal("medKit.wav"));
 
 
     //camara
@@ -86,9 +86,8 @@ public class PantallaJuego implements Screen {
     private Texture TexturaBotonSwitch;
 
     //Mapa
-    private TiledMap TexturaFondoJuego;
+    private TiledMap mapa;
     private OrthogonalTiledMapRenderer renderer; //dibuja el mapa
-
     //Textura Oberon
     private Heroe oberon;
     private Texture TexturaOberon;
@@ -103,15 +102,18 @@ public class PantallaJuego implements Screen {
 
     //Textura y colisione pueta siguiente parte del nivel
     private Texture puerta;
-    ColliderRect rect;
+    private ColliderRect rect;
 
     //AssetManager
     private AssetManager manager = new AssetManager();
 
     //Arreglo de balas
-    ArrayList<Bala> balas = new ArrayList<Bala>();
+    private ArrayList<Bala> balas = new ArrayList<Bala>();
     //Arreglo Enemigo
-    ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
+    private ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
+    private float tiempoEnemigo;
+    private float tiempoMaximo = 10.0f;
+
     //Arreglo MedKits
     ArrayList<MedKit> medKits = new ArrayList<MedKit>();
 
@@ -132,16 +134,16 @@ public class PantallaJuego implements Screen {
 
             //Enemigos
             TexturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
+            tiempoEnemigo = MathUtils.random(1.5f,5.0f);
 
             //Vida
             vida = new Vida();
             medKit = new MedKit(batch, 3000, 832);
             medKits.add(medKit);
-            //AA
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
-            chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -100);
+           /* chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -100);
             Enemigo chiquito2 = new Enemigo(TexturaChiquito, 2560, 188, 5, -100);
             Enemigo chiquito3 = new Enemigo(TexturaChiquito,3840,188,5,-80);
             Enemigo chiquito4 = new Enemigo(TexturaChiquito,5120,188,5,-100);
@@ -150,18 +152,16 @@ public class PantallaJuego implements Screen {
             enemigos.add(chiquito1);
             enemigos.add(chiquito2);
             enemigos.add(chiquito4);
-            enemigos.add(chiquito5);
+            enemigos.add(chiquito5);*/
 
             manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
             manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
 
             manager.finishLoading();    //cargar Recursos
-            TexturaFondoJuego = manager.get("mapaInicialPrimerNivel.tmx");
-
             camara = new OrthographicCamera(ALTO / 2, ANCHO / 2);
             vista = new StretchViewport(ANCHO, ALTO, camara);
             batch = new SpriteBatch();
-            renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
+            renderer = new OrthogonalTiledMapRenderer(mapa, batch);
             renderer.setView(camara);
 
             crearHUD();
@@ -284,10 +284,11 @@ public class PantallaJuego implements Screen {
         //Arreglo Medkit por quitas
         ArrayList<MedKit> medKitsQuitar = new ArrayList<MedKit>();
 
+        crearNuevosEnemigos(delta);
         musicaPrimerNivel.setLooping(true);
         musicaPrimerNivel.play();
         //Actualizar
-        oberon.actualizar(TexturaFondoJuego);
+        oberon.actualizar(mapa);
         actualizarMapa();
         for (Bala bala : balas) {
             bala.actualizarBala(delta, oberon.getX());
@@ -316,11 +317,12 @@ public class PantallaJuego implements Screen {
         }
         medKits.removeAll(medKitsQuitar);
         batch.begin();
-        //batch.draw(puerta, 1280, 64);
+        batch.draw(puerta, 1280, 64);
         batch.end();
 
         if (rect.choca(oberon.getColliderRect())) {
             Gdx.app.log("Siguiente", "Nivel");
+            //mapa = manager.get("ParteDosPrimerNivel.tmx");
         }
 
 
@@ -441,8 +443,20 @@ public class PantallaJuego implements Screen {
     @Override
     public void dispose() {
         escenaHUD.dispose();
-        TexturaFondoJuego.dispose();
+        mapa.dispose();
         TexturaOberon.dispose();
 
     }
+
+    private void crearNuevosEnemigos(float delta){
+        tiempoEnemigo -= delta;
+        if (tiempoEnemigo<=0) {
+            tiempoEnemigo = MathUtils.random(5.0f, tiempoMaximo);
+            tiempoMaximo -= tiempoMaximo>0.5f?10*delta:0;
+            Enemigo enemigo = new Enemigo(TexturaChiquito,oberon.getX()+ANCHO+1,188,5,-100);
+            enemigos.add(enemigo);
+        }
+
+    }
+
 }
