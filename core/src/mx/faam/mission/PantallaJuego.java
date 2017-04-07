@@ -86,7 +86,7 @@ public class PantallaJuego implements Screen {
     private Texture TexturaBotonSwitch;
 
     //Mapa
-    private TiledMap mapa;
+    private TiledMap TexturaFondoJuego;
     private OrthogonalTiledMapRenderer renderer; //dibuja el mapa
     //Textura Oberon
     private Heroe oberon;
@@ -157,11 +157,13 @@ public class PantallaJuego implements Screen {
             manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
             manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
 
+
             manager.finishLoading();    //cargar Recursos
+            TexturaFondoJuego = manager.get("mapaInicialPrimerNivel.tmx");
             camara = new OrthographicCamera(ALTO / 2, ANCHO / 2);
             vista = new StretchViewport(ANCHO, ALTO, camara);
             batch = new SpriteBatch();
-            renderer = new OrthogonalTiledMapRenderer(mapa, batch);
+            renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
             renderer.setView(camara);
 
             crearHUD();
@@ -288,7 +290,7 @@ public class PantallaJuego implements Screen {
         musicaPrimerNivel.setLooping(true);
         musicaPrimerNivel.play();
         //Actualizar
-        oberon.actualizar(mapa);
+        oberon.actualizar(TexturaFondoJuego);
         actualizarMapa();
         for (Bala bala : balas) {
             bala.actualizarBala(delta, oberon.getX());
@@ -443,7 +445,7 @@ public class PantallaJuego implements Screen {
     @Override
     public void dispose() {
         escenaHUD.dispose();
-        mapa.dispose();
+        TexturaFondoJuego.dispose();
         TexturaOberon.dispose();
 
     }

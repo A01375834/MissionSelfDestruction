@@ -154,7 +154,7 @@ public class Heroe extends Objeto {
     }
     // Realiza el salto
     private void moverVertical(TiledMap mapa) {
-        float delta = Gdx.graphics.getDeltaTime()*450;
+        float delta = 1;//Gdx.graphics.getDeltaTime()*450;
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("pisos");
         int celdaX = (int) ((sprite.getX()+sprite.getWidth()/2) / capa.getTileWidth());
         int celdaY = (int) ((sprite.getY()-delta)/ capa.getTileHeight());
