@@ -98,7 +98,7 @@ public class PantallaJuego implements Screen {
     //Textura enemigos
     private Texture TexturaChiquito;
     private Enemigo chiquito1;
-
+    //Comentario
 
     //Textura y colisione pueta siguiente parte del nivel
     private Texture puerta;
