@@ -1,11 +1,15 @@
 package mx.faam.mission;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
 
@@ -20,7 +24,6 @@ public class Enemigo {
     float x, y;
     private Sprite sprite;
     private int vidas;
-
 
     //animacion
     private Animation animacion;    // Caminando

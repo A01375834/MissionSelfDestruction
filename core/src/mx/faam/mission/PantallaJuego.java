@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -310,7 +311,7 @@ public class PantallaJuego implements Screen {
         }
         for (MedKit medKit : medKits) {
             if (medKit.getCollisionRect().choca(oberon.getColliderRect())) {
-                if (vida.getVida() > 1) {
+                if (vida.getVida() < 1) {
                     medKitsQuitar.add(medKit);
                     sonidoMedKit.play(0.5f);
                     vida.setVida(1);
@@ -366,15 +367,17 @@ public class PantallaJuego implements Screen {
         for (Enemigo enemigo : enemigos) {
             if (enemigo.getColliderRect().choca(oberon.getColliderRect())) {
                 sonidoQuejido.play();
-                vida.setVida((float) (vida.getVida() + 0.5));
+                vida.herir();
                 enemigoQuitar.add(enemigo);
-                if (vida.getVida() >= 2) {
+                if (vida.getVida() < 0) {
                     selfDestruction.setScreen(new PantallaPerder(selfDestruction));
                     musicaPrimerNivel.stop();
                     sonidoCaminar.stop();
                 }
             }
         }
+        Gdx.app.log("vida",vida.getVida()+" ");
+       vida.colorVida(batch);
         enemigos.removeAll(enemigoQuitar);
         //Camara HUD
         batch.setProjectionMatrix(camaraHUD.combined);

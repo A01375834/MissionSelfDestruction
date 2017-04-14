@@ -8,8 +8,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
+import java.awt.Graphics;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -17,21 +20,22 @@ import java.util.ArrayList;
  */
 
 public class Vida {
-    float vida= 1;
+    private float vida = 1;
     private int ALTURA = 800;
     private  int ANCHO = 1280;
 
-    Texture textura;
-    Texture texturaVida;
-    Texture texturaMedKit;
+    private Texture textura;
+    private Texture texturaVida;
+    private Texture texturaMedKit;
 
     //Colisiones
     ColliderRect rect;
 
     public Vida(){
         if(textura==null && texturaVida ==null) {
-            textura = new Texture("barraNueva.png");
+            textura = new Texture("vidaCuadro.png");
             texturaVida = new Texture("vida.png");
+
         }
     }
 
@@ -49,17 +53,11 @@ public class Vida {
     }
 
     public void actualizarVida(Batch batch,float vida) {
-        batch.draw(textura,154,ALTURA-100,ANCHO-600*vida,10 );
+        batch.draw(textura,154,ALTURA-100,680*vida,10 );
         batch.draw(texturaVida,154,ALTURA-60);
+        batch.setColor(Color.WHITE);
 
 
-    }
-
-
-    public void curar(float curacion){
-        vida += curacion;
-        if(vida>=100)
-            vida = 100;
     }
 
     public float getVida(){
@@ -72,5 +70,19 @@ public class Vida {
     public ColliderRect getCollisionRect(){
         return rect;
     }
+
+    public void colorVida(Batch batch) {
+        if (vida > 0.6)
+            batch.setColor(Color.GREEN);
+        else if (vida > 0.2)
+            batch.setColor(Color.ORANGE);
+        else
+            batch.setColor(Color.RED);
+    }
+
+    public void herir(){
+       vida -= 0.2;
+
+     }
 
 }
