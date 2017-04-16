@@ -135,7 +135,7 @@ public class PantallaJuego implements Screen {
 
             //Enemigos
             TexturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
-            tiempoEnemigo = MathUtils.random(1.5f,5.0f);
+            tiempoEnemigo = MathUtils.random(1.5f, 5.0f);
 
             //Vida
             vida = new Vida();
@@ -144,16 +144,16 @@ public class PantallaJuego implements Screen {
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
-           /* chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -100);
-            Enemigo chiquito2 = new Enemigo(TexturaChiquito, 2560, 188, 5, -100);
-            Enemigo chiquito3 = new Enemigo(TexturaChiquito,3840,188,5,-80);
-            Enemigo chiquito4 = new Enemigo(TexturaChiquito,5120,188,5,-100);
-            Enemigo chiquito5 = new Enemigo(TexturaChiquito,6400,188,5,-100);
-            enemigos.add(chiquito3);
-            enemigos.add(chiquito1);
-            enemigos.add(chiquito2);
-            enemigos.add(chiquito4);
-            enemigos.add(chiquito5);*/
+                       /* chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -100);
+                        Enemigo chiquito2 = new Enemigo(TexturaChiquito, 2560, 188, 5, -100);
+                        Enemigo chiquito3 = new Enemigo(TexturaChiquito,3840,188,5,-80);
+                        Enemigo chiquito4 = new Enemigo(TexturaChiquito,5120,188,5,-100);
+                        Enemigo chiquito5 = new Enemigo(TexturaChiquito,6400,188,5,-100);
+                        enemigos.add(chiquito3);
+                        enemigos.add(chiquito1);
+                        enemigos.add(chiquito2);
+                        enemigos.add(chiquito4);
+                        enemigos.add(chiquito5);*/
 
             manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
             manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
@@ -376,13 +376,14 @@ public class PantallaJuego implements Screen {
                 }
             }
         }
-        Gdx.app.log("vida",vida.getVida()+" ");
-       vida.colorVida(batch);
         enemigos.removeAll(enemigoQuitar);
         //Camara HUD
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
 
+
+        //Color de vida
+        vida.colorVida(batch);
         //Vida
         batch.begin();
         vida.actualizarVida(batch, vida.getVida());
@@ -453,12 +454,12 @@ public class PantallaJuego implements Screen {
 
     }
 
-    private void crearNuevosEnemigos(float delta){
+    private void crearNuevosEnemigos(float delta) {
         tiempoEnemigo -= delta;
-        if (tiempoEnemigo<=0) {
+        if (tiempoEnemigo <= 0) {
             tiempoEnemigo = MathUtils.random(5.0f, tiempoMaximo);
-            tiempoMaximo -= tiempoMaximo>0.5f?10*delta:0;
-            Enemigo enemigo = new Enemigo(TexturaChiquito,oberon.getX()+ANCHO+1,188,5,-100);
+            tiempoMaximo -= tiempoMaximo > 0.5f ? 10 * delta : 0;
+            Enemigo enemigo = new Enemigo(TexturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100);
             enemigos.add(enemigo);
         }
 

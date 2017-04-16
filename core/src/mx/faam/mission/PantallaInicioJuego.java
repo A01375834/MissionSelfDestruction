@@ -46,6 +46,8 @@ public class PantallaInicioJuego implements Screen {
         texturaLogo = new Texture(Gdx.files.internal("logo.png"));
         spriteLogo = new Sprite(texturaLogo);
         spriteLogo.setPosition(ANCHO/2-(spriteLogo.getWidth()/2), ALTO/2-(spriteLogo.getHeight()/2));
+        camara.position.set(ANCHO/2, ALTO/2, 0);
+        camara.update();
         escalarLogo();
     }
 
@@ -59,7 +61,7 @@ public class PantallaInicioJuego implements Screen {
     @Override
     public void render(float delta) {
         borrarPantalla(0,0,0);
-        //batch.setProjectionMatrix(camara.combined);
+        batch.setProjectionMatrix(camara.combined);
         batch.begin();
         spriteLogo.draw(batch);
         batch.end();
@@ -71,6 +73,11 @@ public class PantallaInicioJuego implements Screen {
 
     }
 
+
+    private void actualizarVista() {
+        escalarLogo();
+    }
+
     @Override
     public void resize(int width, int height) {
         vista.update(width,height);
@@ -78,9 +85,6 @@ public class PantallaInicioJuego implements Screen {
 
     }
 
-    private void actualizarVista() {
-        escalarLogo();
-    }
 
     private void borrarPantalla(int r, float g, int b) {
         Gdx.gl.glClearColor(r,g,b,1);

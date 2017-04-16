@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,6 +22,9 @@ public class PantallaCargando implements Screen {
 
     private static final float ANCHO = 1280;
     private static final float ALTO = 800;
+
+    private OrthographicCamera camara = new OrthographicCamera(ANCHO,ALTO);
+
 
     // AssetManager
     private AssetManager manager;
@@ -44,11 +48,16 @@ public class PantallaCargando implements Screen {
         spriteCargando = new Sprite(texturaCargando);
         spriteCargando.setPosition(ANCHO/2-spriteCargando.getWidth()/2,ALTO/2-spriteCargando.getHeight()/2);
         texto = new Texto("Fonts/fontLoading.fnt");
+        camara.position.set(ANCHO/2, ALTO/2, 0);
+        camara.update();
+
     }
+
 
     @Override
     public void render(float delta) {
         borrarPantalla(0,0,0);
+        batch.setProjectionMatrix(camara.combined);
         batch.begin();
         spriteCargando.draw(batch);
         texto.mostrarMensaje(batch,avance+" %",ANCHO/2+20,ALTO/2+110);
@@ -97,6 +106,8 @@ public class PantallaCargando implements Screen {
 
     @Override
     public void dispose() {
+        texturaCargando.dispose();
+
 
     }
 }
