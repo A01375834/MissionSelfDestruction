@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 
 public class Vida {
-    private float vida = 1;
+    private int vida = 100;
     private int ALTURA = 800;
     private  int ANCHO = 1280;
 
@@ -53,18 +53,18 @@ public class Vida {
     }
 
     public void actualizarVida(Batch batch,float vida) {
-        batch.draw(textura,154,ALTURA-100,680*vida,10 );
+        batch.draw(textura,154,ALTURA-100,8*vida,10 );
         batch.draw(texturaVida,154,ALTURA-60);
         batch.setColor(Color.WHITE);
 
 
     }
 
-    public float getVida(){
+    public int getVida(){
         return vida;
     }
 
-    public void setVida(float vida){
+    public void setVida(int vida){
         this.vida = vida;
     }
     public ColliderRect getCollisionRect(){
@@ -72,16 +72,16 @@ public class Vida {
     }
 
     public void colorVida(Batch batch) {
-        if (vida > 0.6)
+        if (vida > 60)
             batch.setColor(Color.GREEN);
-        else if (vida > 0.2)
+        else if (vida > 20)
             batch.setColor(Color.ORANGE);
         else
             batch.setColor(Color.RED);
     }
 
     public void herir(){
-       vida -= 0.2;
+       vida -= 20;
 
      }
 

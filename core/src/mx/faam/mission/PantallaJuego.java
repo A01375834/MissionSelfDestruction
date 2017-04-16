@@ -311,10 +311,10 @@ public class PantallaJuego implements Screen {
         }
         for (MedKit medKit : medKits) {
             if (medKit.getCollisionRect().choca(oberon.getColliderRect())) {
-                if (vida.getVida() < 1) {
+                if (vida.getVida() < 100) {
                     medKitsQuitar.add(medKit);
                     sonidoMedKit.play(0.5f);
-                    vida.setVida(1);
+                    vida.setVida(100);
                 }
             }
         }
@@ -369,7 +369,7 @@ public class PantallaJuego implements Screen {
                 sonidoQuejido.play();
                 vida.herir();
                 enemigoQuitar.add(enemigo);
-                if (vida.getVida() < 0) {
+                if (vida.getVida() <= 0) {
                     selfDestruction.setScreen(new PantallaPerder(selfDestruction));
                     musicaPrimerNivel.stop();
                     sonidoCaminar.stop();
