@@ -96,6 +96,11 @@ public class PantallaJuego implements Screen {
     private Texture oberonIzq;
     private Bala bala;
 
+    //Textura llave
+    private Texture llave;
+    private ColliderRect rectLlave;
+    private Boolean llaveBoolean = false;
+
     //Textura enemigos
     private Texture TexturaChiquito;
     private Enemigo chiquito1;
@@ -132,6 +137,11 @@ public class PantallaJuego implements Screen {
             oberonIzq = new Texture("prueba tamaño izquierda.png");
             puerta = new Texture("puerta.png");
             rect = new ColliderRect(1280, 64, 192, 288);
+
+
+            //Llave
+            llave = new Texture(Gdx.files.internal("Bluecard.png"));
+            rectLlave = new ColliderRect(500,64,64,32);
 
             //Enemigos
             TexturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
@@ -321,9 +331,11 @@ public class PantallaJuego implements Screen {
         medKits.removeAll(medKitsQuitar);
         batch.begin();
         batch.draw(puerta, 1280, 64);
+        batch.draw(llave,500,64);
         batch.end();
 
-        if (rect.choca(oberon.getColliderRect())) {
+
+        if (rect.choca(oberon.getColliderRect())&& llaveBoolean==true) {
             Gdx.app.log("Siguiente", "Nivel");
             //mapa = manager.get("ParteDosPrimerNivel.tmx");
         }
@@ -377,6 +389,11 @@ public class PantallaJuego implements Screen {
             }
         }
         enemigos.removeAll(enemigoQuitar);
+        if(rectLlave.choca(oberon.getColliderRect())){
+            llaveBoolean = true;
+            llave.dispose();
+        }
+
         //Camara HUD
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
