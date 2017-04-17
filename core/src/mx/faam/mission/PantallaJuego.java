@@ -340,7 +340,7 @@ public class PantallaJuego implements Screen {
             //mapa = manager.get("ParteDosPrimerNivel.tmx");
         }
 
-
+        //AA
         batch.begin();
         if (estado == EstadoJuego.JUGANDO) {
             oberon.dibujar(batch);
