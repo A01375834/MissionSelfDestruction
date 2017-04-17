@@ -113,7 +113,7 @@ public class Heroe extends Objeto {
                 break;
             case QUIETO:
                 region = spriteAnimado.getKeyFrame(timerAnimacion);
-                if(viendoDerecha = false) {
+                if(viendoDerecha == false) {
                     if (!region.isFlipX()) {
                         region.flip(true, false);
                     }
@@ -125,8 +125,14 @@ public class Heroe extends Objeto {
                 break;
             case DISPARANDO:
                 TextureRegion regi = spriteDisparando.getKeyFrame(timerAnimacion);
-                batch.draw(regi,sprite.getX(),sprite.getY());
-                rect.setAnchoYAlto(160,256);
+                if(viendoDerecha == false) {
+                    if(!regi.isFlipX()){
+                        regi.flip(true,false);
+                    }
+
+                }
+                batch.draw(regi, sprite.getX(), sprite.getY());
+                rect.setAnchoYAlto(160, 256);
                 break;
         }
     }
@@ -154,7 +160,7 @@ public class Heroe extends Objeto {
     }
     // Realiza el salto
     private void moverVertical(TiledMap mapa) {
-        float delta = 1;//Gdx.graphics.getDeltaTime()*450;
+        float delta = 9;//Gdx.graphics.getDeltaTime()*450;
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("pisos");
         int celdaX = (int) ((sprite.getX()+sprite.getWidth()/2) / capa.getTileWidth());
         int celdaY = (int) ((sprite.getY()-delta)/ capa.getTileHeight());
