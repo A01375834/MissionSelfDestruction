@@ -88,6 +88,7 @@ public class PantallaJuego implements Screen {
 
     //Mapa
     private TiledMap TexturaFondoJuego;
+    private TiledMap TexturaFondoJuegoParteDos;
     private OrthogonalTiledMapRenderer renderer; //dibuja el mapa
     //Textura Oberon
     private Heroe oberon;
@@ -167,6 +168,8 @@ public class PantallaJuego implements Screen {
 
             manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
             manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
+            manager.load("ParteDosPrimerNivel.tmx", TiledMap.class);
+
 
 
             manager.finishLoading();    //cargar Recursos
@@ -337,7 +340,12 @@ public class PantallaJuego implements Screen {
 
         if (rect.choca(oberon.getColliderRect())&& llaveBoolean==true) {
             Gdx.app.log("Siguiente", "Nivel");
-            //mapa = manager.get("ParteDosPrimerNivel.tmx");
+            TexturaFondoJuego = manager.get("ParteDosPrimerNivel.tmx");
+            renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
+            renderer.setView(camara);
+            oberon.sprite.setPosition(0,64);
+
+
         }
 
         //AA
