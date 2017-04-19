@@ -37,6 +37,8 @@ public class Heroe extends Objeto {
     int collisionX,collisionY;
     ColliderRect rect;
 
+    private boolean posicionDisparo = true;
+
     // Recibe una imagen con varios frames
 
     public Heroe(Texture textura, Texture texturaDisparo, Texture texturaIzq, float x, float y) {
@@ -131,6 +133,10 @@ public class Heroe extends Objeto {
                     }
 
                 }
+                if(viendoDerecha == true && regi.isFlipX()){
+                    regi.flip(true,false);
+                }
+
                 batch.draw(regi, sprite.getX(), sprite.getY());
                 rect.setAnchoYAlto(160, 256);
                 break;
@@ -300,6 +306,10 @@ public class Heroe extends Objeto {
     }
     public void actualizarRect(float x, float y){
         rect.mover(x,y);
+    }
+
+    public boolean ViendoDerecha(){
+        return viendoDerecha;
     }
 }
 

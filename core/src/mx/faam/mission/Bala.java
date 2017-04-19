@@ -14,14 +14,15 @@ import com.badlogic.gdx.math.Rectangle;
 public class Bala {
 
     public static final int vx = 1000;
+    public static final int vxIzq = -1000;
     private Texture texturaBala;
     float x, y;
     public boolean remove = false;
     //Colisiones
-    ColliderRect rect;
+    private ColliderRect rect;
 
     //Sonido de Bala
-    Sound balazo;
+    private Sound balazo;
     private boolean sonidoBala;
     private Sprite bala;
 
@@ -40,7 +41,7 @@ public class Bala {
 
     public void actualizarBala(float deltaTime, float xO) {
         x += vx * deltaTime;
-        if (x > xO + 1280)
+        if (x > xO+1280)
             remove = true;
         if (sonidoBala == false) {
             balazo.play();
@@ -51,6 +52,18 @@ public class Bala {
 
     }
 
+    public void actualizarBalaIzq(float deltaTime, float xO) {
+        x += vxIzq * deltaTime;
+        if (x < 0)
+            remove = true;
+        if (sonidoBala == false) {
+            balazo.play();
+            sonidoBala = true;
+        }
+
+        rect.mover(x, y);
+
+    }
     public void render(SpriteBatch batch) {
         batch.draw(texturaBala, x, y);
 
@@ -72,5 +85,6 @@ public class Bala {
     public float getY() {
         return bala.getY();
     }
+
 }
 

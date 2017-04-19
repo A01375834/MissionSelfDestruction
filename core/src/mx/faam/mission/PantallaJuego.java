@@ -286,7 +286,11 @@ public class PantallaJuego implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "Disparar");
                 oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.DISPARANDO);
-                balas.add(new Bala(oberon.getX() + TexturaOberonDisparando.getWidth(), oberon.getY() + 188));
+                if(oberon.ViendoDerecha()==true) {
+                    balas.add(new Bala(oberon.getX() + TexturaOberonDisparando.getWidth(), oberon.getY() + 188));
+                }else{
+                    balas.add(new Bala(oberon.getX() , oberon.getY()+188 ));
+                }
             }
         });
     }
@@ -307,7 +311,11 @@ public class PantallaJuego implements Screen {
         oberon.actualizar(TexturaFondoJuego);
         actualizarMapa();
         for (Bala bala : balas) {
-            bala.actualizarBala(delta, oberon.getX());
+            if(oberon.ViendoDerecha()==true){
+                bala.actualizarBala(delta, oberon.getX());
+            }else{
+                bala.actualizarBalaIzq(delta,oberon.getX());
+            }
             if (bala.remove)
                 balasQuitar.add(bala);
 
@@ -371,6 +379,7 @@ public class PantallaJuego implements Screen {
         for (Bala bala : balas) {
             for (Enemigo enemigo : enemigos) {
                 if (bala.getCollisionRect().choca(enemigo.getColliderRect())) {
+                    enemigo.herir(delta,batch);
                     balasQuitar.add(bala);
                     enemigo.setVidas(enemigo.getVidas() - 1);
                     if (enemigo.getVidas() <= 0) {
@@ -484,7 +493,7 @@ public class PantallaJuego implements Screen {
         if (tiempoEnemigo <= 0) {
             tiempoEnemigo = MathUtils.random(5.0f, tiempoMaximo);
             tiempoMaximo -= tiempoMaximo > 0.5f ? 10 * delta : 0;
-            Enemigo enemigo = new Enemigo(TexturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100);
+            Enemigo enemigo = new Enemigo(TexturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100,batch);
             enemigos.add(enemigo);
         }
 

@@ -34,7 +34,7 @@ public class Enemigo {
     public boolean remove = false;
 
 
-    public Enemigo(Texture textura, float x, float y, int vidas, int vx) {
+    public Enemigo(Texture textura, float x, float y, int vidas, int vx,Batch batch) {
         this.x = x;
         this.y = y;
         this.vidas = vidas;
@@ -54,6 +54,8 @@ public class Enemigo {
         sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
 
         rect = new ColliderRect(x, y, 288, 128);
+
+        batch.setColor(Color.WHITE);
 
     }
 
@@ -103,5 +105,19 @@ public class Enemigo {
     public ColliderRect getColliderRect() {
         return rect;
     }
+
+    public void herir(float delta,Batch batch){
+        //delta -= 1;
+        //while(delta>0){
+            batch.setColor(Color.RED);
+        //}
+
+    }
+
+
+
+
+
+
 
 }
