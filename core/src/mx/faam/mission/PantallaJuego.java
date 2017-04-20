@@ -137,7 +137,7 @@ public class PantallaJuego implements Screen {
             TexturaOberonDisparando = new Texture("posicion disparo derecha.png");
             oberonIzq = new Texture("prueba tamaño izquierda.png");
             puerta = new Texture("puerta.png");
-            rect = new ColliderRect(1280, 64, 192, 288);
+            rect = new ColliderRect(3765, 64, 192, 288);
 
 
             //Llave
@@ -341,7 +341,7 @@ public class PantallaJuego implements Screen {
         }
         medKits.removeAll(medKitsQuitar);
         batch.begin();
-        batch.draw(puerta, 1280, 64);
+        batch.draw(puerta, 3765, 64);
         batch.draw(llave,500,64);
         batch.end();
 
