@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -36,10 +37,11 @@ import java.util.ArrayList;
  */
 public class PantallaJuego implements Screen {
 
+
+
     public static final float ANCHO = 1280;
     private static final float ALTO = 800;
-    private static final float ANCHO_MAPA = 3968;
-    private static final float ALTO_MAPA = 1600;
+
     private boolean pausa;
 
     private final SelfDestruction selfDestruction;
@@ -426,6 +428,8 @@ public class PantallaJuego implements Screen {
 
 
     private void actualizarMapa() {
+        int ANCHO_MAPA = ((TiledMapTileLayer)(TexturaFondoJuego.getLayers().get(0))).getWidth() * 32;
+        float ALTO_MAPA = 1600;
         float posX = oberon.sprite.getX();
         float posY = oberon.sprite.getY();
         // Si está en la parte 'media'
