@@ -21,9 +21,12 @@ import static mx.faam.mission.Heroe.EstadoSalto.SUBIENDO;
 
 public class Heroe extends Objeto {
     private final float VELOCIDAD_X =12;      // Velocidad horizontal
+    private float velocidadY;
+    private boolean saltando;
     private Sprite spriteBala;
 
     private float vida = 100;
+
 
     private Animation<TextureRegion> spriteAnimado,spriteDisparando,spriteIzquierda;         // Animacion caminando
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animacion
@@ -50,6 +53,7 @@ public class Heroe extends Objeto {
         TextureRegion[][] texturaPersonajeDisparando = texturaDisparando.split(205,256);
         TextureRegion[][] texturaIzquierda = textureComIzq.split(64+64,64+64+64+64);
         viendoDerecha = true;
+        saltando = false;
 
         // Crea la animacion con tiempo de 0.15 segundos entre frames.
 
@@ -97,7 +101,7 @@ public class Heroe extends Objeto {
                 //Actualizar tamaño de colision
                 rect.setAnchoYAlto(64,128);
                 TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
-               // if (estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
+                // if (estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
                 if(estadoMovimiento == EstadoMovimiento.MOV_DERECHA){
                     viendoDerecha = true;
                     if (region.isFlipX()) {
@@ -120,7 +124,7 @@ public class Heroe extends Objeto {
                         region.flip(true, false);
                     }
                 }
-                    batch.draw(region,sprite.getX(),sprite.getY());
+                batch.draw(region,sprite.getX(),sprite.getY());
                 break;
             case INICIANDO:
                 sprite.draw(batch);// Dibuja el sprite estatico
@@ -166,20 +170,31 @@ public class Heroe extends Objeto {
     }
     // Realiza el salto
     private void moverVertical(TiledMap mapa) {
-        float delta = 9;//Gdx.graphics.getDeltaTime()*450;
+        float delta = 9;//Gdx.graphics.getDeltaTime();
+        float velocidadSalto = 0;
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("pisos");
         int celdaX = (int) ((sprite.getX()+sprite.getWidth()/2) / capa.getTileWidth());
-        int celdaY = (int) ((sprite.getY()-delta)/ capa.getTileHeight());
+        int celdaY = (int) ((sprite.getY()-30)/ capa.getTileHeight());
         TiledMapTileLayer.Cell cell = capa.getCell(celdaX, celdaY);
         switch (estadoSalto) {
             case SUBIENDO:
-                sprite.setY(sprite.getY()+delta);
+                if(!saltando) {
+                    velocidadY = 15;
+                    saltando = true;
+                }
+                velocidadY /= 2;
+                velocidadSalto += velocidadY * delta;
+                sprite.setY(sprite.getY()+velocidadSalto);
                 alturaSalto += delta;
-                if (alturaSalto>=sprite.getHeight()/2+10) {
+                if (velocidadY<=.01) {
                     estadoSalto = BAJANDO;
                 }
                 break;
             case BAJANDO:
+                velocidadY *= 2;
+                if(velocidadY <= 15){
+                    velocidadSalto  = velocidadY* delta;
+                }
                 sprite.setY(sprite.getY()-delta);
                 if (cell!=null) {
                     estadoSalto = EstadoSalto.EN_PISO;
@@ -188,11 +203,14 @@ public class Heroe extends Objeto {
                 }
                 break;
             case EN_PISO:
+                velocidadY = .01f;
+                saltando = false;
                 Gdx.app.log("Salto: ", "En piso");
                 if (cell==null) {
                     estadoSalto = EstadoSalto.BAJANDO;
                 }
                 break;
+
         }
 
     }
