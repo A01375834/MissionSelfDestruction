@@ -413,6 +413,7 @@ public class PantallaJuego implements Screen {
         if(rectLlave.choca(oberon.getColliderRect())){
             llaveBoolean = true;
             llave.dispose();
+
         }
 
         //Camara HUD

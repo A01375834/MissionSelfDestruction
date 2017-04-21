@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -37,6 +39,12 @@ public class PantallaOpciones implements Screen {
 
     //Texturas boton
     private Texture TexturaBotonBackMenu;
+    private Texture BotonDisparar;
+    private Texture BotonSwitch;
+    private Texture Tarjeta;
+    private Texture botiquin;
+    private Texture balas;
+
 
 
     //fondo
@@ -63,6 +71,9 @@ public class PantallaOpciones implements Screen {
         Image fondoHistoria = new Image(TexturaFondoOpciones);
         escena.addActor(fondoHistoria);
 
+        //Pad
+
+
 
         //botonBackMenu
         TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
@@ -84,6 +95,22 @@ public class PantallaOpciones implements Screen {
     private void crearTexturas() {
         //Textura botones
         TexturaBotonBackMenu= new Texture("back to menu grande.png");
+        Skin skin = new Skin();
+        skin.add("base", new Texture("base de palanca grande.png"));
+        skin.add("palanca", new Texture("palanca grande.png"));
+
+        Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
+        estilo.background = skin.getDrawable("base");
+        estilo.knob = skin.getDrawable("palanca");
+
+        Touchpad pad = new Touchpad(20, estilo);
+        pad.setBounds(50, 50, 200, 200);
+        pad.setColor(1, 1, 1, 0.4f);
+        BotonDisparar
+        BotonSwitch;
+        Tarjeta;
+        botiquin;
+        balas;
 
 
         //textura fondp
