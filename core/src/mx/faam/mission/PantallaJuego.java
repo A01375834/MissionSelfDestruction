@@ -144,7 +144,7 @@ public class PantallaJuego implements Screen {
 
             //Llave
             llave = new Texture(Gdx.files.internal("Bluecard.png"));
-            rectLlave = new ColliderRect(500,64,64,32);
+            rectLlave = new ColliderRect(2180,940,64,32);
 
             //Enemigos
             TexturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
@@ -305,6 +305,7 @@ public class PantallaJuego implements Screen {
         ArrayList<Enemigo> enemigoQuitar = new ArrayList<Enemigo>();
         //Arreglo Medkit por quitas
         ArrayList<MedKit> medKitsQuitar = new ArrayList<MedKit>();
+        Gdx.app.log("x: ", oberon.getX() + " ");
 
         crearNuevosEnemigos(delta);
         musicaPrimerNivel.setLooping(true);
@@ -344,7 +345,9 @@ public class PantallaJuego implements Screen {
         medKits.removeAll(medKitsQuitar);
         batch.begin();
         batch.draw(puerta, 3765, 64);
-        batch.draw(llave,500,64);
+        if(llaveBoolean==false){
+            batch.draw(llave,2180,940);
+        }
         batch.end();
 
 
@@ -354,7 +357,6 @@ public class PantallaJuego implements Screen {
             renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
             renderer.setView(camara);
             oberon.sprite.setPosition(0,64);
-
 
         }
 

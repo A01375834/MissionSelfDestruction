@@ -205,7 +205,7 @@ public class Heroe extends Objeto {
             case EN_PISO:
                 velocidadY = .01f;
                 saltando = false;
-                Gdx.app.log("Salto: ", "En piso");
+                //Gdx.app.log("Salto: ", "En piso");
                 if (cell==null) {
                     estadoSalto = EstadoSalto.BAJANDO;
                 }
