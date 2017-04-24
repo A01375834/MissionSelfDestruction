@@ -44,6 +44,8 @@ public class PantallaOpciones implements Screen {
     private Texture Tarjeta;
     private Texture botiquin;
     private Texture balas;
+    private Texture BackPad;
+    private Texture FrontPad;
 
 
 
@@ -69,7 +71,17 @@ public class PantallaOpciones implements Screen {
         batch = new SpriteBatch();
         escena = new Stage(vista, batch);
         Image fondoHistoria = new Image(TexturaFondoOpciones);
+        Image bala = new Image(balas);
+        Image tarjeta = new Image(Tarjeta);
+        Image medikit = new Image(botiquin);
+        Image BotonD = new Image(BotonDisparar);
+        Image BotonS = new Image(BotonSwitch);
         escena.addActor(fondoHistoria);
+        //escena.addActor(bala);
+        //escena.addActor(tarjeta);
+        //escena.addActor(medikit);
+        //escena.addActor(BotonD);
+        //escena.addActor(BotonS);
 
         //Pad
 
@@ -80,6 +92,48 @@ public class PantallaOpciones implements Screen {
         ImageButton btnBm = new ImageButton(trdBtnBm);
         btnBm.setPosition(0,0);
         escena.addActor(btnBm);
+
+        TextureRegionDrawable trdBala = new TextureRegionDrawable(new TextureRegion(balas));
+        Image balas = new Image(trdBala);
+        balas.setPosition(32,ALTO/2+128);
+        escena.addActor(balas);
+
+        TextureRegionDrawable trdMedk = new TextureRegionDrawable(new TextureRegion(botiquin));
+        Image boti = new Image(trdMedk);
+        boti.setPosition(ANCHO/2-350,ALTO/2+128);
+        escena.addActor(boti);
+
+        TextureRegionDrawable trdTarj = new TextureRegionDrawable(new TextureRegion(Tarjeta));
+        Image tajeta = new Image(trdTarj);
+        tajeta.setPosition(ANCHO/2-440,ALTO/2+64);
+        escena.addActor(tajeta);
+
+        TextureRegionDrawable trdBotonD = new TextureRegionDrawable(new TextureRegion(BotonDisparar));
+        Image disparar = new Image(trdBotonD);
+        disparar.setPosition(ANCHO/2,ALTO/2+128);
+        escena.addActor(disparar);
+
+        TextureRegionDrawable trdBotonS = new TextureRegionDrawable(new TextureRegion(BotonSwitch));
+        Image switchh = new Image(trdBotonS);
+        switchh.setPosition(ANCHO/2+160,ALTO/2+128);
+        escena.addActor(switchh);
+
+
+        TextureRegionDrawable trdBackP = new TextureRegionDrawable(new TextureRegion(BackPad));
+        Image backP = new Image(trdBackP);
+        backP.setPosition(ANCHO/2+460,ALTO/2+128);
+        escena.addActor(backP);
+
+        TextureRegionDrawable trdFrontP = new TextureRegionDrawable(new TextureRegion(FrontPad));
+        Image frontP = new Image(trdFrontP);
+        frontP.setPosition(ANCHO/2+494,ALTO/2+155);
+        escena.addActor(frontP);
+
+
+
+
+
+
 
         //Evento del boton
         btnBm.addListener(new ClickListener(){
@@ -95,22 +149,14 @@ public class PantallaOpciones implements Screen {
     private void crearTexturas() {
         //Textura botones
         TexturaBotonBackMenu= new Texture("back to menu grande.png");
-        Skin skin = new Skin();
-        skin.add("base", new Texture("base de palanca grande.png"));
-        skin.add("palanca", new Texture("palanca grande.png"));
+        BackPad = new Texture("base de palanca grande.png");
+        FrontPad = new Texture("palanca grande.png");
+        BotonDisparar = new Texture("boton disparo grande.png");
+        BotonSwitch = new Texture("boton switch grande.png");
+        Tarjeta = new Texture("Bluecard.png");
+        botiquin = new Texture("medkit grande.png");
+        balas= new Texture("municion grande.png");
 
-        Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
-        estilo.background = skin.getDrawable("base");
-        estilo.knob = skin.getDrawable("palanca");
-
-        Touchpad pad = new Touchpad(20, estilo);
-        pad.setBounds(50, 50, 200, 200);
-        pad.setColor(1, 1, 1, 0.4f);
-        BotonDisparar
-        BotonSwitch;
-        Tarjeta;
-        botiquin;
-        balas;
 
 
         //textura fondp
