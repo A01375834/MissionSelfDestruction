@@ -129,6 +129,8 @@ public class PantallaOpciones implements Screen {
         frontP.setPosition(ANCHO/2+494,ALTO/2+155);
         escena.addActor(frontP);
 
+        //AA
+
 
 
 
