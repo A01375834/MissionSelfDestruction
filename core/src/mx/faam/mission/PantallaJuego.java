@@ -231,9 +231,12 @@ public class PantallaJuego implements Screen {
                         sonidoCaminar.loop();
                         sonidoTocando = true;
                     }
+
                 } else if (pad.getKnobPercentY() > 0.20) {
-                    oberon.saltar();
-                    oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.QUIETO);
+                    if(!oberon.getEstadoMovimiento().equals(Heroe.EstadoSalto.SUBIENDO)){
+                        oberon.saltar();
+                        oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.QUIETO);
+                    }
 
                 } else {
                     oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.QUIETO);
@@ -282,6 +285,8 @@ public class PantallaJuego implements Screen {
 
             }
         });
+
+
 
         btnDisparar.addListener(new ClickListener() {
             @Override

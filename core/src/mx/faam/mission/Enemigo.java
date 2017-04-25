@@ -29,6 +29,10 @@ public class Enemigo {
     private Animation animacion;    // Caminando
     private float timerAnimacion;   // tiempo para calcular el frame
 
+    //animacion 2do enemigo
+    private Animation animationEnemigoDos;
+    private Sprite spriteDos;
+
     //Collider
     ColliderRect rect;
     public boolean remove = false;
@@ -40,9 +44,11 @@ public class Enemigo {
         this.vidas = vidas;
         this.vx = vx;
         TextureRegion texturaEnemigo = new TextureRegion(textura);
+        TextureRegion texturaEnemigoDos = new TextureRegion(textura);
         //int random = MathUtils.random(1,3);
 
         sprite = new Sprite(texturaEnemigo);
+        spriteDos = new Sprite(texturaEnemigoDos);
 
         TextureRegion[][] texturaPersonaje = texturaEnemigo.split(288, 128);
         animacion = new Animation(0.15f, texturaPersonaje[0][3], texturaPersonaje[0][2], texturaPersonaje[0][1]);
@@ -56,6 +62,18 @@ public class Enemigo {
         rect = new ColliderRect(x, y, 288, 128);
 
         batch.setColor(Color.WHITE);
+
+        //Enemigo Dos
+        /*
+        TextureRegion[][] texturaPersonajeDos = texturaEnemigoDos.split(128,256);
+        animationEnemigoDos = new Animation(0.15f,texturaPersonajeDos,texturaPersonajeDos[0][8],texturaPersonajeDos[0][7],
+                texturaPersonajeDos[0][6],texturaPersonajeDos[0][5],texturaPersonajeDos[0][4],texturaPersonajeDos[0][3],
+                texturaPersonajeDos[0][2],texturaPersonajeDos[0][1]);
+
+        animationEnemigoDos.setPlayMode(Animation.PlayMode.LOOP);
+        spriteDos = new Sprite(texturaPersonajeDos[0][0]);
+        */
+
 
     }
 

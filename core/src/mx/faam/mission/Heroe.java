@@ -77,21 +77,7 @@ public class Heroe extends Objeto {
     // Dibuja el personaje
     public void dibujar(SpriteBatch batch) {
 
-        /*if(estadoMovimiento == EstadoMovimiento.MOV_DERECHA && estadoSalto == EstadoSalto.EN_PISO){
-            timerAnimacion += Gdx.graphics.getDeltaTime();
-            TextureRegion regio = spriteIzquierda.getKeyFrame(timerAnimacion);
-            sprite.setRegion(regio);
-        }
-        if(estadoMovimiento == EstadoMovimiento.MOV_IZQUIERDA && estadoSalto == EstadoSalto.EN_PISO){
-            timerAnimacion += Gdx.graphics.getDeltaTime();
-            TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
-            sprite.setRegion(region);
-        }
-        if(estadoMovimiento == EstadoMovimiento.DISPARANDO && estadoSalto == EstadoSalto.EN_PISO){
-            TextureRegion regi = spriteDisparando.getKeyFrame(timerAnimacion);
-            sprite.setRegion(regi);
-        }
-        sprite.draw(batch);*/
+
         // Dibuja el personaje dependiendo del estadoMovimiento
         switch (estadoMovimiento) {
             case MOV_DERECHA:
