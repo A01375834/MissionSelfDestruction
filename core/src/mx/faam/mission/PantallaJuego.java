@@ -55,6 +55,8 @@ public class PantallaJuego implements Screen {
     //Estado Jugando
     public EstadoJuego estado = EstadoJuego.JUGANDO;
 
+    public EstadoNivel estadoNivel = EstadoNivel.PRIMERNIVEL;
+
     //vida
     private Vida vida;
     private MedKit medKit;
@@ -90,7 +92,6 @@ public class PantallaJuego implements Screen {
 
     //Mapa
     private TiledMap TexturaFondoJuego;
-    private TiledMap TexturaFondoJuegoParteDos;
     private OrthogonalTiledMapRenderer renderer; //dibuja el mapa
     //Textura Oberon
     private Heroe oberon;
@@ -104,6 +105,11 @@ public class PantallaJuego implements Screen {
     private ColliderRect rectLlave;
     private Boolean llaveBoolean = false;
 
+    //Texttura llave Parte Dos
+    private  Texture llaveDos;
+    private ColliderRect rectLlaveDos;
+    private Boolean llaveBooleanDos = false;
+
     //Textura enemigos
     private Texture TexturaChiquito;
     private Enemigo chiquito1;
@@ -112,6 +118,8 @@ public class PantallaJuego implements Screen {
     //Textura y colisione pueta siguiente parte del nivel
     private Texture puerta;
     private ColliderRect rect;
+
+    private  Texture puertaDos;
 
     //AssetManager
     private AssetManager manager = new AssetManager();
@@ -140,6 +148,8 @@ public class PantallaJuego implements Screen {
             oberonIzq = new Texture("prueba tamaño izquierda.png");
             puerta = new Texture("puerta.png");
             rect = new ColliderRect(3765, 64, 192, 288);
+
+            puertaDos = new Texture("puerta.png");
 
 
             //Llave
@@ -312,6 +322,8 @@ public class PantallaJuego implements Screen {
         ArrayList<MedKit> medKitsQuitar = new ArrayList<MedKit>();
         Gdx.app.log("x: ", oberon.getX() + " ");
 
+        ColliderRect rectPuerta2;
+
         crearNuevosEnemigos(delta);
         musicaPrimerNivel.setLooping(true);
         musicaPrimerNivel.play();
@@ -350,6 +362,26 @@ public class PantallaJuego implements Screen {
         medKits.removeAll(medKitsQuitar);
         batch.begin();
         batch.draw(puerta, 3765, 64);
+
+        //PARTE DOS NIVEL UNO
+        if(estadoNivel == EstadoNivel.PRIMERNIVELPT2) {
+
+            batch.draw(puertaDos, 2396, 64);
+            rectPuerta2 = new ColliderRect(2396,64,128,64);
+            if(rectPuerta2.choca(oberon.getColliderRect())&&llaveBooleanDos==true){
+                Gdx.app.log("Siguiente","Nivel");
+            }
+            llaveDos = new Texture("Bluecard.png");
+            rectLlaveDos = new ColliderRect(2496,832,64,32);
+            if(llaveBooleanDos==false){
+                batch.draw(llaveDos,2496,832);
+            }
+            if(rectLlaveDos.choca(oberon.getColliderRect())){
+                llaveBooleanDos = true;
+                llaveDos.dispose();
+            }
+
+        }
         if(llaveBoolean==false){
             batch.draw(llave,2180,940);
         }
@@ -358,6 +390,7 @@ public class PantallaJuego implements Screen {
 
         if (rect.choca(oberon.getColliderRect())&& llaveBoolean==true) {
             Gdx.app.log("Siguiente", "Nivel");
+            estadoNivel = EstadoNivel.PRIMERNIVELPT2;
             TexturaFondoJuego = manager.get("ParteDosPrimerNivel.tmx");
             renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
             renderer.setView(camara);
@@ -365,7 +398,6 @@ public class PantallaJuego implements Screen {
 
         }
 
-        //AA
         batch.begin();
         if (estado == EstadoJuego.JUGANDO) {
             oberon.dibujar(batch);
