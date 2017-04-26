@@ -181,6 +181,7 @@ public class PantallaJuego implements Screen {
             manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
             manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
             manager.load("ParteDosPrimerNivel.tmx", TiledMap.class);
+            manager.load("NivelDos.tmx", TiledMap.class);
 
 
 
@@ -373,7 +374,12 @@ public class PantallaJuego implements Screen {
             batch.draw(puertaDos, 2396, 64);
             rectPuerta2 = new ColliderRect(2396,64,128,64);
             if(rectPuerta2.choca(oberon.getColliderRect())&&llaveBooleanDos==true){
-                Gdx.app.log("Siguiente","Nivel");
+                Gdx.app.log("Siguiente","Nivel 2");
+                TexturaFondoJuego = manager.get("NivelDos.tmx");
+                renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
+                renderer.setView(camara);
+                oberon.sprite.setPosition(0,64);
+
             }
             llaveDos = new Texture("Bluecard.png");
             rectLlaveDos = new ColliderRect(2496,832,64,32);
