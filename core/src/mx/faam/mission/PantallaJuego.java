@@ -241,11 +241,15 @@ public class PantallaJuego implements Screen {
                         sonidoCaminar.loop();
                         sonidoTocando = true;
                     }
-
+                    //if(!oberon.getEstadoMovimiento().equals(Heroe.EstadoSalto.SUBIENDO) ||
+                      //      !oberon.getEstadoMovimiento().equals(Heroe.EstadoSalto.BAJANDO)){
                 } else if (pad.getKnobPercentY() > 0.20) {
-                    if(!oberon.getEstadoMovimiento().equals(Heroe.EstadoSalto.SUBIENDO)){
-                        oberon.saltar();
-                        oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.QUIETO);
+
+                       // Gdx.app.log("Estoy Saltando:", "ahora");
+                    Gdx.app.log("y personaje: ", String.valueOf(oberon.sprite.getY()));
+                    if(oberon.getEstadoSalto() == Heroe.EstadoSalto.EN_PISO){
+                        oberon.setEstadoSalto(Heroe.EstadoSalto.SUBIENDO);
+                        //oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.QUIETO);
                     }
 
                 } else {
@@ -320,7 +324,7 @@ public class PantallaJuego implements Screen {
         ArrayList<Enemigo> enemigoQuitar = new ArrayList<Enemigo>();
         //Arreglo Medkit por quitas
         ArrayList<MedKit> medKitsQuitar = new ArrayList<MedKit>();
-        Gdx.app.log("x: ", oberon.getX() + " ");
+        //Gdx.app.log("x: ", oberon.getX() + " ");
 
         ColliderRect rectPuerta2;
 
@@ -464,6 +468,9 @@ public class PantallaJuego implements Screen {
         batch.begin();
         vida.actualizarVida(batch, vida.getVida());
         batch.end();
+
+
+
     }
 
 

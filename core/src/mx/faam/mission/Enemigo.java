@@ -65,8 +65,9 @@ public class Enemigo {
 
         //Enemigo Dos
         /*
-        TextureRegion[][] texturaPersonajeDos = texturaEnemigoDos.split(128,256);
-        animationEnemigoDos = new Animation(0.15f,texturaPersonajeDos,texturaPersonajeDos[0][8],texturaPersonajeDos[0][7],
+
+        TextureRegion[][] texturaPersonajeDos = texturaEnemigoDos.split(64+64,64+64+64+64);
+        animationEnemigoDos = new Animation(0.15f,texturaPersonajeDos[0][8],texturaPersonajeDos[0][7],
                 texturaPersonajeDos[0][6],texturaPersonajeDos[0][5],texturaPersonajeDos[0][4],texturaPersonajeDos[0][3],
                 texturaPersonajeDos[0][2],texturaPersonajeDos[0][1]);
 
@@ -93,11 +94,16 @@ public class Enemigo {
         // Obtiene el frame que se debe mostrar (de acuerdo al timer)
         TextureRegion region = (TextureRegion) animacion.getKeyFrame(timerAnimacion);
         batch.draw(region, x, y);
+
+        //TextureRegion regionDos = (TextureRegion) animationEnemigoDos.getKeyFrame(timerAnimacion);
+        //batch.draw(regionDos,x,y);
     }
 
     public void setPosicion(SpriteBatch batch, float x, float y) {
         sprite.setPosition(x, y);
         sprite.draw(batch);
+        //spriteDos.setPosition(x,y);
+        //spriteDos.draw(batch);
     }
 
     public int getVidas() {

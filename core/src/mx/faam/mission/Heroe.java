@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 
 import static mx.faam.mission.Heroe.EstadoSalto.BAJANDO;
+import static mx.faam.mission.Heroe.EstadoSalto.EN_PISO;
 import static mx.faam.mission.Heroe.EstadoSalto.SUBIENDO;
 
 /**
@@ -20,10 +21,14 @@ import static mx.faam.mission.Heroe.EstadoSalto.SUBIENDO;
  */
 
 public class Heroe extends Objeto {
-    private final float VELOCIDAD_X =12;      // Velocidad horizontal
-    private float velocidadY;
+    private final float VELOCIDAD_X =12;// Velocidad horizontal
+    public static  float VELOCIDAD_Y = -3f;
+    private float velocidadY, tiempoSalto;
     private boolean saltando;
-    private Sprite spriteBala;
+    private float velocidadSalto = 195f;
+
+
+
 
     private float vida = 100;
 
@@ -157,13 +162,15 @@ public class Heroe extends Objeto {
     // Realiza el salto
     private void moverVertical(TiledMap mapa) {
         float delta = 9;//Gdx.graphics.getDeltaTime();
-        float velocidadSalto = 0;
+        //float velocidadSalto = 0;
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("pisos");
         int celdaX = (int) ((sprite.getX()+sprite.getWidth()/2) / capa.getTileWidth());
         int celdaY = (int) ((sprite.getY()-30)/ capa.getTileHeight());
+        float y = sprite.getY();
         TiledMapTileLayer.Cell cell = capa.getCell(celdaX, celdaY);
         switch (estadoSalto) {
             case SUBIENDO:
+                /*
                 if(!saltando) {
                     velocidadY = 15;
                     saltando = true;
@@ -172,27 +179,58 @@ public class Heroe extends Objeto {
                 velocidadSalto += velocidadY * delta;
                 sprite.setY(sprite.getY()+velocidadSalto);
                 alturaSalto += delta;
+                //Gdx.app.log("velocidadSalto: ", String.valueOf(alturaSalto));
                 if (velocidadY<=.01) {
                     estadoSalto = BAJANDO;
                 }
+                */
+                y += velocidadSalto*0.2f;
+                velocidadSalto += VELOCIDAD_Y;
+                if(velocidadSalto <= 0){
+                    estadoSalto = EstadoSalto.BAJANDO;
+                }
+                sprite.setY(y);
+
                 break;
             case BAJANDO:
+                /*
                 velocidadY *= 2;
                 if(velocidadY <= 15){
                     velocidadSalto  = velocidadY* delta;
                 }
                 sprite.setY(sprite.getY()-delta);
                 if (cell!=null) {
+                    Gdx.app.log("Aqui estoy ","tonto");
                     estadoSalto = EstadoSalto.EN_PISO;
                     alturaSalto = 0;
                     sprite.setY((celdaY+1)*capa.getTileHeight());
                 }
+                */
+               sprite.setY(sprite.getY() + 9.81f*VELOCIDAD_Y*0.3f);
+
+                if (cell!=null) {
+                    estadoSalto = EstadoSalto.EN_PISO;
+                    alturaSalto = 0;
+                    sprite.setY((celdaY + 1) * capa.getTileHeight());
+                }
+
+
+
+
                 break;
             case EN_PISO:
+                /*
                 velocidadY = .01f;
                 saltando = false;
                 //Gdx.app.log("Salto: ", "En piso");
                 if (cell==null) {
+                    estadoSalto = EstadoSalto.BAJANDO;
+                }
+                */
+                velocidadSalto = 64;
+                tiempoSalto = 0;
+
+                if(cell == null){
                     estadoSalto = EstadoSalto.BAJANDO;
                 }
                 break;
@@ -253,16 +291,29 @@ public class Heroe extends Objeto {
         return estadoMovimiento;
     }
 
+    public EstadoSalto getEstadoSalto(){
+        return estadoSalto;
+    }
+
     // Modificador de estadoMovimiento
     public void setEstadoMovimiento(EstadoMovimiento estadoMovimiento) {
         this.estadoMovimiento = estadoMovimiento;
     }
+
+    public void setEstadoSalto(EstadoSalto estadoSalto){
+        this.estadoSalto = estadoSalto;
+    }
     // Inicia el salto
     public void saltar() {
 
-        if (estadoSalto!= SUBIENDO && estadoSalto!= BAJANDO) {
-            // inicia
+        //if (estadoSalto!= SUBIENDO && estadoSalto!= BAJANDO) {
+
+        if(estadoSalto == EN_PISO && estadoSalto != SUBIENDO){
+            // inicia salto
             estadoSalto = SUBIENDO;
+            Gdx.app.log("Saltar","esta ini salto: "+sprite.getY());
+
+
             yOriginal = sprite.getY();
             alturaSalto = 0;
         }
@@ -275,6 +326,8 @@ public class Heroe extends Objeto {
     public float getY(){
         return sprite.getY();
     }
+
+
 
     public enum EstadoMovimiento {
         INICIANDO,
