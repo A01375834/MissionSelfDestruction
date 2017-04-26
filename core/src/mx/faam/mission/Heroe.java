@@ -214,7 +214,7 @@ public class Heroe extends Objeto {
                     sprite.setY((celdaY + 1) * capa.getTileHeight());
                 }
 
-
+                //AAAAA
 
 
                 break;
