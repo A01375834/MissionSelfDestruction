@@ -187,13 +187,13 @@ public class PantallaJuego implements Screen {
 
             crearHUD();
 
-
         } else {
             pausa = false;
         }
         Gdx.input.setInputProcessor(escenaHUD);
 
     }
+
 
     private void crearHUD() {
         camaraHUD = new OrthographicCamera(ANCHO, ALTO);
@@ -309,6 +309,7 @@ public class PantallaJuego implements Screen {
         });
     }
 
+
     @Override
     public void render(float delta) {
         //long inicio=System.nanoTime();
@@ -325,6 +326,8 @@ public class PantallaJuego implements Screen {
 
 
 
+
+
         crearNuevosEnemigos(delta);
         musicaPrimerNivel.setLooping(true);
         musicaPrimerNivel.play();
@@ -333,9 +336,9 @@ public class PantallaJuego implements Screen {
         actualizarMapa();
         for (Bala bala : balas) {
             if(oberon.ViendoDerecha()==true){
-                bala.actualizarBala(delta, oberon.getX());
+                bala.actualizarBala(delta, camara);
             }else{
-                bala.actualizarBalaIzq(delta,oberon.getX());
+                bala.actualizarBalaIzq(delta,camara);
             }
             if (bala.remove)
                 balasQuitar.add(bala);
@@ -439,6 +442,8 @@ public class PantallaJuego implements Screen {
                 }
             }
         }
+
+
         balas.removeAll(balasQuitar);
 
         for (Enemigo enemigo : enemigos) {

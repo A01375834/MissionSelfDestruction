@@ -86,7 +86,7 @@ public class PantallaMenu implements Screen {
         TexturaLogoJuego = new Texture("logo pequeño.png");
 
         //textura fondp
-        TexturaFondoMenu = new Texture("fondo.png");
+        TexturaFondoMenu = new Texture("fondo 2.png");
 
         //Audio
         AssetManager manager = new AssetManager();
