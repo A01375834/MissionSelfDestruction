@@ -29,10 +29,7 @@ public class Enemigo {
     //animacion
     private Animation animacion;    // Caminando
     private float timerAnimacion;   // tiempo para calcular el frame
-
-    //animacion 2do enemigo
-    private Animation animationEnemigoDos;
-    private Sprite spriteDos;
+    public TipoEnemigo tipoEnemigo;
 
     //Collider
     ColliderRect rect;
@@ -49,12 +46,13 @@ public class Enemigo {
 
         TextureRegion texturaEnemigo = new TextureRegion(textura);
 
+        tipoEnemigo = TipoEnemigo.PRIMERENEMIGO;
         //int random = MathUtils.random(1,3);
 
         sprite = new Sprite(texturaEnemigo);
 
 
-        TextureRegion[][] texturaPersonaje = texturaEnemigo.split(288, 128);
+        TextureRegion[][] texturaPersonaje = texturaEnemigo.split(ANCHO_T, ALTO_T);
         animacion = new Animation(0.15f, texturaPersonaje[0][3], texturaPersonaje[0][2], texturaPersonaje[0][1]);
         // Animación infinita
         animacion.setPlayMode(Animation.PlayMode.LOOP);
@@ -66,22 +64,40 @@ public class Enemigo {
         rect = new ColliderRect(x, y, 288, 128);
 
         batch.setColor(Color.WHITE);
-
-
-
     }
 
-    public Enemigo(Texture textura){
-        TextureRegion texturaEnemigoDos = new TextureRegion(textura);
-        spriteDos = new Sprite(textura);
-        TextureRegion[][] texturaPersonajeDos = texturaEnemigoDos.split(128,320);
-        animationEnemigoDos = new Animation(0.15f,texturaPersonajeDos[0][7],texturaPersonajeDos[0][6],
-                texturaPersonajeDos[0][5],texturaPersonajeDos[0][4],texturaPersonajeDos[0][3],texturaPersonajeDos[0][2],
-                texturaPersonajeDos[0][1]);
+    public Enemigo(Texture textura, float x, float y, int vidas,Batch batch, int ANCHO_T , int ALTO_T) {
+        this.x = x;
+        this.y = y;
+        this.vidas = vidas;
+        this.vx = -200;
+        this.ANCHO_T = ANCHO_T;
+        this.ALTO_T = ALTO_T;
 
-        animationEnemigoDos.setPlayMode(Animation.PlayMode.LOOP);
-        spriteDos = new Sprite(texturaPersonajeDos[0][0]);
+        TextureRegion texturaEnemigo = new TextureRegion(textura);
+
+        //int random = MathUtils.random(1,3);
+
+        sprite = new Sprite(texturaEnemigo);
+
+
+        TextureRegion[][] texturaPersonaje = texturaEnemigo.split(ANCHO_T, ALTO_T);
+        animacion = new Animation(0.15f, texturaPersonaje[0][1], texturaPersonaje[0][2], texturaPersonaje[0][3],
+                texturaPersonaje[0][4],texturaPersonaje[0][5],texturaPersonaje[0][6],texturaPersonaje[0][7]);
+        // Animación infinita
+        animacion.setPlayMode(Animation.PlayMode.LOOP);
+        // Inicia el timer que contará tiempo para saber qué frame se dibuja
+        timerAnimacion = 0;
+        // Crea el sprite cuando para el personaje quieto (idle)
+        sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
+
+        rect = new ColliderRect(x, y, 128, 320);
+
+        tipoEnemigo =TipoEnemigo.SEGUNDOENEMIGO;
+
+        batch.setColor(Color.WHITE);
     }
+
 
     public void actualizar(float deltaTime, float xE) {
         x += vx * deltaTime;
@@ -100,15 +116,11 @@ public class Enemigo {
         TextureRegion region = (TextureRegion) animacion.getKeyFrame(timerAnimacion);
         batch.draw(region, x, y);
 
-        TextureRegion regionDos = (TextureRegion) animationEnemigoDos.getKeyFrame(timerAnimacion);
-        batch.draw(regionDos,x,y);
     }
 
     public void setPosicion(SpriteBatch batch, float x, float y) {
         sprite.setPosition(x, y);
         sprite.draw(batch);
-        spriteDos.setPosition(x,y);
-        spriteDos.draw(batch);
     }
 
     public int getVidas() {
@@ -126,16 +138,6 @@ public class Enemigo {
     public float getX() {
         return sprite.getX();
     }
-
-    public float getXMediano(){
-        return spriteDos.getX();
-    }
-
-    public void setPosicionMediano(float x, float y){
-        spriteDos.setPosition(x,y);
-    }
-
-
     public float getY() {
         return sprite.getY();
     }
@@ -151,15 +153,13 @@ public class Enemigo {
     public void herir(float delta,Batch batch){
         //delta -= 1;
         //while(delta>0){
-            batch.setColor(Color.RED);
+        batch.setColor(Color.RED);
         //}
-
     }
 
-
-
-
-
-
+    public enum TipoEnemigo{
+        PRIMERENEMIGO,
+        SEGUNDOENEMIGO
+    }
 
 }

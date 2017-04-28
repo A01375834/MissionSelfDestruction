@@ -80,8 +80,8 @@ public class Vida {
             batch.setColor(Color.RED);
     }
 
-    public void herir(){
-       vida -= 20;
+    public void herir(int herida){
+       vida -= herida;
 
      }
 

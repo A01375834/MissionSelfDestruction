@@ -40,7 +40,7 @@ public class PantallaJuego implements Screen {
 
 
     public static final float ANCHO = 1280;
-    private static final float ALTO = 800;
+    public static final float ALTO = 800;
 
     private boolean pausa;
 
@@ -112,7 +112,7 @@ public class PantallaJuego implements Screen {
 
     //Textura enemigos
     private Texture TexturaChiquito;
-    private Enemigo chiquito1;
+    private Texture TexturaEnemigoDos;
     //Comentario
 
     //Textura y colisione pueta siguiente parte del nivel
@@ -133,7 +133,6 @@ public class PantallaJuego implements Screen {
 
     //Arreglo MedKits
     ArrayList<MedKit> medKits = new ArrayList<MedKit>();
-    private Texture TexturaMediano;
 
     public PantallaJuego(SelfDestruction selfDestruction) {
         this.selfDestruction = selfDestruction;
@@ -159,10 +158,9 @@ public class PantallaJuego implements Screen {
 
             //Enemigos
             TexturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
+            TexturaEnemigoDos = new Texture("enemigoDos.png");
             tiempoEnemigo = MathUtils.random(1.5f, 5.0f);
 
-            TexturaMediano = new Texture("enemigo 3 animacion izquierda.png");
-            Gdx.app.log("Mediano","ANcho: "+ TexturaMediano.getWidth());
 
             //Vida
             vida = new Vida();
@@ -171,16 +169,6 @@ public class PantallaJuego implements Screen {
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
-                       /* chiquito1 = new Enemigo(TexturaChiquito, 1280, 188, 5, -100);
-                        Enemigo chiquito2 = new Enemigo(TexturaChiquito, 2560, 188, 5, -100);
-                        Enemigo chiquito3 = new Enemigo(TexturaChiquito,3840,188,5,-80);
-                        Enemigo chiquito4 = new Enemigo(TexturaChiquito,5120,188,5,-100);
-                        Enemigo chiquito5 = new Enemigo(TexturaChiquito,6400,188,5,-100);
-                        enemigos.add(chiquito3);
-                        enemigos.add(chiquito1);
-                        enemigos.add(chiquito2);
-                        enemigos.add(chiquito4);
-                        enemigos.add(chiquito5);*/
 
             manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
             manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
@@ -247,10 +235,10 @@ public class PantallaJuego implements Screen {
                         sonidoTocando = true;
                     }
                     //if(!oberon.getEstadoMovimiento().equals(Heroe.EstadoSalto.SUBIENDO) ||
-                      //      !oberon.getEstadoMovimiento().equals(Heroe.EstadoSalto.BAJANDO)){
+                    //      !oberon.getEstadoMovimiento().equals(Heroe.EstadoSalto.BAJANDO)){
                 } else if (pad.getKnobPercentY() > 0.20) {
 
-                       // Gdx.app.log("Estoy Saltando:", "ahora");
+                    // Gdx.app.log("Estoy Saltando:", "ahora");
                     Gdx.app.log("y personaje: ", String.valueOf(oberon.sprite.getY()));
                     if(oberon.getEstadoSalto() == Heroe.EstadoSalto.EN_PISO){
                         oberon.setEstadoSalto(Heroe.EstadoSalto.SUBIENDO);
@@ -323,6 +311,8 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void render(float delta) {
+        //long inicio=System.nanoTime();
+
         //Arreglo Balas para quitar
         ArrayList<Bala> balasQuitar = new ArrayList<Bala>();
         //Arreglo Enemigos por quitar
@@ -332,6 +322,8 @@ public class PantallaJuego implements Screen {
         //Gdx.app.log("x: ", oberon.getX() + " ");
 
         ColliderRect rectPuerta2;
+
+
 
         crearNuevosEnemigos(delta);
         musicaPrimerNivel.setLooping(true);
@@ -383,6 +375,7 @@ public class PantallaJuego implements Screen {
                 renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
                 renderer.setView(camara);
                 oberon.sprite.setPosition(0,64);
+                estadoNivel = EstadoNivel.SEGUNDONIVEL;
 
             }
             llaveDos = new Texture("Bluecard.png");
@@ -451,7 +444,11 @@ public class PantallaJuego implements Screen {
         for (Enemigo enemigo : enemigos) {
             if (enemigo.getColliderRect().choca(oberon.getColliderRect())) {
                 sonidoQuejido.play();
-                vida.herir();
+                if(enemigo.tipoEnemigo == Enemigo.TipoEnemigo.PRIMERENEMIGO) {
+                    vida.herir(20);
+                }else if(enemigo.tipoEnemigo == Enemigo.TipoEnemigo.SEGUNDOENEMIGO){
+                    vida.herir(40);
+                }
                 enemigoQuitar.add(enemigo);
                 if (vida.getVida() <= 0) {
                     selfDestruction.setScreen(new PantallaPerder(selfDestruction));
@@ -478,6 +475,9 @@ public class PantallaJuego implements Screen {
         batch.begin();
         vida.actualizarVida(batch, vida.getVida());
         batch.end();
+
+        //long fin=System.nanoTime();
+        //Gdx.app.log("sounds", "Tiempo: " +(fin-inicio)/1000); // se carga ahora desde el manager
 
 
 
@@ -548,17 +548,20 @@ public class PantallaJuego implements Screen {
         TexturaOberon.dispose();
 
     }
-//AAA
+    //AAA
     private void crearNuevosEnemigos(float delta) {
         tiempoEnemigo -= delta;
         if (tiempoEnemigo <= 0) {
             tiempoEnemigo = MathUtils.random(5.0f, tiempoMaximo);
             tiempoMaximo -= tiempoMaximo > 0.5f ? 10 * delta : 0;
-            Enemigo enemigo = new Enemigo(TexturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100,batch,288,128);
-             Enemigo enemigo2 = new Enemigo(TexturaMediano);
-            enemigo2.setPosicionMediano(oberon.getX()+ ANCHO +1, 64);
-            enemigos.add(enemigo);
-            enemigos.add(enemigo2);
+            if(estadoNivel == EstadoNivel.PRIMERNIVEL) {
+                Enemigo enemigo = new Enemigo(TexturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100, batch, 288, 128);
+                enemigos.add(enemigo);
+            }else if(estadoNivel==EstadoNivel.SEGUNDONIVEL) {
+                Enemigo enemigo2 = new Enemigo(TexturaEnemigoDos,oberon.getX()+ANCHO+1,64,15,batch,128,320);
+                enemigos.add(enemigo2);
+            }
+
         }
 
     }
