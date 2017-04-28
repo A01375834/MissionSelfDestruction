@@ -24,6 +24,7 @@ public class Enemigo {
     float x, y;
     private Sprite sprite;
     private int vidas;
+    int ANCHO_T, ALTO_T;
 
     //animacion
     private Animation animacion;    // Caminando
@@ -38,17 +39,20 @@ public class Enemigo {
     public boolean remove = false;
 
 
-    public Enemigo(Texture textura, float x, float y, int vidas, int vx,Batch batch) {
+    public Enemigo(Texture textura, float x, float y, int vidas, int vx,Batch batch, int ANCHO_T , int ALTO_T) {
         this.x = x;
         this.y = y;
         this.vidas = vidas;
         this.vx = vx;
+        this.ANCHO_T = ANCHO_T;
+        this.ALTO_T = ALTO_T;
+
         TextureRegion texturaEnemigo = new TextureRegion(textura);
-        TextureRegion texturaEnemigoDos = new TextureRegion(textura);
+
         //int random = MathUtils.random(1,3);
 
         sprite = new Sprite(texturaEnemigo);
-        spriteDos = new Sprite(texturaEnemigoDos);
+
 
         TextureRegion[][] texturaPersonaje = texturaEnemigo.split(288, 128);
         animacion = new Animation(0.15f, texturaPersonaje[0][3], texturaPersonaje[0][2], texturaPersonaje[0][1]);
@@ -63,19 +67,20 @@ public class Enemigo {
 
         batch.setColor(Color.WHITE);
 
-        //Enemigo Dos
-        /*
 
-        TextureRegion[][] texturaPersonajeDos = texturaEnemigoDos.split(64+64,64+64+64+64);
-        animationEnemigoDos = new Animation(0.15f,texturaPersonajeDos[0][8],texturaPersonajeDos[0][7],
-                texturaPersonajeDos[0][6],texturaPersonajeDos[0][5],texturaPersonajeDos[0][4],texturaPersonajeDos[0][3],
-                texturaPersonajeDos[0][2],texturaPersonajeDos[0][1]);
+
+    }
+
+    public Enemigo(Texture textura){
+        TextureRegion texturaEnemigoDos = new TextureRegion(textura);
+        spriteDos = new Sprite(textura);
+        TextureRegion[][] texturaPersonajeDos = texturaEnemigoDos.split(128,320);
+        animationEnemigoDos = new Animation(0.15f,texturaPersonajeDos[0][7],texturaPersonajeDos[0][6],
+                texturaPersonajeDos[0][5],texturaPersonajeDos[0][4],texturaPersonajeDos[0][3],texturaPersonajeDos[0][2],
+                texturaPersonajeDos[0][1]);
 
         animationEnemigoDos.setPlayMode(Animation.PlayMode.LOOP);
         spriteDos = new Sprite(texturaPersonajeDos[0][0]);
-        */
-
-
     }
 
     public void actualizar(float deltaTime, float xE) {
@@ -95,15 +100,15 @@ public class Enemigo {
         TextureRegion region = (TextureRegion) animacion.getKeyFrame(timerAnimacion);
         batch.draw(region, x, y);
 
-        //TextureRegion regionDos = (TextureRegion) animationEnemigoDos.getKeyFrame(timerAnimacion);
-        //batch.draw(regionDos,x,y);
+        TextureRegion regionDos = (TextureRegion) animationEnemigoDos.getKeyFrame(timerAnimacion);
+        batch.draw(regionDos,x,y);
     }
 
     public void setPosicion(SpriteBatch batch, float x, float y) {
         sprite.setPosition(x, y);
         sprite.draw(batch);
-        //spriteDos.setPosition(x,y);
-        //spriteDos.draw(batch);
+        spriteDos.setPosition(x,y);
+        spriteDos.draw(batch);
     }
 
     public int getVidas() {
@@ -114,9 +119,22 @@ public class Enemigo {
         this.vidas = vidas;
     }
 
+    public void setANCHO(int ANCHO_T){ this.ANCHO_T = ANCHO_T;}
+
+    public void setALTO(int ALTO_T){this.ALTO_T = ALTO_T;}
+
     public float getX() {
         return sprite.getX();
     }
+
+    public float getXMediano(){
+        return spriteDos.getX();
+    }
+
+    public void setPosicionMediano(float x, float y){
+        spriteDos.setPosition(x,y);
+    }
+
 
     public float getY() {
         return sprite.getY();

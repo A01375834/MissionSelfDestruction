@@ -133,6 +133,7 @@ public class PantallaJuego implements Screen {
 
     //Arreglo MedKits
     ArrayList<MedKit> medKits = new ArrayList<MedKit>();
+    private Texture TexturaMediano;
 
     public PantallaJuego(SelfDestruction selfDestruction) {
         this.selfDestruction = selfDestruction;
@@ -159,6 +160,9 @@ public class PantallaJuego implements Screen {
             //Enemigos
             TexturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
             tiempoEnemigo = MathUtils.random(1.5f, 5.0f);
+
+            TexturaMediano = new Texture("enemigo 3 animacion izquierda.png");
+            Gdx.app.log("Mediano","ANcho: "+ TexturaMediano.getWidth());
 
             //Vida
             vida = new Vida();
@@ -550,8 +554,11 @@ public class PantallaJuego implements Screen {
         if (tiempoEnemigo <= 0) {
             tiempoEnemigo = MathUtils.random(5.0f, tiempoMaximo);
             tiempoMaximo -= tiempoMaximo > 0.5f ? 10 * delta : 0;
-            Enemigo enemigo = new Enemigo(TexturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100,batch);
+            Enemigo enemigo = new Enemigo(TexturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100,batch,288,128);
+             Enemigo enemigo2 = new Enemigo(TexturaMediano);
+            enemigo2.setPosicionMediano(oberon.getX()+ ANCHO +1, 64);
             enemigos.add(enemigo);
+            enemigos.add(enemigo2);
         }
 
     }
