@@ -548,7 +548,7 @@ public class PantallaJuego implements Screen {
         TexturaOberon.dispose();
 
     }
-
+//AAA
     private void crearNuevosEnemigos(float delta) {
         tiempoEnemigo -= delta;
         if (tiempoEnemigo <= 0) {
