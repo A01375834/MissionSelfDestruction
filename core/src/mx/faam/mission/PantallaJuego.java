@@ -109,6 +109,7 @@ public class PantallaJuego implements Screen {
     private  Texture llaveDos;
     private ColliderRect rectLlaveDos;
     private Boolean llaveBooleanDos = false;
+    private Texture llaveIcono;
 
     //Textura enemigos
     private Texture TexturaChiquito;
@@ -151,10 +152,10 @@ public class PantallaJuego implements Screen {
 
             puertaDos = new Texture("puerta.png");
 
-
             //Llave
             llave = new Texture(Gdx.files.internal("Bluecard.png"));
             rectLlave = new ColliderRect(2180,940,64,32);
+            llaveIcono = new Texture("key.png");
 
             //Enemigos
             TexturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
@@ -372,7 +373,7 @@ public class PantallaJuego implements Screen {
 
             batch.draw(puertaDos, 2396, 64);
             rectPuerta2 = new ColliderRect(2396,64,128,64);
-            if(rectPuerta2.choca(oberon.getColliderRect())&&llaveBooleanDos==true){
+            if(rectPuerta2.choca(oberon.getColliderRect())&&llaveBooleanDos){
                 Gdx.app.log("Siguiente","Nivel 2");
                 TexturaFondoJuego = manager.get("NivelDos.tmx");
                 renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
@@ -392,8 +393,12 @@ public class PantallaJuego implements Screen {
             }
 
         }
-        if(llaveBoolean==false){
+        if(!llaveBoolean){
             batch.draw(llave,2180,940);
+        }
+         if(rect.choca(oberon.getColliderRect())&& !llaveBoolean){
+            batch.draw(llaveIcono,3765,100);
+
         }
         batch.end();
 
@@ -407,6 +412,7 @@ public class PantallaJuego implements Screen {
             oberon.sprite.setPosition(0,64);
 
         }
+
 
         batch.begin();
         if (estado == EstadoJuego.JUGANDO) {
