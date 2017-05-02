@@ -11,7 +11,6 @@ public class SelfDestruction extends Game {
 	@Override
 	public void create () {
 		setScreen(new PantallaInicioJuego(this));
-
 	}
 
 

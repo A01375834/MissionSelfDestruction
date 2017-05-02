@@ -234,6 +234,13 @@ public class PantallaOpciones implements Screen {
         escena.dispose();
         TexturaFondoOpciones.dispose();
         TexturaBotonBackMenu.dispose();
+        BotonDisparar.dispose();
+        BotonSwitch.dispose();
+        Tarjeta.dispose();
+        botiquin.dispose();
+        balas.dispose();
+        BackPad.dispose();
+        FrontPad.dispose();
 
     }
 }

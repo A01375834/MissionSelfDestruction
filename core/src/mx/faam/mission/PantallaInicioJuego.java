@@ -104,6 +104,7 @@ public class PantallaInicioJuego implements Screen {
 
     @Override
     public void hide() {
+        dispose();
 
     }
 

@@ -564,13 +564,12 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+
 
     }
 
     @Override
     public void dispose() {
-        escenaHUD.dispose();
         TexturaFondoJuego.dispose();
         TexturaOberon.dispose();
 
@@ -584,13 +583,9 @@ public class PantallaJuego implements Screen {
             if(estadoNivel == EstadoNivel.PRIMERNIVEL) {
                 Enemigo enemigo = new Enemigo(texturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100, batch, 288, 128);
                 enemigos.add(enemigo);
-
-
-            }else if(estadoNivel==EstadoNivel.SEGUNDONIVEL) {
+            }else{
                 Enemigo enemigo2 = new Enemigo(texturaEnemigoDos,oberon.getX()+ANCHO+1,64,15,batch,128,320);
                 enemigos.add(enemigo2);
-            }else if(estadoNivel==EstadoNivel.TERCERNIVEL){
-
             }
 
         }
