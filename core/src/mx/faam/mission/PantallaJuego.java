@@ -1,6 +1,7 @@
 package mx.faam.mission;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -501,6 +502,9 @@ public class PantallaJuego implements Screen {
 
         //long fin=System.nanoTime();
         //Gdx.app.log("sounds", "Tiempo: " +(fin-inicio)/1000); // se carga ahora desde el manager
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+        }
 
 
 
