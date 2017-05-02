@@ -564,7 +564,7 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void hide() {
-        //dispose();
+        dispose();
 
     }
 
@@ -580,7 +580,7 @@ public class PantallaJuego implements Screen {
         tiempoEnemigo -= delta;
         if (tiempoEnemigo <= 0) {
             tiempoEnemigo = MathUtils.random(5.0f, tiempoMaximo);
-            tiempoMaximo -= tiempoMaximo > 0.2f ? 10 * delta : 0;
+            tiempoMaximo -= tiempoMaximo > 0.5f ? 10 * delta : 0;
             if(estadoNivel == EstadoNivel.PRIMERNIVEL) {
                 Enemigo enemigo = new Enemigo(texturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100, batch, 288, 128);
                 enemigos.add(enemigo);
@@ -590,16 +590,6 @@ public class PantallaJuego implements Screen {
                 Enemigo enemigo2 = new Enemigo(texturaEnemigoDos,oberon.getX()+ANCHO+1,64,15,batch,128,320);
                 enemigos.add(enemigo2);
             }else if(estadoNivel==EstadoNivel.TERCERNIVEL){
-
-                Enemigo enemigo3 = new Enemigo();
-                enemigo3.FinalBoss(texturaTercerEnemigo,0,64,50,batch,100,100);
-                enemigos.add(enemigo3);
-
-                Enemigo enemigo2 = new Enemigo(texturaEnemigoDos,oberon.getX()+ANCHO+1,64,15,batch,128,320);
-                enemigos.add(enemigo2);
-
-                Enemigo enemigo = new Enemigo(texturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100, batch, 288, 128);
-                enemigos.add(enemigo);
 
             }
 
