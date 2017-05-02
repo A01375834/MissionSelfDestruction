@@ -6,7 +6,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,7 +35,6 @@ import java.util.ArrayList;
  * Created by angel on 13/02/2017.
  */
 public class PantallaJuego implements Screen {
-
 
 
     public static final float ANCHO = 1280;
@@ -112,8 +110,11 @@ public class PantallaJuego implements Screen {
     private Texture llaveIcono;
 
     //Textura enemigos
-    private Texture TexturaChiquito;
-    private Texture TexturaEnemigoDos;
+    private Texture texturaChiquito;
+    private Texture texturaEnemigoDos;
+    private Texture texturaTercerEnemigo;
+    private Texture textraFinalBoss;
+
     //Comentario
 
     //Textura y colisione pueta siguiente parte del nivel
@@ -130,10 +131,11 @@ public class PantallaJuego implements Screen {
     //Arreglo Enemigo
     private ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
     private float tiempoEnemigo;
-    private float tiempoMaximo = 10.0f;
+    private float tiempoMaximo = 10f;
 
     //Arreglo MedKits
     ArrayList<MedKit> medKits = new ArrayList<MedKit>();
+
 
     public PantallaJuego(SelfDestruction selfDestruction) {
         this.selfDestruction = selfDestruction;
@@ -158,9 +160,11 @@ public class PantallaJuego implements Screen {
             llaveIcono = new Texture("key.png");
 
             //Enemigos
-            TexturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
-            TexturaEnemigoDos = new Texture("enemigoDos.png");
-            tiempoEnemigo = MathUtils.random(1.5f, 5.0f);
+            texturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
+            texturaEnemigoDos = new Texture("enemigoDos.png");
+            textraFinalBoss = new Texture("enemigoDos.png");
+            texturaTercerEnemigo = new Texture("enemigoDos.png");
+            tiempoEnemigo = MathUtils.random(2.0f, 5.0f);
 
 
             //Vida
@@ -189,6 +193,15 @@ public class PantallaJuego implements Screen {
             renderer.setView(camara);
 
             crearHUD();
+
+            if(Preferencias.cargarVida()<=100  && Preferencias.cargarVida() >= 80){
+                vida.setVida(Preferencias.cargarVida());
+            }else if (Preferencias.cargarVida() <=  20){
+                vida.setVida(20);
+            }
+            else {
+                vida.setVida(100);
+            }
 
         } else {
             pausa = false;
@@ -328,9 +341,6 @@ public class PantallaJuego implements Screen {
         ColliderRect rectPuerta2;
 
 
-
-
-
         crearNuevosEnemigos(delta);
         musicaPrimerNivel.setLooping(true);
         musicaPrimerNivel.play();
@@ -398,7 +408,7 @@ public class PantallaJuego implements Screen {
         if(!llaveBoolean){
             batch.draw(llave,2180,940);
         }
-         if(rect.choca(oberon.getColliderRect())&& !llaveBoolean){
+        if(rect.choca(oberon.getColliderRect())&& !llaveBoolean){
             batch.draw(llaveIcono,3765,100);
 
         }
@@ -412,7 +422,7 @@ public class PantallaJuego implements Screen {
             renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
             renderer.setView(camara);
             oberon.sprite.setPosition(0,64);
-
+            vida.setVida(Preferencias.cargarVida());
         }
 
 
@@ -566,17 +576,46 @@ public class PantallaJuego implements Screen {
         tiempoEnemigo -= delta;
         if (tiempoEnemigo <= 0) {
             tiempoEnemigo = MathUtils.random(5.0f, tiempoMaximo);
-            tiempoMaximo -= tiempoMaximo > 0.5f ? 10 * delta : 0;
+            tiempoMaximo -= tiempoMaximo > 0.2f ? 10 * delta : 0;
             if(estadoNivel == EstadoNivel.PRIMERNIVEL) {
-                Enemigo enemigo = new Enemigo(TexturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100, batch, 288, 128);
+                Enemigo enemigo = new Enemigo(texturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100, batch, 288, 128);
                 enemigos.add(enemigo);
+
+
             }else if(estadoNivel==EstadoNivel.SEGUNDONIVEL) {
-                Enemigo enemigo2 = new Enemigo(TexturaEnemigoDos,oberon.getX()+ANCHO+1,64,15,batch,128,320);
+                Enemigo enemigo2 = new Enemigo(texturaEnemigoDos,oberon.getX()+ANCHO+1,64,15,batch,128,320);
                 enemigos.add(enemigo2);
+            }else if(estadoNivel==EstadoNivel.TERCERNIVEL){
+
+                Enemigo enemigo3 = new Enemigo();
+                enemigo3.FinalBoss(texturaTercerEnemigo,0,64,50,batch,100,100);
+                enemigos.add(enemigo3);
+
+                Enemigo enemigo2 = new Enemigo(texturaEnemigoDos,oberon.getX()+ANCHO+1,64,15,batch,128,320);
+                enemigos.add(enemigo2);
+
+                Enemigo enemigo = new Enemigo(texturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100, batch, 288, 128);
+                enemigos.add(enemigo);
+
             }
 
         }
 
     }
 
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

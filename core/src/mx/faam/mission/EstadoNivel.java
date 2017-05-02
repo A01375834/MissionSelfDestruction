@@ -6,7 +6,11 @@ package mx.faam.mission;
 
 public enum EstadoNivel {
     PRIMERNIVEL,
+    PRIMERNIVELPT2,
     SEGUNDONIVEL,
-    FINALBOSS,
-    PRIMERNIVELPT2
+    TERCERNIVEL,
+    FINALBOSS
+
 }
+
+

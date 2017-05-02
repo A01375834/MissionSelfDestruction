@@ -35,6 +35,9 @@ public class Enemigo {
     ColliderRect rect;
     public boolean remove = false;
 
+    public Enemigo() {
+
+    }
 
     public Enemigo(Texture textura, float x, float y, int vidas, int vx,Batch batch, int ANCHO_T , int ALTO_T) {
         this.x = x;
@@ -62,8 +65,6 @@ public class Enemigo {
         sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
 
         rect = new ColliderRect(x, y, 288, 128);
-
-        batch.setColor(Color.WHITE);
     }
 
     public Enemigo(Texture textura, float x, float y, int vidas,Batch batch, int ANCHO_T , int ALTO_T) {
@@ -94,8 +95,33 @@ public class Enemigo {
         rect = new ColliderRect(x, y, 128, 320);
 
         tipoEnemigo =TipoEnemigo.SEGUNDOENEMIGO;
+    }
 
-        batch.setColor(Color.WHITE);
+    public void FinalBoss(Texture textura, float x, float y, int vidas,Batch batch, int ANCHO_T , int ALTO_T){
+        this.x = x;
+        this.y = y;
+        this.vidas = vidas;
+        this.ANCHO_T = ANCHO_T;
+        this.ALTO_T = ALTO_T;
+
+        TextureRegion texturaEnemigo = new TextureRegion(textura);
+
+        sprite = new Sprite(texturaEnemigo);
+
+        TextureRegion[][] texturaPersonaje = texturaEnemigo.split(ANCHO_T, ALTO_T);
+        animacion = new Animation(0.15f, texturaPersonaje[0][1], texturaPersonaje[0][2], texturaPersonaje[0][3],
+                texturaPersonaje[0][4],texturaPersonaje[0][5],texturaPersonaje[0][6],texturaPersonaje[0][7]);
+        // Animación infinita
+        animacion.setPlayMode(Animation.PlayMode.LOOP);
+        // Inicia el timer que contará tiempo para saber qué frame se dibuja
+        timerAnimacion = 0;
+        // Crea el sprite cuando para el personaje quieto (idle)
+        sprite = new Sprite(texturaPersonaje[0][0]);    // quieto
+
+        rect = new ColliderRect(x, y, 128, 320);
+
+        tipoEnemigo =TipoEnemigo.FINALBOSS;
+
     }
 
 
@@ -161,7 +187,9 @@ public class Enemigo {
 
     public enum TipoEnemigo{
         PRIMERENEMIGO,
-        SEGUNDOENEMIGO
+        SEGUNDOENEMIGO,
+        TERCERENEMIGO,
+        FINALBOSS
     }
 
 }

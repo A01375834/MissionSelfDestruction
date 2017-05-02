@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 
 public class Vida {
-    private int vida = 100;
+    //private int vida = 100;
     private int ALTURA = 800;
     private  int ANCHO = 1280;
 
@@ -35,7 +35,6 @@ public class Vida {
         if(textura==null && texturaVida ==null) {
             textura = new Texture("vidaCuadro.png");
             texturaVida = new Texture("vida.png");
-
         }
     }
 
@@ -56,33 +55,35 @@ public class Vida {
         batch.draw(textura,154,ALTURA-100,8*vida,10 );
         batch.draw(texturaVida,154,ALTURA-60);
         batch.setColor(Color.WHITE);
-
-
     }
 
     public int getVida(){
-        return vida;
+
+        return Preferencias.cargarVida();
     }
 
     public void setVida(int vida){
-        this.vida = vida;
+        //this.vida = vida;
+        Preferencias.guardarVidas(vida);
     }
+
     public ColliderRect getCollisionRect(){
         return rect;
     }
 
     public void colorVida(Batch batch) {
-        if (vida > 60)
+        if ( Preferencias.cargarVida() > 60)
             batch.setColor(Color.GREEN);
-        else if (vida > 20)
+        else if (Preferencias.cargarVida() > 20)
             batch.setColor(Color.ORANGE);
         else
             batch.setColor(Color.RED);
     }
 
     public void herir(int herida){
-       vida -= herida;
-
+        int vida =Preferencias.cargarVida();
+        vida -= herida;
+        Preferencias.guardarVidas(vida);
      }
 
 }

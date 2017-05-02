@@ -48,7 +48,7 @@ public class PantallaMenu implements Screen {
     //textura fondo
     private Texture TexturaFondoMenu;
 
-    
+
     //escena 
     private Stage escena;
     private SpriteBatch batch;
@@ -59,7 +59,6 @@ public class PantallaMenu implements Screen {
 
 
     public PantallaMenu(SelfDestruction selfDestruction) {
-
         this.selfDestruction = selfDestruction;
     }
 
@@ -70,9 +69,9 @@ public class PantallaMenu implements Screen {
         crearTexturas();
         crearObjetos();
         Gdx.input.setCatchBackKey(false);
-        
-        
-        
+
+
+
     }
 
     private void crearTexturas() {
@@ -106,8 +105,8 @@ public class PantallaMenu implements Screen {
         escena.addActor(fondoMenu);
 
 
-            musicaFondoMenu.setLooping(true);
-            musicaFondoMenu.play();
+        musicaFondoMenu.setLooping(true);
+        musicaFondoMenu.play();
 
 
 

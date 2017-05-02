@@ -71,8 +71,6 @@ public class Bala {
     }
     public void render(SpriteBatch batch) {
         batch.draw(texturaBala, x, y);
-
-
     }
 
     public ColliderRect getCollisionRect() {
@@ -89,6 +87,10 @@ public class Bala {
 
     public float getY() {
         return bala.getY();
+    }
+
+    public void balaFinalBoss(){
+
     }
 
 }
