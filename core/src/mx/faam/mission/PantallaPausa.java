@@ -74,7 +74,7 @@ public class PantallaPausa implements Screen {
         //botonResume
         TextureRegionDrawable trdBtnResume = new TextureRegionDrawable(new TextureRegion(TexturaBotonResume));
         ImageButton btnResume = new ImageButton(trdBtnResume);
-        btnResume.setPosition(ANCHO/2,ALTO/2);
+        btnResume.setPosition(ANCHO/2-300,ALTO/2);
         escena.addActor(btnResume);
 
         //Evento del boton
@@ -91,7 +91,7 @@ public class PantallaPausa implements Screen {
         //botonBM
         TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
         ImageButton btnBm = new ImageButton(trdBtnBm);
-        btnBm.setPosition(ANCHO / 2, ALTO / 2-250);
+        btnBm.setPosition(ANCHO / 2-300, ALTO / 2-250);
         escena.addActor(btnBm);
 
         //Evento del boton
@@ -110,7 +110,7 @@ public class PantallaPausa implements Screen {
 
     private void crearTexturas() {
         //Textura fondo
-        TexturaFondoBack= new Texture("fondoCreditos.png");
+        TexturaFondoBack= new Texture("paused menu!.png");
 
 
         //textura boton
@@ -128,7 +128,7 @@ public class PantallaPausa implements Screen {
 
     @Override
     public void render(float delta) {
-        borrarPantalla();
+        //borrarPantalla();
         escena.draw();
         if(musicaTocando==false) {
             //musicaFondo.loop(0.4f);
@@ -141,7 +141,7 @@ public class PantallaPausa implements Screen {
     }
 
     private void borrarPantalla() {
-        Gdx.gl.glClearColor(0,1,0,1);
+        Gdx.gl.glClearColor(0,0.6f,1,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 

@@ -96,10 +96,7 @@ public class PantallaOpciones implements Screen {
         //Pad
 
         //Texto
-        textoItems.mostrarMensaje(batch,"Collect them",ANCHO/2,ALTO/2+64);
-        textoControles.mostrarMensaje(batch,"Use them for moving & shoot",ANCHO/2+440,ALTO/2+64);
 
-        batch.end();
 
         //botonBackMenu
         TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
@@ -144,6 +141,11 @@ public class PantallaOpciones implements Screen {
         Image frontP = new Image(trdFrontP);
         frontP.setPosition(ANCHO/2+494,ALTO/2+155);
         escena.addActor(frontP);
+
+        textoItems.mostrarMensaje(batch,"Collect them",ANCHO/2,ALTO/2+64);
+        textoControles.mostrarMensaje(batch,"Use them for moving & shoot",ANCHO/2+440,ALTO/2+64);
+
+        batch.end();
 
         //AA
 
