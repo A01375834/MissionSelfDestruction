@@ -40,6 +40,7 @@ public class PantallaMenu implements Screen {
     private Texture TexturaBotonOpciones;
     private Texture TexturaBotonHistoria;
     private Texture TexturaBotonCreditos;
+    private Texture TexturaBotonInstrucciones;
 
     //LOgo
     private Texture TexturaLogoJuego;
@@ -81,6 +82,7 @@ public class PantallaMenu implements Screen {
         TexturaBotonOpciones = new Texture("options grande.png");
         TexturaBotonHistoria = new Texture("story grande.png");
         TexturaBotonCreditos = new Texture("credits grande.png");
+        TexturaBotonInstrucciones = new Texture("instruction.png");
 
         //Logo
         TexturaLogoJuego = new Texture("logo pequeño.png");
@@ -145,7 +147,7 @@ public class PantallaMenu implements Screen {
 
 
         //botonOpciones
-        TextureRegionDrawable trdBtnCargar = new TextureRegionDrawable(new TextureRegion(TexturaBotonOpciones));
+        TextureRegionDrawable trdBtnCargar = new TextureRegionDrawable(new TextureRegion(TexturaBotonInstrucciones));
         ImageButton btnCargar = new ImageButton(trdBtnCargar);
         btnCargar.setPosition(ANCHO/2+155, 2*ALTO/5+35);
         escena.addActor(btnCargar);
