@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -47,6 +48,14 @@ public class PantallaOpciones implements Screen {
     private Texture BackPad;
     private Texture FrontPad;
 
+    //textos
+    private Texto textoControles;
+    private Texto textoItems;
+    private Texture texturaItems;
+    private Texture texturaControles;
+    private Sprite spriteItems;
+    private Sprite spriteControl;
+
 
 
     //fondo
@@ -82,10 +91,15 @@ public class PantallaOpciones implements Screen {
         //escena.addActor(medikit);
         //escena.addActor(BotonD);
         //escena.addActor(BotonS);
+        batch.begin();
 
         //Pad
 
+        //Texto
+        textoItems.mostrarMensaje(batch,"Collect them",ANCHO/2,ALTO/2+64);
+        textoControles.mostrarMensaje(batch,"Use them for moving & shoot",ANCHO/2+440,ALTO/2+64);
 
+        batch.end();
 
         //botonBackMenu
         TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
@@ -110,13 +124,15 @@ public class PantallaOpciones implements Screen {
 
         TextureRegionDrawable trdBotonD = new TextureRegionDrawable(new TextureRegion(BotonDisparar));
         Image disparar = new Image(trdBotonD);
-        disparar.setPosition(ANCHO/2,ALTO/2+128);
+        disparar.setPosition(ANCHO/2+100+80,ALTO/2+128);
         escena.addActor(disparar);
 
         TextureRegionDrawable trdBotonS = new TextureRegionDrawable(new TextureRegion(BotonSwitch));
         Image switchh = new Image(trdBotonS);
-        switchh.setPosition(ANCHO/2+160,ALTO/2+128);
+        switchh.setPosition(ANCHO/2+160+100+80,ALTO/2+128);
         escena.addActor(switchh);
+
+
 
 
         TextureRegionDrawable trdBackP = new TextureRegionDrawable(new TextureRegion(BackPad));
@@ -163,6 +179,10 @@ public class PantallaOpciones implements Screen {
 
         //textura fondp
         TexturaFondoOpciones = new Texture("fondo.png");
+
+        //Texto
+        textoControles = new Texto("Fonts/fontLoading.fnt");
+        textoItems = new Texto("Fonts/fontLoading.fnt");
     }
 
     private void crearCamara() {

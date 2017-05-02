@@ -99,6 +99,8 @@ public class Enemigo {
     }
 
 
+
+
     public void actualizar(float deltaTime, float xE) {
         x += vx * deltaTime;
         //xE Enemigo

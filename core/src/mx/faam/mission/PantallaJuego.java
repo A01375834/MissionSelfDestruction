@@ -175,6 +175,8 @@ public class PantallaJuego implements Screen {
             manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
             manager.load("ParteDosPrimerNivel.tmx", TiledMap.class);
             manager.load("NivelDos.tmx", TiledMap.class);
+            //manager.load("NivelTres.tmx", TiledMap.class);
+            //manager.load("nivelfinal.tmx", TiledMap.class);
 
 
 
