@@ -74,6 +74,8 @@ public class PantallaCreditos implements Screen {
             }
         });
 
+
+        Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(escena);
     }
 

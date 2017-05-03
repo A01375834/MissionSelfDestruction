@@ -48,8 +48,10 @@ public class Bala {
         if (x > camara.position.x + ANCHO/2)
             remove = true;
         if (sonidoBala == false) {
-            balazo.play();
-            sonidoBala = true;
+            if (PantallaPausa.musicaOn) {
+                balazo.play();
+                sonidoBala = true;
+            }
 
         }
 

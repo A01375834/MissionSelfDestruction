@@ -163,6 +163,7 @@ public class PantallaOpciones implements Screen {
                 selfDestruction.setScreen(new PantallaMenu(selfDestruction));
             }
         });
+        Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(escena);
     }
 
@@ -173,7 +174,7 @@ public class PantallaOpciones implements Screen {
         FrontPad = new Texture("palanca grande.png");
         BotonDisparar = new Texture("boton disparo grande.png");
         BotonSwitch = new Texture("boton switch grande.png");
-        Tarjeta = new Texture("Bluecard.png");
+        Tarjeta = new Texture("key.png");
         botiquin = new Texture("medkit grande.png");
         balas= new Texture("municion grande.png");
 

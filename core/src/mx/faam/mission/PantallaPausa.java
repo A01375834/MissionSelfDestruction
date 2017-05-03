@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -62,6 +63,7 @@ public class PantallaPausa implements Screen {
     //fondo
     private Texture TexturaFondoBack;
     private boolean musicaTocando = false;
+    public static boolean musicaOn;
 
     public PantallaPausa(SelfDestruction selfDestruction, PantallaJuego pantallaJuego){
         this.selfDestruction = selfDestruction;
@@ -123,9 +125,9 @@ public class PantallaPausa implements Screen {
         sonido = new Objeto(texturaBotonSonido,ANCHO/2+430,ALTO-600);
         sonido.sprite.setSize(64,64);
         if(Preferencias.cargarSonido()){
-
+            musicaOn = true;
         }else{
-
+            musicaOn = false;
         }
 
 
@@ -174,6 +176,11 @@ public class PantallaPausa implements Screen {
         batch.end();
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+        }
+        if(Preferencias.cargarSonido()) {
+            musicaOn = true;
+        }else{
+            musicaOn = false;
         }
 
 

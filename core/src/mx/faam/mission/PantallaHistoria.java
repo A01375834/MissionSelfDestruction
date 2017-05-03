@@ -37,7 +37,6 @@ public class PantallaHistoria implements Screen {
 
     //Texturas boton
     private Texture TexturaBotonBackMenu;
-    private Texture TexturaBotonNuevoJuego;
 
     //fondo
     private Texture TexturaFondoHistoria;
@@ -63,21 +62,6 @@ public class PantallaHistoria implements Screen {
         Image fondoHistoria = new Image(TexturaFondoHistoria);
         escena.addActor(fondoHistoria);
 
-        //botonNuevoJuego
-        TextureRegionDrawable trdBtnNj = new TextureRegionDrawable(new TextureRegion(TexturaBotonNuevoJuego));
-        ImageButton btnNj = new ImageButton(trdBtnNj);
-        btnNj.setPosition(ANCHO/2+155, 0);
-        escena.addActor(btnNj);
-
-        //Evento del boton
-        btnNj.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                Gdx.app.log("clicked","Me hicieron click");
-                selfDestruction.setScreen(new PantallaJuego(selfDestruction));
-
-            }
-        });
         //botonBackMenu
         TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
         ImageButton btnBm = new ImageButton(trdBtnBm);
@@ -92,12 +76,12 @@ public class PantallaHistoria implements Screen {
                 selfDestruction.setScreen(new PantallaMenu(selfDestruction));
             }
         });
+        Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(escena);
     }
 
     private void crearTexturas() {
         //Textura botones
-        TexturaBotonNuevoJuego = new Texture("start grande.png");
         TexturaBotonBackMenu= new Texture("back to menu grande.png");
 
 
@@ -152,7 +136,8 @@ public class PantallaHistoria implements Screen {
         escena.dispose();
         TexturaFondoHistoria.dispose();
         TexturaBotonBackMenu.dispose();
-        TexturaBotonNuevoJuego.dispose();
+
+
 
     }
 }
