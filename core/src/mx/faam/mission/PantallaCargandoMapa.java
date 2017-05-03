@@ -95,6 +95,7 @@ public class PantallaCargandoMapa implements Screen {
         private void actualizar() {
             if(manager.update()) {
                 //selfDestruction.setScreen(new PantallaJuego(selfDestruction));
+                //AAA
 
                 avance +=1;
                 spriteCargando.rotate(-30);}
