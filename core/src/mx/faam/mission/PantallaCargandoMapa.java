@@ -29,7 +29,7 @@ public class PantallaCargandoMapa implements Screen {
 
 
         // AssetManager
-        private AssetManager manager;
+        private static AssetManager manager;
 
         private SelfDestruction selfDestruction;
         private int avance = 0; // % de carga
@@ -40,7 +40,7 @@ public class PantallaCargandoMapa implements Screen {
 
         public PantallaCargandoMapa(SelfDestruction selfDestruction) {
             this.selfDestruction = selfDestruction;
-            this.manager = selfDestruction.getManager();
+            manager = selfDestruction.getManager();
         }
 
 
@@ -55,7 +55,6 @@ public class PantallaCargandoMapa implements Screen {
             camara.update();
             Gdx.app.log("Estoy cargando","tonto");
             cargarNivel();
-
         }
 
 
@@ -70,7 +69,7 @@ public class PantallaCargandoMapa implements Screen {
             batch.end();
 
             //Actualizar
-            if(avance>100){
+            if(avance>=100){
                 selfDestruction.setScreen(new PantallaJuego(selfDestruction));
             }
 
@@ -78,11 +77,19 @@ public class PantallaCargandoMapa implements Screen {
 
         }
 
-        private void cargarNivel(){
-
-            manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
-            manager.load("ParteDosPrimerNivel.tmx", TiledMap.class);
-            manager.load("NivelDos.tmx", TiledMap.class);
+        public static void cargarNivel(){
+            if(PantallaJuego.getEstadoNivel() == EstadoNivel.PRIMERNIVEL) {
+                manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
+            }
+            if(PantallaJuego.getEstadoNivel() ==EstadoNivel.PRIMERNIVELPT2) {
+                manager.load("ParteDosPrimerNivel.tmx", TiledMap.class);
+                manager.finishLoading();
+                Gdx.app.log("Cargo", "Nivel");
+            }
+            if(PantallaJuego.getEstadoNivel() == EstadoNivel.SEGUNDONIVEL) {
+                manager.load("NivelDos.tmx", TiledMap.class);
+                manager.finishLoading();
+            }
         }
 
         private void actualizar() {

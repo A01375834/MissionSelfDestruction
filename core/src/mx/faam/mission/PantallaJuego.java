@@ -109,6 +109,7 @@ public class PantallaJuego implements Screen {
     private ColliderRect rectLlaveDos;
     private Boolean llaveBooleanDos = false;
     private Texture llaveIcono;
+    private AssetManager managerUno;
 
     //Textura enemigos
     private Texture texturaChiquito;
@@ -147,8 +148,7 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void show() {
-        AssetManager managerUno = selfDestruction.getManager();
-
+        managerUno = selfDestruction.getManager();
         if (!pausa) {
 
             long inicio=System.nanoTime();
@@ -339,7 +339,6 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void render(float delta) {
-        AssetManager managerUno = selfDestruction.getManager();
 
 
         //Arreglo Balas para quitar
@@ -401,11 +400,13 @@ public class PantallaJuego implements Screen {
             rectPuerta2 = new ColliderRect(2396,64,128,64);
             if(rectPuerta2.choca(oberon.getColliderRect())&&llaveBooleanDos){
                 Gdx.app.log("Siguiente","Nivel 2");
+                estadoNivel = EstadoNivel.SEGUNDONIVEL;
+                PantallaCargandoMapa.cargarNivel();
                 TexturaFondoJuego = managerUno.get("NivelDos.tmx");
                 renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
                 renderer.setView(camara);
                 oberon.sprite.setPosition(0,64);
-                estadoNivel = EstadoNivel.SEGUNDONIVEL;
+
 
             }
             llaveDos = new Texture("Bluecard.png");
@@ -432,7 +433,9 @@ public class PantallaJuego implements Screen {
         if (rect.choca(oberon.getColliderRect())&& llaveBoolean==true) {
             Gdx.app.log("Siguiente", "Nivel");
             estadoNivel = EstadoNivel.PRIMERNIVELPT2;
+            PantallaCargandoMapa.cargarNivel();
             TexturaFondoJuego = managerUno.get("ParteDosPrimerNivel.tmx");
+
             renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
             renderer.setView(camara);
             oberon.sprite.setPosition(0,64);
