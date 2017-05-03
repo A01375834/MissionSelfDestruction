@@ -25,7 +25,7 @@ public class PantallaCargando implements Screen {
     private static final float ALTO = 800;
 
     private OrthographicCamera camara = new OrthographicCamera(ANCHO,ALTO);
-
+//AA
 
     // AssetManager
     private AssetManager manager;
