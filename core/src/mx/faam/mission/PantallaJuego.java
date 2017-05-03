@@ -155,7 +155,7 @@ public class PantallaJuego implements Screen {
             puerta = new Texture("puerta.png");
             rect = new ColliderRect(3765, 64, 192, 288);
 
-            //puertaDos = new Texture("puerta.png");
+            puertaDos = new Texture("puerta.png");
 
             //Llave
             llave = new Texture(Gdx.files.internal("Bluecard.png"));
@@ -164,7 +164,7 @@ public class PantallaJuego implements Screen {
 
             //Enemigos
             texturaChiquito = new Texture("enemigo 2 animacion izquierda.png");
-            //texturaEnemigoDos = new Texture("enemigoDos.png");
+            texturaEnemigoDos = new Texture("enemigoDos.png");
 
             tiempoEnemigo = MathUtils.random(1.5f, 5.0f);
 
@@ -179,13 +179,8 @@ public class PantallaJuego implements Screen {
 
             manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
             manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
-            //manager.load("ParteDosPrimerNivel.tmx", TiledMap.class);
-            //manager.load("NivelDos.tmx", TiledMap.class);
-            //manager.load("NivelTres.tmx", TiledMap.class);
-            //manager.load("nivelfinal.tmx", TiledMap.class);
-
-
-
+            manager.load("ParteDosPrimerNivel.tmx", TiledMap.class);
+            manager.load("NivelDos.tmx", TiledMap.class);
             manager.finishLoading();    //cargar Recursos
             TexturaFondoJuego = manager.get("mapaInicialPrimerNivel.tmx");
             camara = new OrthographicCamera(ALTO / 2, ANCHO / 2);
