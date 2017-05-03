@@ -1,6 +1,7 @@
 package mx.faam.mission;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -195,7 +196,7 @@ public class PantallaMenu implements Screen {
         LogoJuego.setPosition(ANCHO/2-500, ALTO/2);
         escena.addActor(LogoJuego);
 
-
+        Gdx.input.setCatchBackKey(false);
         Gdx.input.setInputProcessor(escena);
     }
 
@@ -210,6 +211,9 @@ public class PantallaMenu implements Screen {
     public void render(float delta) {
         borrarPantalla();
         escena.draw();
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+           selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+        }
 
 
     }

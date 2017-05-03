@@ -65,11 +65,11 @@ public class PantallaJuego implements Screen {
     //Sonido oberon Quejido
     private Sound sonidoQuejido = Gdx.audio.newSound(Gdx.files.internal("quejidoOberon.wav"));
     //Sonido enemigo Muriendo
-    private Sound sonidoEnemigo = Gdx.audio.newSound(Gdx.files.internal("enemigoMuriendo.wav"));
+    private  Sound sonidoEnemigo = Gdx.audio.newSound(Gdx.files.internal("enemigoMuriendo.wav"));
     //Musica primer nivel
-    private Music musicaPrimerNivel = Gdx.audio.newMusic(Gdx.files.internal("msicaPrimerNivel.wav"));
+    private  Music musicaPrimerNivel = Gdx.audio.newMusic(Gdx.files.internal("msicaPrimerNivel.wav"));
     //Sonido MedKit
-    private Sound sonidoMedKit = Gdx.audio.newSound(Gdx.files.internal("medKit.wav"));
+    private  Sound sonidoMedKit = Gdx.audio.newSound(Gdx.files.internal("medKit.wav"));
 
 
     //camara
@@ -162,7 +162,7 @@ public class PantallaJuego implements Screen {
             puertaDos = new Texture("puerta.png");
 
             //Llave
-            llave = new Texture(Gdx.files.internal("Bluecard.png"));
+            llave = new Texture(Gdx.files.internal("key.png"));
             rectLlave = new ColliderRect(2180,940,64,32);
             llaveIcono = new Texture("key.png");
 
@@ -207,8 +207,8 @@ public class PantallaJuego implements Screen {
             }
 
 
-            long fin=System.nanoTime();
 
+            long fin=System.nanoTime();
             Gdx.app.log("Show", "Tiempo: " +(fin-inicio)/1000); // se carga ahora desde el manager
 
 
@@ -217,6 +217,8 @@ public class PantallaJuego implements Screen {
         else {
             pausa = false;
         }
+
+        Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(escenaHUD);
 
     }
@@ -249,20 +251,23 @@ public class PantallaJuego implements Screen {
                 if (pad.getKnobPercentX() > 0.20) {
                     oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.MOV_DERECHA);
                     //sonidoCaminar.setVolume(sonidoCaminarId,1.0f);
-                    if (sonidoTocando == false) {
-                        sonidoCaminar.loop();
-                        sonidoTocando = true;
+                    if(PantallaPausa.musicaOn){
+                        if (sonidoTocando == false) {
+                            sonidoCaminar.loop();
+                            sonidoTocando = true;
 
+                        }
                     }
+
 
                 } else if (pad.getKnobPercentX() < -0.20) {
                     oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.MOV_IZQUIERDA);
-                    if (sonidoTocando == false) {
-                        sonidoCaminar.loop();
-                        sonidoTocando = true;
+                    if(PantallaPausa.musicaOn) {
+                        if (sonidoTocando == false) {
+                            sonidoCaminar.loop();
+                            sonidoTocando = true;
+                        }
                     }
-                    //if(!oberon.getEstadoMovimiento().equals(Heroe.EstadoSalto.SUBIENDO) ||
-                    //      !oberon.getEstadoMovimiento().equals(Heroe.EstadoSalto.BAJANDO)){
                 } else if (pad.getKnobPercentY() > 0.20) {
 
                     // Gdx.app.log("Estoy Saltando:", "ahora");
@@ -356,8 +361,10 @@ public class PantallaJuego implements Screen {
 
 
         crearNuevosEnemigos(delta);
-        musicaPrimerNivel.setLooping(true);
-        musicaPrimerNivel.play();
+        if(PantallaPausa.musicaOn) {
+            musicaPrimerNivel.setLooping(true);
+            musicaPrimerNivel.play();
+        }
         //Actualizar
         oberon.actualizar(TexturaFondoJuego);
         actualizarMapa();
@@ -385,7 +392,9 @@ public class PantallaJuego implements Screen {
             if (medKit.getCollisionRect().choca(oberon.getColliderRect())) {
                 if (vida.getVida() < 100) {
                     medKitsQuitar.add(medKit);
-                    sonidoMedKit.play(0.5f);
+                    if(PantallaPausa.musicaOn) {
+                        sonidoMedKit.play(0.5f);
+                    }
                     vida.setVida(100);
                 }
             }
@@ -408,7 +417,7 @@ public class PantallaJuego implements Screen {
                 estadoNivel = EstadoNivel.SEGUNDONIVEL;
 
             }
-            llaveDos = new Texture("Bluecard.png");
+            llaveDos = new Texture("key.png");
             rectLlaveDos = new ColliderRect(2496,832,64,32);
             if(llaveBooleanDos==false){
                 batch.draw(llaveDos,2496,832);
@@ -465,7 +474,9 @@ public class PantallaJuego implements Screen {
                     balasQuitar.add(bala);
                     enemigo.setVidas(enemigo.getVidas() - 1);
                     if (enemigo.getVidas() <= 0) {
-                        sonidoEnemigo.play();
+                        if(PantallaPausa.musicaOn) {
+                            sonidoEnemigo.play();
+                        }
                         enemigoQuitar.add(enemigo);
                         Gdx.app.log("Enemigo", "Mori");
                     }
@@ -479,7 +490,9 @@ public class PantallaJuego implements Screen {
 
         for (Enemigo enemigo : enemigos) {
             if (enemigo.getColliderRect().choca(oberon.getColliderRect())) {
-                sonidoQuejido.play();
+                if(PantallaPausa.musicaOn) {
+                    sonidoQuejido.play();
+                }
                 if(enemigo.tipoEnemigo == Enemigo.TipoEnemigo.PRIMERENEMIGO) {
                     vida.herir(20);
                 }else if(enemigo.tipoEnemigo == Enemigo.TipoEnemigo.SEGUNDOENEMIGO){
@@ -515,6 +528,7 @@ public class PantallaJuego implements Screen {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+            Preferencias.guardarVidas(vida.getVida());
         }
 
 
