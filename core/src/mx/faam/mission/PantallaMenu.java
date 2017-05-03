@@ -121,7 +121,7 @@ public class PantallaMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
-                selfDestruction.setScreen(new PantallaJuego(selfDestruction));
+                selfDestruction.setScreen(new PantallaCargandoMapa(selfDestruction));
                 //Musica de fondo se para
                 musicaFondoMenu.stop();
             }
@@ -139,7 +139,7 @@ public class PantallaMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
-                selfDestruction.setScreen(new PantallaJuego(selfDestruction));
+                selfDestruction.setScreen(new PantallaCargandoMapa(selfDestruction));
             }
         });
 

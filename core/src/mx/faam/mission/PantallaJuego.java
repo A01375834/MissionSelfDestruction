@@ -43,7 +43,7 @@ public class PantallaJuego implements Screen {
 
     private boolean pausa;
 
-    private final SelfDestruction selfDestruction;
+    private SelfDestruction selfDestruction;
 
 
     //Variable sonido
@@ -54,7 +54,7 @@ public class PantallaJuego implements Screen {
     //Estado Jugando
     public EstadoJuego estado = EstadoJuego.JUGANDO;
 
-    public EstadoNivel estadoNivel = EstadoNivel.PRIMERNIVEL;
+    public static EstadoNivel estadoNivel = EstadoNivel.PRIMERNIVEL;
 
     //vida
     public static Vida vida;
@@ -127,6 +127,7 @@ public class PantallaJuego implements Screen {
     //AssetManager
     private AssetManager manager = new AssetManager();
 
+
     //Arreglo de balas
     private ArrayList<Bala> balas = new ArrayList<Bala>();
     //Arreglo Enemigo
@@ -138,6 +139,7 @@ public class PantallaJuego implements Screen {
     ArrayList<MedKit> medKits = new ArrayList<MedKit>();
 
 
+
     public PantallaJuego(SelfDestruction selfDestruction) {
         this.selfDestruction = selfDestruction;
     }
@@ -145,6 +147,8 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void show() {
+        AssetManager managerUno = selfDestruction.getManager();
+
         if (!pausa) {
 
             long inicio=System.nanoTime();
@@ -176,12 +180,14 @@ public class PantallaJuego implements Screen {
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
 
-            manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-            manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
-            manager.load("ParteDosPrimerNivel.tmx", TiledMap.class);
-            manager.load("NivelDos.tmx", TiledMap.class);
-            manager.finishLoading();    //cargar Recursos
-            TexturaFondoJuego = manager.get("mapaInicialPrimerNivel.tmx");
+
+
+            //manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
+            //manager.load("ParteDosPrimerNivel.tmx", TiledMap.class);
+            //manager.load("NivelDos.tmx", TiledMap.class);
+
+            //manager.finishLoading();    //cargar Recursos
+            TexturaFondoJuego = managerUno.get("mapaInicialPrimerNivel.tmx");
             camara = new OrthographicCamera(ALTO / 2, ANCHO / 2);
             vista = new StretchViewport(ANCHO, ALTO, camara);
             batch = new SpriteBatch();
@@ -333,6 +339,7 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void render(float delta) {
+        AssetManager managerUno = selfDestruction.getManager();
 
 
         //Arreglo Balas para quitar
@@ -394,7 +401,7 @@ public class PantallaJuego implements Screen {
             rectPuerta2 = new ColliderRect(2396,64,128,64);
             if(rectPuerta2.choca(oberon.getColliderRect())&&llaveBooleanDos){
                 Gdx.app.log("Siguiente","Nivel 2");
-                TexturaFondoJuego = manager.get("NivelDos.tmx");
+                TexturaFondoJuego = managerUno.get("NivelDos.tmx");
                 renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
                 renderer.setView(camara);
                 oberon.sprite.setPosition(0,64);
@@ -425,7 +432,7 @@ public class PantallaJuego implements Screen {
         if (rect.choca(oberon.getColliderRect())&& llaveBoolean==true) {
             Gdx.app.log("Siguiente", "Nivel");
             estadoNivel = EstadoNivel.PRIMERNIVELPT2;
-            TexturaFondoJuego = manager.get("ParteDosPrimerNivel.tmx");
+            TexturaFondoJuego = managerUno.get("ParteDosPrimerNivel.tmx");
             renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
             renderer.setView(camara);
             oberon.sprite.setPosition(0,64);
@@ -515,6 +522,8 @@ public class PantallaJuego implements Screen {
     }
 
 
+
+
     private void actualizarMapa() {
         int ANCHO_MAPA = ((TiledMapTileLayer)(TexturaFondoJuego.getLayers().get(0))).getWidth() * 32;
         float ALTO_MAPA = 1600;
@@ -561,6 +570,9 @@ public class PantallaJuego implements Screen {
 
     }
 
+    public  static EstadoNivel getEstadoNivel(){
+        return estadoNivel;
+    }
     @Override
     public void resume() {
 
@@ -574,7 +586,9 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void dispose() {
-        TexturaFondoJuego.dispose();
+        selfDestruction.getManager().unload("mapaInicialPrimerNivel.tmx");
+        selfDestruction.getManager().unload("ParteDosPrimerNivel.tmx");
+        selfDestruction.getManager().unload("NivelDos.tmx");
         TexturaOberon.dispose();
 
     }
