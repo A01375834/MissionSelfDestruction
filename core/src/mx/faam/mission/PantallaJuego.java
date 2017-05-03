@@ -57,7 +57,7 @@ public class PantallaJuego implements Screen {
     public EstadoNivel estadoNivel = EstadoNivel.PRIMERNIVEL;
 
     //vida
-    private Vida vida;
+    public static Vida vida;
     private MedKit medKit;
 
     //Sonido Caminar
@@ -168,7 +168,6 @@ public class PantallaJuego implements Screen {
 
             tiempoEnemigo = MathUtils.random(1.5f, 5.0f);
 
-
             //Vida
             vida = new Vida();
             medKit = new MedKit(batch, 3000, 832);
@@ -191,8 +190,9 @@ public class PantallaJuego implements Screen {
 
             crearHUD();
 
-            if(Preferencias.cargarVida()<=100  && Preferencias.cargarVida() >= 80){
+            if(Preferencias.cargarVida() > 20 && Preferencias.cargarVida() <100){
                 vida.setVida(Preferencias.cargarVida());
+                Gdx.app.log("Vida Para jugar" ,Preferencias.cargarVida()+" ");
             }else if (Preferencias.cargarVida() <=  20){
                 vida.setVida(20);
             }
@@ -345,6 +345,8 @@ public class PantallaJuego implements Screen {
 
         ColliderRect rectPuerta2;
 
+        //Gdx.app.log("X",oberon.getX()+"");
+
 
         crearNuevosEnemigos(delta);
         musicaPrimerNivel.setLooping(true);
@@ -414,7 +416,7 @@ public class PantallaJuego implements Screen {
             batch.draw(llave,2180,940);
         }
         if(rect.choca(oberon.getColliderRect())&& !llaveBoolean){
-            batch.draw(llaveIcono,3765,100);
+            batch.draw(llaveIcono,3860,400);
 
         }
         batch.end();
@@ -427,7 +429,6 @@ public class PantallaJuego implements Screen {
             renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
             renderer.setView(camara);
             oberon.sprite.setPosition(0,64);
-            vida.setVida(Preferencias.cargarVida());
         }
 
 
@@ -482,6 +483,7 @@ public class PantallaJuego implements Screen {
                     selfDestruction.setScreen(new PantallaPerder(selfDestruction));
                     musicaPrimerNivel.stop();
                     sonidoCaminar.stop();
+                    Preferencias.guardarVidas(vida.getVida());
                 }
             }
         }

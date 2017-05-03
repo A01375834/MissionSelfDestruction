@@ -32,4 +32,15 @@ public class Preferencias {
         p.flush();
     }
 
+    public static void guardarSonido(boolean bol){
+        Preferences p = Gdx.app.getPreferences("Sonido");
+        p.putBoolean("sonido",bol);
+        p.flush();
+    }
+
+    public static boolean cargarSonido(){
+        Preferences p = Gdx.app.getPreferences("Sonido");
+        return p.getBoolean("sonido",true);
+    }
+
 }
