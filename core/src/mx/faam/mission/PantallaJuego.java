@@ -361,6 +361,7 @@ public class PantallaJuego implements Screen {
         if(estadoNivel == EstadoNivel.PRIMERNIVEL){
             texturaBala = "bala.png";
             balaBoolean = false;
+            balaBoolean = false;
         }
 
         ColliderRect rectPuerta2;
@@ -417,7 +418,6 @@ public class PantallaJuego implements Screen {
         if(estadoNivel == EstadoNivel.PRIMERNIVELPT2) {
 
             batch.draw(puertaDos, 2396, 64);
-
             if(!balaBoolean) {
                 batch.draw(texturaMunicion, 1200, 64);
             }
@@ -449,7 +449,7 @@ public class PantallaJuego implements Screen {
             }
 
             if(rectPuerta2.choca(oberon.getColliderRect())&& !llaveBooleanDos){
-                    batch.draw(llaveIcono,2450,400);
+                batch.draw(llaveIcono,2450,400);
             }
 
         }
@@ -553,6 +553,7 @@ public class PantallaJuego implements Screen {
                     musicaPrimerNivel.stop();
                     sonidoCaminar.stop();
                     Preferencias.guardarVidas(vida.getVida());
+                    estadoNivel = EstadoNivel.PRIMERNIVEL;
                 }
             }
         }
