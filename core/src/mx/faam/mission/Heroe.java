@@ -25,7 +25,7 @@ public class Heroe extends Objeto {
     public static  float VELOCIDAD_Y = -3f;
     private float velocidadY, tiempoSalto;
     private boolean saltando;
-    private float velocidadSalto = 195f;
+    private float velocidadSalto = 250f;
 
 
 
