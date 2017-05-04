@@ -121,7 +121,7 @@ public class PantallaOpciones implements Screen {
 
         TextureRegionDrawable trdBotonD = new TextureRegionDrawable(new TextureRegion(BotonDisparar));
         Image disparar = new Image(trdBotonD);
-        disparar.setPosition(ANCHO/2+30,ALTO/2-150);
+        disparar.setPosition(ANCHO/2+30,ALTO/2-210);
         escena.addActor(disparar);
 
 
