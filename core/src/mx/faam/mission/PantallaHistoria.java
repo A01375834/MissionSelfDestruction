@@ -40,6 +40,7 @@ public class PantallaHistoria implements Screen {
 
     //fondo
     private Texture TexturaFondoHistoria;
+    private Texture texturaStory;
 
     public PantallaHistoria(SelfDestruction selfDestruction){
         this.selfDestruction = selfDestruction;
@@ -84,9 +85,10 @@ public class PantallaHistoria implements Screen {
         //Textura botones
         TexturaBotonBackMenu= new Texture("back to menu grande.png");
 
-
         //textura fondp
-        TexturaFondoHistoria = new Texture("fondoHistoria.jpg");
+        TexturaFondoHistoria = new Texture("fondo.png");
+
+        texturaStory = new Texture("story.png");
     }
 
     private void crearCamara() {
@@ -100,6 +102,9 @@ public class PantallaHistoria implements Screen {
     public void render(float delta) {
         borrarPantalla();
         escena.draw();
+        batch.begin();
+        batch.draw(texturaStory,0,0);
+        batch.end();
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             selfDestruction.setScreen(new PantallaMenu(selfDestruction));
         }
