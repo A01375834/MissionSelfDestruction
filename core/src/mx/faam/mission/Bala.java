@@ -31,13 +31,13 @@ public class Bala {
     private Sprite bala;
 
 
-    public Bala(float x, float y) {
+    public Bala(float x, float y,String textura) {
         this.x = x;
         this.y = y;
         rect = new ColliderRect(x, y, 23, 14);
 
         if (texturaBala == null)
-            texturaBala = new Texture("bala.png");
+            texturaBala = new Texture(textura);
         bala = new Sprite(texturaBala);
         if (balazo == null)
             balazo = Gdx.audio.newSound(Gdx.files.internal("balazo.wav"));

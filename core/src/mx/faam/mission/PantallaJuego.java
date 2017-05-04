@@ -131,6 +131,12 @@ public class PantallaJuego implements Screen {
 
     //Arreglo de balas
     private ArrayList<Bala> balas = new ArrayList<Bala>();
+    private String texturaBala;
+    private Boolean balaBoolean;
+    //Municion
+    private Texture texturaMunicion;
+    private ColliderRect rectMunicion = new ColliderRect(1200,64,176,96);
+
     //Arreglo Enemigo
     private ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
     private float tiempoEnemigo;
@@ -171,6 +177,8 @@ public class PantallaJuego implements Screen {
             texturaEnemigoDos = new Texture("enemigoDos.png");
 
             tiempoEnemigo = MathUtils.random(1.5f, 5.0f);
+
+            texturaMunicion = new Texture("municion.png");
 
             //Vida
             vida = new Vida();
@@ -320,8 +328,6 @@ public class PantallaJuego implements Screen {
                 pausa = true;
                 selfDestruction.setScreen(new PantallaPausa(selfDestruction, PantallaJuego.this));
                 musicaPrimerNivel.stop();
-
-
             }
         });
 
@@ -333,9 +339,9 @@ public class PantallaJuego implements Screen {
                 Gdx.app.log("clicked", "Disparar");
                 oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.DISPARANDO);
                 if(oberon.ViendoDerecha()==true) {
-                    balas.add(new Bala(oberon.getX() + TexturaOberonDisparando.getWidth(), oberon.getY() + 188));
+                    balas.add(new Bala(oberon.getX() + TexturaOberonDisparando.getWidth(), oberon.getY() + 188,texturaBala));
                 }else{
-                    balas.add(new Bala(oberon.getX() , oberon.getY()+188 ));
+                    balas.add(new Bala(oberon.getX() , oberon.getY()+188, texturaBala ));
                 }
             }
         });
@@ -352,7 +358,12 @@ public class PantallaJuego implements Screen {
         ArrayList<Enemigo> enemigoQuitar = new ArrayList<Enemigo>();
         //Arreglo Medkit por quitas
         ArrayList<MedKit> medKitsQuitar = new ArrayList<MedKit>();
-        //Gdx.app.log("x: ", oberon.getX() + " ");
+        Gdx.app.log("x: ", oberon.getX() + " ");
+
+        if(estadoNivel == EstadoNivel.PRIMERNIVEL){
+            texturaBala = "bala.png";
+            balaBoolean = false;
+        }
 
         ColliderRect rectPuerta2;
 
@@ -405,7 +416,16 @@ public class PantallaJuego implements Screen {
         //PARTE DOS NIVEL UNO
         if(estadoNivel == EstadoNivel.PRIMERNIVELPT2) {
 
+
             batch.draw(puertaDos, 2396, 64);
+            if(!balaBoolean) {
+                batch.draw(texturaMunicion, 1200, 64);
+            }
+            if(rectMunicion.choca(oberon.getColliderRect())){
+                balaBoolean = true;
+                texturaBala = "bala2.png";
+                texturaMunicion.dispose();
+            }
             rectPuerta2 = new ColliderRect(2396,64,128,64);
             if(rectPuerta2.choca(oberon.getColliderRect())&&llaveBooleanDos){
                 Gdx.app.log("Siguiente","Nivel 2");
@@ -415,6 +435,7 @@ public class PantallaJuego implements Screen {
                 renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
                 renderer.setView(camara);
                 oberon.sprite.setPosition(0,64);
+
 
 
             }
@@ -475,7 +496,11 @@ public class PantallaJuego implements Screen {
                 if (bala.getCollisionRect().choca(enemigo.getColliderRect())) {
                     enemigo.herir(delta,batch);
                     balasQuitar.add(bala);
-                    enemigo.setVidas(enemigo.getVidas() - 1);
+                    if(balaBoolean){
+                        enemigo.setVidas(enemigo.getVidas()-3);
+                    }else {
+                        enemigo.setVidas(enemigo.getVidas() - 1);
+                    }
                     if (enemigo.getVidas() <= 0) {
                         if(PantallaPausa.musicaOn) {
                             sonidoEnemigo.play();
@@ -629,17 +654,3 @@ public class PantallaJuego implements Screen {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

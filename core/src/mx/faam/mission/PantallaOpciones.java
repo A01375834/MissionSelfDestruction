@@ -121,29 +121,24 @@ public class PantallaOpciones implements Screen {
 
         TextureRegionDrawable trdBotonD = new TextureRegionDrawable(new TextureRegion(BotonDisparar));
         Image disparar = new Image(trdBotonD);
-        disparar.setPosition(ANCHO/2+100+80,ALTO/2+128);
+        disparar.setPosition(ANCHO/2+30,ALTO/2-150);
         escena.addActor(disparar);
-
-        TextureRegionDrawable trdBotonS = new TextureRegionDrawable(new TextureRegion(BotonSwitch));
-        Image switchh = new Image(trdBotonS);
-        switchh.setPosition(ANCHO/2+160+100+80,ALTO/2+128);
-        escena.addActor(switchh);
 
 
 
 
         TextureRegionDrawable trdBackP = new TextureRegionDrawable(new TextureRegion(BackPad));
         Image backP = new Image(trdBackP);
-        backP.setPosition(ANCHO/2+460,ALTO/2+128);
+        backP.setPosition(ANCHO/2+200,ALTO/2-150);
         escena.addActor(backP);
 
         TextureRegionDrawable trdFrontP = new TextureRegionDrawable(new TextureRegion(FrontPad));
         Image frontP = new Image(trdFrontP);
-        frontP.setPosition(ANCHO/2+494,ALTO/2+155);
+        frontP.setPosition(ANCHO/2+200,ALTO/2-150);
         escena.addActor(frontP);
 
-        textoItems.mostrarMensaje(batch,"Collect them",ANCHO/2,ALTO/2+64);
-        textoControles.mostrarMensaje(batch,"Use them for moving & shoot",ANCHO/2+440,ALTO/2+64);
+
+
 
         batch.end();
 
@@ -176,7 +171,7 @@ public class PantallaOpciones implements Screen {
         BotonSwitch = new Texture("boton switch grande.png");
         Tarjeta = new Texture("key.png");
         botiquin = new Texture("medkit grande.png");
-        balas= new Texture("municion grande.png");
+        balas= new Texture("municion.png");
 
 
 
@@ -199,6 +194,11 @@ public class PantallaOpciones implements Screen {
     public void render(float delta) {
         borrarPantalla();
         escena.draw();
+        batch.setProjectionMatrix(camara.combined);
+        batch.begin();
+        textoItems.mostrarMensaje(batch,"Collect them",ANCHO/2-330,ALTO-100);
+        textoControles.mostrarMensaje(batch,"Shoot & Move",ANCHO/2+200,ALTO/2);
+        batch.end();
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             selfDestruction.setScreen(new PantallaMenu(selfDestruction));
         }
