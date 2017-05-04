@@ -164,12 +164,22 @@ public class Heroe extends Objeto {
         float delta = 9;//Gdx.graphics.getDeltaTime();
         //float velocidadSalto = 0;
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("pisos");
+        TiledMapTileLayer capaTecho = (TiledMapTileLayer) mapa.getLayers().get("techo");
         int celdaX = (int) ((sprite.getX()+sprite.getWidth()/2) / capa.getTileWidth());
         int celdaY = (int) ((sprite.getY()-30)/ capa.getTileHeight());
+        int celdaXT = (int) ((sprite.getX()+sprite.getWidth()/2) / capaTecho.getTileWidth());
+        int celdaYT = (int) (((sprite.getY())+sprite.getHeight())/ capaTecho.getTileHeight());
+
         float y = sprite.getY();
         TiledMapTileLayer.Cell cell = capa.getCell(celdaX, celdaY);
+        TiledMapTileLayer.Cell cellTecho = capaTecho.getCell(celdaXT, celdaYT);
         switch (estadoSalto) {
             case SUBIENDO:
+
+                if( cellTecho!= null){
+                    Gdx.app.log("Hay techo","techo");
+                    estadoSalto = EstadoSalto.BAJANDO;
+                }
                 /*
                 if(!saltando) {
                     velocidadY = 15;
