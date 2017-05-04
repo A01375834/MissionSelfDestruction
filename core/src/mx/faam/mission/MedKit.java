@@ -23,7 +23,7 @@ public class MedKit {
 
     public MedKit(SpriteBatch batch, int x, int y) {
         if (texturaMedKit == null) {
-            texturaMedKit = new Texture(Gdx.files.internal("medkit grande.png"));
+            texturaMedKit = new Texture(Gdx.files.internal("medkit.png"));
         }
         this.x = x;
         this.y = y;

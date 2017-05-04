@@ -233,9 +233,9 @@ public class PantallaJuego implements Screen {
     }
 
     private void cargarMedKits() {
-        medKit = new Texture("medKit.png");
-        medkitDos = new Texture("medKit.png");
-        medKitTres = new Texture("medkit.png");
+        medKit = new Texture(Gdx.files.internal("medkit grande.png"));
+        medkitDos = new Texture(Gdx.files.internal("medkit grande.png"));
+        medKitTres = new Texture(Gdx.files.internal("medkit grande.png"));
 
         rectMed = new ColliderRect(3576,832,64,64);
         rectMedDos = new ColliderRect(3624,832,64,64);
