@@ -91,7 +91,7 @@ public class PantallaCargandoMapa implements Screen {
                 manager.finishLoading();
             }
         }
-
+        ////AAAAAAAAA
         private void actualizar() {
             if(manager.update()) {
                 //selfDestruction.setScreen(new PantallaJuego(selfDestruction));
