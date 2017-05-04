@@ -174,7 +174,7 @@ public class PantallaOpciones implements Screen {
         BotonDisparar = new Texture("boton disparo grande.png");
         BotonSwitch = new Texture("boton switch grande.png");
         Tarjeta = new Texture("key.png");
-        botiquin = new Texture("medkit.png");
+        botiquin = new Texture("medkit grande.png");
         balas= new Texture("municion.png");
 
         AssetManager manager = new AssetManager();
