@@ -302,21 +302,15 @@ public class PantallaJuego implements Screen {
         TexturaBotonDisparar = new Texture("boton disparo grande.png");
         TextureRegionDrawable trdBtnDisparar = new TextureRegionDrawable(new TextureRegion(TexturaBotonDisparar));
         ImageButton btnDisparar = new ImageButton(trdBtnDisparar);
-        btnDisparar.setPosition(ANCHO - 325, 30);
+        btnDisparar.setPosition(ANCHO - 280, 50);
         btnDisparar.setColor(1, 1, 1, 0.6f);
 
 
-        TexturaBotonSwitch = new Texture("boton switch grande.png");
-        TextureRegionDrawable trdBtnSwitch = new TextureRegionDrawable(new TextureRegion(TexturaBotonSwitch));
-        ImageButton btnBotonSwitch = new ImageButton(trdBtnSwitch);
-        btnBotonSwitch.setPosition(ANCHO - 200, 50);
-        btnBotonSwitch.setColor(1, 1, 1, 0.6f);
 
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);
         escenaHUD.addActor(btnPausa);
         escenaHUD.addActor(btnDisparar);
-        escenaHUD.addActor(btnBotonSwitch);
 
 
         //Evento del boton
