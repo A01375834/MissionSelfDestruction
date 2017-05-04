@@ -114,7 +114,7 @@ public class PantallaMenu implements Screen {
         //botonNuevoJuego
         TextureRegionDrawable trdBtnNj = new TextureRegionDrawable(new TextureRegion(TexturaBotonNuevoJuego));
         ImageButton btnNj = new ImageButton(trdBtnNj);
-        btnNj.setPosition(ANCHO/2+155, 2*ALTO/5+315);
+        btnNj.setPosition(ANCHO/2+155, 2*ALTO/5+250);
         escena.addActor(btnNj);
 
         //Evento del boton
@@ -130,26 +130,14 @@ public class PantallaMenu implements Screen {
 
 
         //botonCargarJuego
-        TextureRegionDrawable trdBtnCj = new TextureRegionDrawable(new TextureRegion(TexturaBotonCargarJuego));
-        ImageButton btnCj = new ImageButton(trdBtnCj);
-        btnCj.setPosition(ANCHO/2+155, 2*ALTO/5+175);
-        escena.addActor(btnCj);
 
-        //Evento del boton
-        btnCj.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                Gdx.app.log("clicked","Me hicieron click");
-                selfDestruction.setScreen(new PantallaCargandoMapa(selfDestruction));
-            }
-        });
 
 
 
         //botonOpciones
         TextureRegionDrawable trdBtnCargar = new TextureRegionDrawable(new TextureRegion(TexturaBotonInstrucciones));
         ImageButton btnCargar = new ImageButton(trdBtnCargar);
-        btnCargar.setPosition(ANCHO/2+155, 2*ALTO/5+35);
+        btnCargar.setPosition(ANCHO/2+155, 2*ALTO/5+100);
         escena.addActor(btnCargar);
 
         //Evento del boton
@@ -163,7 +151,7 @@ public class PantallaMenu implements Screen {
         //botonHistoria
         TextureRegionDrawable trdBtnHistoria = new TextureRegionDrawable(new TextureRegion(TexturaBotonHistoria));
         ImageButton btnHistoria = new ImageButton(trdBtnHistoria);
-        btnHistoria.setPosition(ANCHO/2+155, ALTO/4);
+        btnHistoria.setPosition(ANCHO/2+155, 2*ALTO/5-50);
         escena.addActor(btnHistoria);
 
         //Evento del boton
@@ -178,7 +166,7 @@ public class PantallaMenu implements Screen {
         //BotonCreditos
         TextureRegionDrawable trdBtnCreditos = new TextureRegionDrawable(new TextureRegion(TexturaBotonCreditos));
         ImageButton btnCreditos = new ImageButton(trdBtnCreditos);
-        btnCreditos.setPosition(ANCHO/2+155,2*ALTO/5-260);
+        btnCreditos.setPosition(ANCHO/2+155,2*ALTO/5-200);
         escena.addActor(btnCreditos);
 
         //Evento del boton
