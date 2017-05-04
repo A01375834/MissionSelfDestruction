@@ -129,12 +129,12 @@ public class PantallaOpciones implements Screen {
 
         TextureRegionDrawable trdBackP = new TextureRegionDrawable(new TextureRegion(BackPad));
         Image backP = new Image(trdBackP);
-        backP.setPosition(ANCHO/2+200,ALTO/2-150);
+        backP.setPosition(ANCHO/2+200,ALTO/2-210);
         escena.addActor(backP);
 
         TextureRegionDrawable trdFrontP = new TextureRegionDrawable(new TextureRegion(FrontPad));
         Image frontP = new Image(trdFrontP);
-        frontP.setPosition(ANCHO/2+200,ALTO/2-150);
+        frontP.setPosition(ANCHO/2+230,ALTO/2-174);
         escena.addActor(frontP);
 
 
