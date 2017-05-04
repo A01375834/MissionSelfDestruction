@@ -519,7 +519,7 @@ public class PantallaJuego implements Screen {
                 if (enemigo.tipoEnemigo == Enemigo.TipoEnemigo.PRIMERENEMIGO) {
                     vida.herir(20);
                 } else if (enemigo.tipoEnemigo == Enemigo.TipoEnemigo.SEGUNDOENEMIGO) {
-                    //vida.herir(40);
+                    vida.herir(40);
                 }
                 enemigoQuitar.add(enemigo);
                 if (vida.getVida() <= 0) {
