@@ -65,7 +65,7 @@ public class PantallaCargando implements Screen {
         batch.end();
 
         //Actualizar
-        if(avance>100){
+        if(avance>=100) {
             selfDestruction.setScreen(new PantallaMenu(selfDestruction));
         }
 
@@ -74,8 +74,10 @@ public class PantallaCargando implements Screen {
     }
 
     private void actualizar() {
-            avance +=1;
+        if(avance<100) {
+            avance += 1;
             spriteCargando.rotate(-30);
+        }
 
     }
 

@@ -29,12 +29,14 @@ public class Bala {
     private Sound balazo;
     private boolean sonidoBala;
     private Sprite bala;
+    private boolean izq;
 
 
-    public Bala(float x, float y,String textura) {
+    public Bala(float x, float y,String textura, Boolean bool) {
         this.x = x;
         this.y = y;
         rect = new ColliderRect(x, y, 23, 14);
+        izq = bool;
 
         if (texturaBala == null)
             texturaBala = new Texture(textura);
@@ -44,8 +46,12 @@ public class Bala {
     }
 
     public void actualizarBala(float deltaTime, OrthographicCamera camara) {
-        x += vx * deltaTime;
-        if (x > camara.position.x + ANCHO/2)
+        if(izq){
+            x += vxIzq * deltaTime;
+        }else{
+            x += vx * deltaTime;
+        }
+        if (x > camara.position.x + ANCHO/2 || x < camara.position.x - ANCHO/2)
             remove = true;
         if (sonidoBala == false) {
             if (PantallaPausa.musicaOn) {
@@ -59,20 +65,6 @@ public class Bala {
 
     }
 
-    public void actualizarBalaIzq(float deltaTime, OrthographicCamera camara) {
-        x += vxIzq * deltaTime;
-        if (x < camara.position.x - ANCHO/2)
-            remove = true;
-        if (sonidoBala == false) {
-            if(PantallaPausa.musicaOn) {
-                balazo.play();
-                sonidoBala = true;
-            }
-        }
-
-        rect.mover(x, y);
-
-    }
     public void render(SpriteBatch batch) {
         batch.draw(texturaBala, x, y);
     }

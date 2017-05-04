@@ -58,18 +58,22 @@ public class PantallaJuego implements Screen {
 
     //vida
     public static Vida vida;
-    private MedKit medKit;
+    private Texture medKit;
+    private Texture medkitDos;
+    private Texture medKitTres;
+    private ColliderRect rectMed, rectMedDos, rectMedTres;
+    private boolean medKitBool, medKitDosBool,medKitTresBool;
 
     //Sonido Caminar
     private Sound sonidoCaminar = Gdx.audio.newSound(Gdx.files.internal("SonidoCaminar1.wav"));
     //Sonido oberon Quejido
     private Sound sonidoQuejido = Gdx.audio.newSound(Gdx.files.internal("quejidoOberon.wav"));
     //Sonido enemigo Muriendo
-    private  Sound sonidoEnemigo = Gdx.audio.newSound(Gdx.files.internal("enemigoMuriendo.wav"));
+    private Sound sonidoEnemigo = Gdx.audio.newSound(Gdx.files.internal("enemigoMuriendo.wav"));
     //Musica primer nivel
-    private  Music musicaPrimerNivel = Gdx.audio.newMusic(Gdx.files.internal("msicaPrimerNivel.wav"));
+    private Music musicaPrimerNivel = Gdx.audio.newMusic(Gdx.files.internal("msicaPrimerNivel.wav"));
     //Sonido MedKit
-    private  Sound sonidoMedKit = Gdx.audio.newSound(Gdx.files.internal("medKit.wav"));
+    private Sound sonidoMedKit = Gdx.audio.newSound(Gdx.files.internal("medKit.wav"));
 
 
     //camara
@@ -87,7 +91,6 @@ public class PantallaJuego implements Screen {
     private Texture TexturaPausa;
     //botones disparar
     private Texture TexturaBotonDisparar;
-    private Texture TexturaBotonSwitch;
 
     //Mapa
     private TiledMap TexturaFondoJuego;
@@ -104,7 +107,7 @@ public class PantallaJuego implements Screen {
     private Boolean llaveBoolean = false;
 
     //Texttura llave Parte Dos
-    private  Texture llaveDos;
+    private Texture llaveDos;
     private ColliderRect rectLlaveDos;
     private Boolean llaveBooleanDos = false;
     private Texture llaveIcono;
@@ -119,7 +122,7 @@ public class PantallaJuego implements Screen {
     private Texture puerta;
     private ColliderRect rect;
 
-    private  Texture puertaDos;
+    private Texture puertaDos;
 
     private Texture puertaWin;
     private ColliderRect rectWin;
@@ -137,15 +140,17 @@ public class PantallaJuego implements Screen {
     private Boolean balaBoolean;
     //Municion
     private Texture texturaMunicion;
-    private ColliderRect rectMunicion = new ColliderRect(1200,64,176,96);
+    private ColliderRect rectMunicion = new ColliderRect(1200, 64, 176, 96);
 
     //Arreglo Enemigo
     private ArrayList<Enemigo> enemigos = new ArrayList<Enemigo>();
     private float tiempoEnemigo;
     private float tiempoMaximo = 10f;
 
-    //Arreglo MedKits
-    private ArrayList<MedKit> medKits = new ArrayList<MedKit>();
+    //Arreglo Balas para quitar
+    private ArrayList<Bala> balasQuitar = new ArrayList<Bala>();
+    //Arreglo Enemigos por quitar
+    private ArrayList<Enemigo> enemigoQuitar = new ArrayList<Enemigo>();
 
 
 
@@ -159,7 +164,7 @@ public class PantallaJuego implements Screen {
         managerUno = selfDestruction.getManager();
         if (!pausa) {
 
-            long inicio=System.nanoTime();
+            //long inicio=System.nanoTime();
             //Heroe
             TexturaOberon = new Texture("prueba tamaño derecha.png");
             TexturaOberonDisparando = new Texture("posicion disparo derecha.png");
@@ -172,7 +177,7 @@ public class PantallaJuego implements Screen {
 
             //Llave
             llave = new Texture(Gdx.files.internal("key.png"));
-            rectLlave = new ColliderRect(2180,940,64,32);
+            rectLlave = new ColliderRect(2180, 940, 64, 32);
             llaveIcono = new Texture("key.png");
             llaveWin = new Texture("key.png");
 
@@ -184,21 +189,16 @@ public class PantallaJuego implements Screen {
 
             texturaMunicion = new Texture("municion.png");
 
+
             //Vida
             vida = new Vida();
-            medKit = new MedKit(batch, 3000, 832);
-            medKits.add(medKit);
+            medKitBool = false;
+            medKitDosBool = false;
+            medKitTresBool = false;
 
             //oberonDisparando = new Heroe(TexturaOberonDisparando,0,64 );
             oberon = new Heroe(TexturaOberon, TexturaOberonDisparando, oberonIzq, 0, 64);
 
-
-
-            //manager.load("mapaInicialPrimerNivel.tmx", TiledMap.class);
-            //manager.load("ParteDosPrimerNivel.tmx", TiledMap.class);
-            //manager.load("NivelDos.tmx", TiledMap.class);
-
-            //manager.finishLoading();    //cargar Recursos
             TexturaFondoJuego = managerUno.get("mapaInicialPrimerNivel.tmx");
             camara = new OrthographicCamera(ALTO / 2, ANCHO / 2);
             vista = new StretchViewport(ANCHO, ALTO, camara);
@@ -206,32 +206,40 @@ public class PantallaJuego implements Screen {
             renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
             renderer.setView(camara);
 
+            cargarMedKits();
             crearHUD();
 
-            if(Preferencias.cargarVida() > 20 && Preferencias.cargarVida() <100){
+            if (Preferencias.cargarVida() > 20 && Preferencias.cargarVida() < 100) {
                 vida.setVida(Preferencias.cargarVida());
-                Gdx.app.log("Vida Para jugar" ,Preferencias.cargarVida()+" ");
-            }else if (Preferencias.cargarVida() <=  20){
+                Gdx.app.log("Vida Para jugar", Preferencias.cargarVida() + " ");
+            } else if (Preferencias.cargarVida() <= 20) {
                 vida.setVida(20);
-            }
-            else {
+            } else {
                 vida.setVida(100);
             }
 
 
+            //long fin=System.nanoTime();
+            //Gdx.app.log("Show", "Tiempo: " +(fin-inicio)/1000); // se carga ahora desde el manager
 
-            long fin=System.nanoTime();
-            Gdx.app.log("Show", "Tiempo: " +(fin-inicio)/1000); // se carga ahora desde el manager
 
-
-        }
-
-        else {
+        } else {
             pausa = false;
         }
 
         Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(escenaHUD);
+
+    }
+
+    private void cargarMedKits() {
+        medKit = new Texture("medKit.png");
+        medkitDos = new Texture("medKit.png");
+        medKitTres = new Texture("medkit.png");
+
+        rectMed = new ColliderRect(3576,832,64,64);
+        rectMedDos = new ColliderRect(3624,832,64,64);
+        rectMedTres = new ColliderRect(6408,64,64,64);
 
     }
 
@@ -263,8 +271,8 @@ public class PantallaJuego implements Screen {
                 if (pad.getKnobPercentX() > 0.20) {
                     oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.MOV_DERECHA);
                     //sonidoCaminar.setVolume(sonidoCaminarId,1.0f);
-                    if(PantallaPausa.musicaOn){
-                        if (sonidoTocando == false) {
+                    if (PantallaPausa.musicaOn) {
+                        if (!sonidoTocando) {
                             sonidoCaminar.loop();
                             sonidoTocando = true;
 
@@ -274,8 +282,8 @@ public class PantallaJuego implements Screen {
 
                 } else if (pad.getKnobPercentX() < -0.20) {
                     oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.MOV_IZQUIERDA);
-                    if(PantallaPausa.musicaOn) {
-                        if (sonidoTocando == false) {
+                    if (PantallaPausa.musicaOn) {
+                        if (!sonidoTocando) {
                             sonidoCaminar.loop();
                             sonidoTocando = true;
                         }
@@ -284,7 +292,7 @@ public class PantallaJuego implements Screen {
 
                     // Gdx.app.log("Estoy Saltando:", "ahora");
                     Gdx.app.log("y personaje: ", String.valueOf(oberon.sprite.getY()));
-                    if(oberon.getEstadoSalto() == Heroe.EstadoSalto.EN_PISO){
+                    if (oberon.getEstadoSalto() == Heroe.EstadoSalto.EN_PISO) {
                         oberon.setEstadoSalto(Heroe.EstadoSalto.SUBIENDO);
                         //oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.QUIETO);
                     }
@@ -310,7 +318,6 @@ public class PantallaJuego implements Screen {
         btnDisparar.setColor(1, 1, 1, 0.6f);
 
 
-
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);
         escenaHUD.addActor(btnPausa);
@@ -329,17 +336,15 @@ public class PantallaJuego implements Screen {
             }
         });
 
-
-        //AAAAAAAAA
         btnDisparar.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "Disparar");
                 oberon.setEstadoMovimiento(Heroe.EstadoMovimiento.DISPARANDO);
-                if(oberon.ViendoDerecha()==true) {
-                    balas.add(new Bala(oberon.getX() + TexturaOberonDisparando.getWidth(), oberon.getY() + 188,texturaBala));
-                }else{
-                    balas.add(new Bala(oberon.getX() , oberon.getY()+188, texturaBala ));
+                if (oberon.ViendoDerecha()) {
+                    balas.add(new Bala(oberon.getX() + TexturaOberonDisparando.getWidth(), oberon.getY() + 188, texturaBala, false));
+                } else {
+                    balas.add(new Bala(oberon.getX(), oberon.getY() + 188, texturaBala, true));
                 }
             }
         });
@@ -349,28 +354,21 @@ public class PantallaJuego implements Screen {
     @Override
     public void render(float delta) {
 
-
-        //Arreglo Balas para quitar
-        ArrayList<Bala> balasQuitar = new ArrayList<Bala>();
-        //Arreglo Enemigos por quitar
-        ArrayList<Enemigo> enemigoQuitar = new ArrayList<Enemigo>();
-        //Arreglo Medkit por quitas
-        ArrayList<MedKit> medKitsQuitar = new ArrayList<MedKit>();
+        borrarPantalla();
+        batch.setProjectionMatrix(camara.combined);
+        renderer.setView(camara);
+        renderer.render();
+        ColliderRect rectPuerta2;
         Gdx.app.log("x: ", oberon.getX() + " ");
 
-        if(estadoNivel == EstadoNivel.PRIMERNIVEL){
+        if (estadoNivel == EstadoNivel.PRIMERNIVEL) {
             texturaBala = "bala.png";
-            balaBoolean = false;
             balaBoolean = false;
         }
 
-        ColliderRect rectPuerta2;
-
-        //Gdx.app.log("X",oberon.getX()+"");
-
 
         crearNuevosEnemigos(delta);
-        if(PantallaPausa.musicaOn) {
+        if (PantallaPausa.musicaOn) {
             musicaPrimerNivel.setLooping(true);
             musicaPrimerNivel.play();
         }
@@ -378,110 +376,87 @@ public class PantallaJuego implements Screen {
         oberon.actualizar(TexturaFondoJuego);
         actualizarMapa();
         for (Bala bala : balas) {
-            if(oberon.ViendoDerecha()==true){
-                bala.actualizarBala(delta, camara);
-            }else{
-                bala.actualizarBalaIzq(delta,camara);
-            }
+            bala.actualizarBala(delta, camara);
             if (bala.remove)
                 balasQuitar.add(bala);
+        }
 
-        }
-        borrarPantalla();
-        batch.setProjectionMatrix(camara.combined);
-        renderer.setView(camara);
-        renderer.render();
-        //Medkits
-        for (MedKit medkit : medKits) {
-            batch.begin();
-            medKit.ActualizarMedKit(batch);
-            batch.end();
-        }
-        for (MedKit medKit : medKits) {
-            if (medKit.getCollisionRect().choca(oberon.getColliderRect())) {
-                if (vida.getVida() < 100) {
-                    medKitsQuitar.add(medKit);
-                    if(PantallaPausa.musicaOn) {
-                        sonidoMedKit.play(0.5f);
-                    }
-                    vida.setVida(100);
-                }
-            }
-        }
-        medKits.removeAll(medKitsQuitar);
+        dibujarMedKits();
+        actualizarMedKits();
+
         batch.begin();
-        if(estadoNivel == EstadoNivel.PRIMERNIVEL) {
+        if (estadoNivel == EstadoNivel.PRIMERNIVEL) {
             batch.draw(puerta, 3765, 64);
         }
 
         //PARTE DOS NIVEL UNO
-        if(estadoNivel == EstadoNivel.PRIMERNIVELPT2) {
+        if (estadoNivel == EstadoNivel.PRIMERNIVELPT2) {
 
             batch.draw(puertaDos, 2396, 64);
-            if(!balaBoolean) {
+            if (!balaBoolean) {
                 batch.draw(texturaMunicion, 1200, 64);
             }
 
-            if(rectMunicion.choca(oberon.getColliderRect())){
+            if (rectMunicion.choca(oberon.getColliderRect())) {
                 balaBoolean = true;
                 texturaBala = "bala2.png";
                 texturaMunicion.dispose();
             }
-            rectPuerta2 = new ColliderRect(2396,64,128,64);
-            if(rectPuerta2.choca(oberon.getColliderRect())&&llaveBooleanDos){
-                Gdx.app.log("Siguiente","Nivel 2");
+            rectPuerta2 = new ColliderRect(2396, 64, 128, 64);
+            if (rectPuerta2.choca(oberon.getColliderRect()) && llaveBooleanDos) {
+                Gdx.app.log("Siguiente", "Nivel 2");
                 estadoNivel = EstadoNivel.SEGUNDONIVEL;
                 PantallaCargandoMapa.cargarNivel();
                 TexturaFondoJuego = managerUno.get("NivelDos.tmx");
                 renderer = new OrthogonalTiledMapRenderer(TexturaFondoJuego, batch);
                 renderer.setView(camara);
-                oberon.sprite.setPosition(0,64);
+                oberon.sprite.setPosition(0, 64);
 
             }
             llaveDos = new Texture("key.png");
-            rectLlaveDos = new ColliderRect(2496,832,64,32);
-            if(llaveBooleanDos==false){
-                batch.draw(llaveDos,2496,832);
+            rectLlaveDos = new ColliderRect(2496, 832, 64, 32);
+            if (!llaveBooleanDos) {
+                batch.draw(llaveDos, 2496, 832);
             }
-            if(rectLlaveDos.choca(oberon.getColliderRect())){
+            if (rectLlaveDos.choca(oberon.getColliderRect())) {
                 llaveBooleanDos = true;
                 llaveDos.dispose();
             }
 
-            if(rectPuerta2.choca(oberon.getColliderRect())&& !llaveBooleanDos){
-                batch.draw(llaveIcono,2450,400);
+            if (rectPuerta2.choca(oberon.getColliderRect()) && !llaveBooleanDos) {
+                batch.draw(llaveIcono, 2450, 400);
             }
 
         }
-        if(!llaveBoolean){
-            batch.draw(llave,2180,940);
+        if (!llaveBoolean) {
+            batch.draw(llave, 2180, 940);
         }
-        if(rect.choca(oberon.getColliderRect())&& !llaveBoolean){
-            batch.draw(llaveIcono,3860,400);
+        if (rect.choca(oberon.getColliderRect()) && !llaveBoolean) {
+            batch.draw(llaveIcono, 3860, 400);
 
         }
-        if(estadoNivel == EstadoNivel.SEGUNDONIVEL){
-            batch.draw(puertaWin,8600,832);
-            if(!winBoolean) {
+        if (estadoNivel == EstadoNivel.SEGUNDONIVEL) {
+            batch.draw(puertaWin, 8600, 832);
+            if (!winBoolean) {
                 batch.draw(llaveWin, 10064, 64);
             }
-            rectLlaveWin = new ColliderRect(10064,64,42,45);
-            rectWin = new ColliderRect(8600,832,192,288);
-            if(rectLlaveWin.choca(oberon.getColliderRect())){
+            rectLlaveWin = new ColliderRect(10064, 64, 42, 45);
+            rectWin = new ColliderRect(8600, 832, 192, 288);
+            if (rectLlaveWin.choca(oberon.getColliderRect())) {
                 winBoolean = true;
                 llaveWin.dispose();
             }
-            if(rectWin.choca(oberon.getColliderRect())&& winBoolean){
+            if (rectWin.choca(oberon.getColliderRect()) && winBoolean) {
                 selfDestruction.setScreen(new PantallaWin(selfDestruction));
             }
-            if(rectWin.choca(oberon.getColliderRect())&& !winBoolean){
-                batch.draw(llaveIcono,8700,1150);
+            if (rectWin.choca(oberon.getColliderRect()) && !winBoolean) {
+                batch.draw(llaveIcono, 8700, 1150);
             }
         }
         batch.end();
 
-        if(estadoNivel == EstadoNivel.PRIMERNIVEL) {
-            if (rect.choca(oberon.getColliderRect()) && llaveBoolean == true) {
+        if (estadoNivel == EstadoNivel.PRIMERNIVEL) {
+            if (rect.choca(oberon.getColliderRect()) && llaveBoolean) {
                 Gdx.app.log("Siguiente", "Nivel");
                 estadoNivel = EstadoNivel.PRIMERNIVELPT2;
                 PantallaCargandoMapa.cargarNivel();
@@ -506,24 +481,23 @@ public class PantallaJuego implements Screen {
             }
         }
 
-        if (oberon.getEstadoMovimiento() == Heroe.EstadoMovimiento.DISPARANDO)
-            for (Bala bala : balas) {
-                bala.render(batch);
-            }
+        for (Bala bala : balas) {
+            bala.render(batch);
+        }
 
         batch.end();
         for (Bala bala : balas) {
             for (Enemigo enemigo : enemigos) {
                 if (bala.getCollisionRect().choca(enemigo.getColliderRect())) {
-                    enemigo.herir(delta,batch);
+                    enemigo.herir(delta, batch);
                     balasQuitar.add(bala);
-                    if(balaBoolean){
-                        enemigo.setVidas(enemigo.getVidas()-3);
-                    }else {
+                    if (balaBoolean) {
+                        enemigo.setVidas(enemigo.getVidas() - 3);
+                    } else {
                         enemigo.setVidas(enemigo.getVidas() - 1);
                     }
                     if (enemigo.getVidas() <= 0) {
-                        if(PantallaPausa.musicaOn) {
+                        if (PantallaPausa.musicaOn) {
                             sonidoEnemigo.play();
                         }
                         enemigoQuitar.add(enemigo);
@@ -539,12 +513,12 @@ public class PantallaJuego implements Screen {
 
         for (Enemigo enemigo : enemigos) {
             if (enemigo.getColliderRect().choca(oberon.getColliderRect())) {
-                if(PantallaPausa.musicaOn) {
+                if (PantallaPausa.musicaOn) {
                     sonidoQuejido.play();
                 }
-                if(enemigo.tipoEnemigo == Enemigo.TipoEnemigo.PRIMERENEMIGO) {
-                   vida.herir(20);
-                }else if(enemigo.tipoEnemigo == Enemigo.TipoEnemigo.SEGUNDOENEMIGO){
+                if (enemigo.tipoEnemigo == Enemigo.TipoEnemigo.PRIMERENEMIGO) {
+                    vida.herir(20);
+                } else if (enemigo.tipoEnemigo == Enemigo.TipoEnemigo.SEGUNDOENEMIGO) {
                     vida.herir(40);
                 }
                 enemigoQuitar.add(enemigo);
@@ -558,7 +532,7 @@ public class PantallaJuego implements Screen {
             }
         }
         enemigos.removeAll(enemigoQuitar);
-        if(rectLlave.choca(oberon.getColliderRect())){
+        if (rectLlave.choca(oberon.getColliderRect())) {
             llaveBoolean = true;
             llave.dispose();
 
@@ -576,21 +550,54 @@ public class PantallaJuego implements Screen {
         vida.actualizarVida(batch, vida.getVida());
         batch.end();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             selfDestruction.setScreen(new PantallaPausa(selfDestruction, PantallaJuego.this));
             Preferencias.guardarVidas(vida.getVida());
             estadoNivel = EstadoNivel.PRIMERNIVEL;
         }
 
 
+    }
 
+    private void actualizarMedKits() {
+        if (vida.getVida() < 100) {
+            if (rectMed.choca(oberon.getColliderRect())) {
+                medKitBool = true;
+                medKit.dispose();
+                if (vida.getVida() < 100) {
+                    vida.setVida(100);
+                }
+            } else if (rectMedDos.choca(oberon.getColliderRect())) {
+                medKitDosBool = true;
+                medkitDos.dispose();
+                if (vida.getVida() < 100) {
+                    vida.setVida(100);
+                }
+            } else if (rectMedTres.choca(oberon.getColliderRect())) {
+                medKitTresBool = true;
+                medKitTres.dispose();
+                if (vida.getVida() < 100) {
+                    vida.setVida(100);
+                }
+            }
+        }
+    }
+
+    private void dibujarMedKits() {
+        batch.begin();
+        if(estadoNivel == EstadoNivel.PRIMERNIVEL && !medKitBool){
+            batch.draw(medKit,3576,832);
+        }else if(estadoNivel == EstadoNivel.SEGUNDONIVEL && !medKitDosBool){
+            batch.draw(medkitDos,3624,832);
+        }else if(estadoNivel == EstadoNivel.SEGUNDONIVEL && !medKitTresBool){
+            batch.draw(medKitTres,6408,64);
+        }
+        batch.end();
     }
 
 
-
-
     private void actualizarMapa() {
-        int ANCHO_MAPA = ((TiledMapTileLayer)(TexturaFondoJuego.getLayers().get(0))).getWidth() * 32;
+        int ANCHO_MAPA = ((TiledMapTileLayer) (TexturaFondoJuego.getLayers().get(0))).getWidth() * 32;
         float ALTO_MAPA = 1600;
         float posX = oberon.sprite.getX();
         float posY = oberon.sprite.getY();
@@ -635,9 +642,10 @@ public class PantallaJuego implements Screen {
 
     }
 
-    public  static EstadoNivel getEstadoNivel(){
+    public static EstadoNivel getEstadoNivel() {
         return estadoNivel;
     }
+
     @Override
     public void resume() {
 
@@ -657,17 +665,18 @@ public class PantallaJuego implements Screen {
         TexturaOberon.dispose();
 
     }
+
     //AAA
     private void crearNuevosEnemigos(float delta) {
         tiempoEnemigo -= delta;
         if (tiempoEnemigo <= 0) {
             tiempoEnemigo = MathUtils.random(5.0f, tiempoMaximo);
             tiempoMaximo -= tiempoMaximo > 0.5f ? 10 * delta : 0;
-            if(estadoNivel == EstadoNivel.PRIMERNIVEL) {
+            if (estadoNivel == EstadoNivel.PRIMERNIVEL) {
                 Enemigo enemigo = new Enemigo(texturaChiquito, oberon.getX() + ANCHO + 1, 188, 5, -100, batch, 288, 128);
                 enemigos.add(enemigo);
-            }else{
-                Enemigo enemigo2 = new Enemigo(texturaEnemigoDos,oberon.getX()+ANCHO+1,64,15,batch,128,320);
+            } else {
+                Enemigo enemigo2 = new Enemigo(texturaEnemigoDos, oberon.getX() + ANCHO + 1, 64, 15, batch, 128, 320);
                 enemigos.add(enemigo2);
             }
 

@@ -99,7 +99,6 @@ public class Heroe extends Objeto {
                         region.flip(true,false);
                     }
                 } else {
-                    //AAAAAAAA
                     viendoDerecha = false;
                     if (!region.isFlipX()) {
                         region.flip(true,false);
