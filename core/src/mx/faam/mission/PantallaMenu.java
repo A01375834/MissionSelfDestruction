@@ -55,7 +55,7 @@ public class PantallaMenu implements Screen {
     private SpriteBatch batch;
 
     //Musica
-    private Music musicaFondoMenu;
+    private static Music musicaFondoMenu;
 
 
 
@@ -146,6 +146,8 @@ public class PantallaMenu implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click Opciones");
                 selfDestruction.setScreen(new PantallaOpciones(selfDestruction));
+                musicaFondoMenu.stop();
+                //musicaFondoMenu.play();
             }
         });
         //botonHistoria
@@ -160,6 +162,8 @@ public class PantallaMenu implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
                 selfDestruction.setScreen(new PantallaHistoria(selfDestruction));
+                musicaFondoMenu.stop();
+                //musicaFondoMenu.play();
             }
         });
 
@@ -175,6 +179,8 @@ public class PantallaMenu implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
                 selfDestruction.setScreen(new PantallaCreditos(selfDestruction));
+                musicaFondoMenu.stop();
+                //musicaFondoMenu.play();
             }
         });
 
@@ -220,6 +226,9 @@ public class PantallaMenu implements Screen {
     @Override
     public void pause() {
 
+    }
+    public static Music getMusica(){
+        return musicaFondoMenu;
     }
 
     @Override

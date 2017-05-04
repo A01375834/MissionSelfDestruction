@@ -3,6 +3,7 @@ package mx.faam.mission;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -38,6 +39,8 @@ public class PantallaHistoria implements Screen {
     //Texturas boton
     private Texture TexturaBotonBackMenu;
 
+    private Music musicaFondo;
+
     //fondo
     private Texture TexturaFondoHistoria;
     private Texture texturaStory;
@@ -63,6 +66,9 @@ public class PantallaHistoria implements Screen {
         Image fondoHistoria = new Image(TexturaFondoHistoria);
         escena.addActor(fondoHistoria);
 
+        musicaFondo.setLooping(true);
+        musicaFondo.play();
+
         //botonBackMenu
         TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
         ImageButton btnBm = new ImageButton(trdBtnBm);
@@ -75,6 +81,7 @@ public class PantallaHistoria implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
                 selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+                musicaFondo.stop();
             }
         });
         Gdx.input.setCatchBackKey(true);
@@ -89,6 +96,11 @@ public class PantallaHistoria implements Screen {
         TexturaFondoHistoria = new Texture("fondo.png");
 
         texturaStory = new Texture("story.png");
+
+        AssetManager manager = new AssetManager();
+        manager.load("MusicaFondoMenu.mp3", Music.class);
+        manager.finishLoading();
+        musicaFondo = manager.get("MusicaFondoMenu.mp3");
     }
 
     private void crearCamara() {
@@ -107,6 +119,7 @@ public class PantallaHistoria implements Screen {
         batch.end();
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+            musicaFondo.stop();
         }
     }
 

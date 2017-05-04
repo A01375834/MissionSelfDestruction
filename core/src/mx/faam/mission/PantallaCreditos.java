@@ -3,6 +3,8 @@ package mx.faam.mission;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,6 +39,8 @@ public class PantallaCreditos implements Screen {
     //Texturas boton
     private Texture TexturaBotonBackMenu;
 
+    private Music musicaFondo;
+
 
     //fondo
     private Texture TexturaFondoCreditos;
@@ -59,6 +63,9 @@ public class PantallaCreditos implements Screen {
         Image fondoCreditos = new Image (TexturaFondoCreditos);
         escena.addActor(fondoCreditos);
 
+        musicaFondo.setLooping(true);
+        musicaFondo.play();
+
         //botonNuevoJuego
         TextureRegionDrawable trdBtnBm = new TextureRegionDrawable(new TextureRegion(TexturaBotonBackMenu));
         ImageButton btnBm = new ImageButton(trdBtnBm);
@@ -71,6 +78,8 @@ public class PantallaCreditos implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
                 selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+                musicaFondo.stop();
+
             }
         });
 
@@ -86,6 +95,11 @@ public class PantallaCreditos implements Screen {
 
         //textura fondp
         TexturaFondoCreditos = new Texture("creditos.png");
+
+        AssetManager manager = new AssetManager();
+        manager.load("MusicaFondoMenu.mp3", Music.class);
+        manager.finishLoading();
+        musicaFondo = manager.get("MusicaFondoMenu.mp3");
     }
 
     private void crearCamara() {
@@ -101,6 +115,7 @@ public class PantallaCreditos implements Screen {
         escena.draw();
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+            musicaFondo.stop();
         }
     }
     private void borrarPantalla() {

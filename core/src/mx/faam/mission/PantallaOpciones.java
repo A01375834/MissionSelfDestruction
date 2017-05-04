@@ -3,6 +3,8 @@ package mx.faam.mission;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -33,6 +35,8 @@ public class PantallaOpciones implements Screen {
     //camara
     private OrthographicCamera camara;
     private Viewport vista;
+
+    private Music musicaFondo;
 
     //Escena
     private Stage escena;
@@ -93,7 +97,8 @@ public class PantallaOpciones implements Screen {
         //escena.addActor(BotonS);
         batch.begin();
 
-        //Pad
+        musicaFondo.setLooping(true);
+        musicaFondo.play();
 
         //Texto
 
@@ -156,6 +161,7 @@ public class PantallaOpciones implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.log("clicked","Me hicieron click");
                 selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+                musicaFondo.stop();
             }
         });
         Gdx.input.setCatchBackKey(true);
@@ -172,6 +178,12 @@ public class PantallaOpciones implements Screen {
         Tarjeta = new Texture("key.png");
         botiquin = new Texture("medkit grande.png");
         balas= new Texture("municion.png");
+
+        AssetManager manager = new AssetManager();
+        manager.load("MusicaFondoMenu.mp3", Music.class);
+        manager.finishLoading();
+        musicaFondo = manager.get("MusicaFondoMenu.mp3");
+
 
 
 
@@ -201,6 +213,7 @@ public class PantallaOpciones implements Screen {
         batch.end();
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+            musicaFondo.stop();
         }
     }
 
