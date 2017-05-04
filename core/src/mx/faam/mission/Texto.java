@@ -13,6 +13,7 @@ public class Texto {
 
     private BitmapFont font;
 
+
     public Texto(String archivo) {
 
         font = new BitmapFont(Gdx.files.internal(archivo));

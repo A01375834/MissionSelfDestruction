@@ -23,6 +23,8 @@ public class PantallaPerder implements Screen  {
     private static final float ALTO = 800;
     private final SelfDestruction selfDestruction;
 
+    private Texto texto;
+
     //Estado Juego
    // private EstadoJuego estado = EstadoJuego.PAUSADO;
 
@@ -62,6 +64,7 @@ public class PantallaPerder implements Screen  {
         batch = new SpriteBatch();
         escena = new Stage(vista, batch);
         texturaPerdiste = new Texture("DEAD.png");
+        texto = new Texto("Fonts/fontLoading.fnt");
         Image fondoPerdiste = new Image (texturaPerdiste);
         escena.addActor(fondoPerdiste);
 
@@ -72,6 +75,10 @@ public class PantallaPerder implements Screen  {
         Gdx.input.setInputProcessor(new tocar());
         borrarPantalla();
         escena.draw();
+        batch.setProjectionMatrix(camara.combined);
+        batch.begin();
+        texto.mostrarMensaje(batch,"Tap to continue",ANCHO/2+50,ALTO-50);
+        batch.end();
         if(musicaTocando==false) {
             musicaFondo.play(1.0f);
             musicaTocando = true;
