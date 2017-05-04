@@ -543,7 +543,7 @@ public class PantallaJuego implements Screen {
                     sonidoQuejido.play();
                 }
                 if(enemigo.tipoEnemigo == Enemigo.TipoEnemigo.PRIMERENEMIGO) {
-                    vida.herir(20);
+                   vida.herir(20);
                 }else if(enemigo.tipoEnemigo == Enemigo.TipoEnemigo.SEGUNDOENEMIGO){
                     vida.herir(40);
                 }
@@ -577,7 +577,7 @@ public class PantallaJuego implements Screen {
         batch.end();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
-            selfDestruction.setScreen(new PantallaMenu(selfDestruction));
+            selfDestruction.setScreen(new PantallaPausa(selfDestruction, PantallaJuego.this));
             Preferencias.guardarVidas(vida.getVida());
             estadoNivel = EstadoNivel.PRIMERNIVEL;
         }
