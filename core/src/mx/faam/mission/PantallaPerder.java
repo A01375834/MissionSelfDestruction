@@ -26,10 +26,10 @@ public class PantallaPerder implements Screen  {
     private Texto texto;
 
     //Estado Juego
-   // private EstadoJuego estado = EstadoJuego.PAUSADO;
+    // private EstadoJuego estado = EstadoJuego.PAUSADO;
 
     //Musica Fondo Menu
-   Sound musicaFondo = Gdx.audio.newSound(Gdx.files.internal("dead.mp3"));
+    Sound musicaFondo = Gdx.audio.newSound(Gdx.files.internal("dead.mp3"));
     Sound musicaRisa = Gdx.audio.newSound(Gdx.files.internal("risaOk.wav"));
 
 
@@ -79,11 +79,13 @@ public class PantallaPerder implements Screen  {
         batch.begin();
         texto.mostrarMensaje(batch,"Tap to continue",ANCHO/2+50,ALTO-50);
         batch.end();
-        if(musicaTocando==false) {
-            musicaFondo.play(1.0f);
-            musicaTocando = true;
-            //musicaTocandoRisa = false;
-            musicaRisa.loop(1.0f);
+        if(!musicaTocando) {
+            if(PantallaPausa.musicaOn) {
+                musicaFondo.play(1.0f);
+                musicaTocando = true;
+                //musicaTocandoRisa = false;
+                musicaRisa.loop(1.0f);
+            }
         }
 
 
